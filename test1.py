@@ -1,5 +1,6 @@
 def printf(a, b):
     a -= 2
-    return a + b
+    name=''
+    return name
 
 print(printf(2, 3))
