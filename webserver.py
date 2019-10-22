@@ -5,7 +5,7 @@ class WebServerHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         if self.path.endswith("/hello"):
-            self.send_response(200)
+            self.send_response(200) #successfult GET
             self.send_header('Content-type', 'text/html')
             self.end_headers()
             message = ""
