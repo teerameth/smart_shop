@@ -1,48 +1,49 @@
-import os
-import sys
-from sqlalchemy import Column, ForeignKey, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
-from sqlalchemy import create_engine
+#!/usr/bin/env python
+# — coding: utf-8 —
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
-Base = declarative_base()
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+db = SQLAlchemy(app)
 
+class Tool_list(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    tools = db.relationship('Tool')
+    created_datetime = db.Column(db.String(27), nullable=False) # stored in format dd:mm:yy-hh:mm:ss
+    approved_status = db.Column(db.Integer) # default = 0
+    approved_datetime = db.Column(db.String(27))
+    returned_status = db.Column(db.Integer) # default = 0
+    returned_datetime = db.Column(db.String(27))
+    shared = db.Column(db.Integer) # สร้างเอง = 0, ถูกshareมา = 1
+    shared_from_ID = db.Column(db.String(11)) # stored in format 613405000xx
+    owner_id = db.Column(db.Integer, db.ForeignKey('student.id'))
 
-class Tool(Base):
-    __tablename__ = 'tool'
-    id = Column(Integer, primary_key = True)
-    name = Column(String(200), nullable=False)
-    description = Column(String(250))
-    type = Column(String(80), nullable=False)
-    total = Column(Integer)
-    in_stock = Column(Integer)
-    picture = Column(String(200))
-    pair = Column(Integer, ForeignKey('tool.id'))
+class Student(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    student_university_ID = db.Column(db.String(11), nullable=False) # stored in format 613405000xx
+    name = db.Column(db.String(100), nullable=False)
+    surname = db.Column(db.String(100), nullable=False)
+    student_type = db.Column(db.String(20), nullable=False) # 1=ป.ตรี, 2=ป.โท , 3=ป.เอก, 4=อาจารย์, 5=อื่นๆ
+    student_year = db.Column(db.Integer, nullable=False)
+    phone_number = db.Column(db.String(10), nullable=False) #stored in format 09xxxxxxxx
+    lists = db.relationship('Tool_list', backref='owner')
 
+class Tool(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    tool_type = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(1000))
+    total = db.Column(db.Integer, nullable=False)
+    in_stock = db.Column(db.Integer, nullable=False)
+    picture = db.Column(db.String(100))
+    group_id = db.Column(db.Integer, db.ForeignKey('tool_group.id'))
 
-class Student(Base):
-    __tablename__ = 'student'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(200))
-    surname = Column(String(200))
-    student_type = Column(String(50))
-    student_year = Column(Integer)
-    phone_number = Column(String(50))
+class Tool_group(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))
+    description = db.Column(db.String(1000))
+    tools = db.relationship('Tool', backref='group')
 
-class ToolList(Base):
-    __tablename__ = 'tool_list'
-    id = Column(Integer, nullable=False, primary_key=True)
-    owner_id = Column(Integer, nullable=False)
-    datetime_created = Column(String(30), nullable=False) #YYYY-MM-DD HH:MI:SS
-    datetime_approved = Column(String(30))
-    datetime_returned = Column(String(30))
-    approved_status = Column(Integer)
-    returned_status = Column(Integer)
-    shared = Column(Integer)
-    shared_from_id = Column(Integer)
-    
-
-engine = create_engine('sqlite:///shop.db')
-
-
-Base.metadata.create_all(engine)
+if __name__ == '__main__':
+    db.create_all()

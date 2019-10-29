@@ -1,4 +1,5 @@
 sqlalchemy
+flask_sqlalchemy
 pysqlite3
 flask
 pymysql
