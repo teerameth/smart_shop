@@ -92,6 +92,7 @@ class Tool_editor:
         tool = Tool(name=name, tool_type=tool_type, description=description, total=total, in_stock=in_stock, picture=picture)
         db.session.add(tool)
         db.session.commit()
+        return tool
     def delete_tool(self, selected_tool):
         db.session.delete(selected_tool)
         db.session.commit()
@@ -189,6 +190,11 @@ class Student_editor:
             datetimes.append(each_list.created_datetime)
         lastest = find_lastest(datetimes)
         return lists[lastest]
+    def create_new_student(self, password, student_university_ID, name, surname, student_type, student_year, phone_number):
+        new_student = Student(password=password, student_university_ID=student_university_ID, name=name, surname=surname, student_type=student_type, student_year=student_year, phone_number=phone_number)
+        db.session.add(new_student)
+        db.session.commit()
+        return new_student
 class Tool_list_editor:
     def list_all_tools(self, selected_list):
         all = db.query(Order).filter_by().all()
