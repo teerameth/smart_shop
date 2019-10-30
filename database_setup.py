@@ -27,10 +27,13 @@ class Tool(db.Model):
     in_stock = db.Column(db.Integer, nullable=False)
     picture = db.Column(db.String(100))
     group_id = db.Column(db.Integer, db.ForeignKey('tool_group.id'))
+    order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
 
 class Order(db.Model):
-    tool = db.Column(db.Integer, db.ForeignKey('tool_list.id'))
+    id = db.Column(db.Integer, primary_key=True)
+    tool = db.relationship('Tool')
     amount = db.Column(db.Integer)
+    list_id = db.Column(db.Integer, db.ForeignKey('tool_list.id'))
 
 class Tool_list(db.Model):
     id = db.Column(db.Integer, primary_key=True)

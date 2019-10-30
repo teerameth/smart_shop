@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # — coding: utf-8 —
-from database_setup import db, Tool_list, Student, Tool, Tool_group
-import argparse
+from database_setup import db, Tool_list, Student, Tool, Tool_group, Order
 from datetime import datetime
 def find_lastest(datetimes):
     date = []
@@ -192,7 +191,14 @@ class Student_editor:
         return lists[lastest]
 class Tool_list_editor:
     def list_all_tools(self, selected_list):
+        all = db.query(Order).filter_by().all()
+        lists = []
+        for each_order in all:
+            lists.append((each_order.tool, amount))
         return selected_list.tools
+    def add_new_tool(self, selected_list, selected_tool):
+        new_order = Order(tool=selected_tool, amount=0)
+        return new_order
     def create_new_list(self, student): #create new empty list + autoset created datetime and return that list
         new_list = Tool_list(owner=student, created_datetime=new_date_time())
         db.session.add(new_list)
