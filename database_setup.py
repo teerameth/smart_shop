@@ -29,8 +29,10 @@ class Tool(db.Model):
     group_id = db.Column(db.Integer, db.ForeignKey('tool_group.id'))
 
 class Order(db.Model):
-    tool = db.Column(db.Integer, db.ForeignKey('tool_list.id'))
+    id = db.Column(db.Integer, primary_key=True)
+    tool = db.relationship('Tool')
     amount = db.Column(db.Integer)
+    list_id = db.Column(db.Integer, db.ForeignKey('tool_list.id'))
 
 class Tool_list(db.Model):
     id = db.Column(db.Integer, primary_key=True)

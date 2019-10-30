@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # — coding: utf-8 —
-from database_setup import db, Tool_list, Student, Tool, Tool_group
-import argparse
+from database_setup import db, Tool_list, Student, Tool, Tool_group, Order
 from datetime import datetime
 def find_lastest(datetimes):
     date = []
