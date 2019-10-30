@@ -60,7 +60,7 @@ editor.create_new_tool("คีมล็อคปากตรง", tool_types[3],
 editor.create_new_tool("คีมล็อครูปตัวซี", tool_types[3], "", 2, 2, "")
 editor.create_new_tool("ปากกาจับชิ้นงาน 6\"", tool_types[3], "", 4, 4, "")
 editor.create_new_tool("ปากกาจับชิ้นงาน 2 1/2\"(หัวโต๊ะ)", tool_types[3], "", 10, 10, "")
-editor.create_new_tool("ปากกาจับชิ้นงาน ( เล็ก )", tool_types[3], "", ,1 1, "")
+editor.create_new_tool("ปากกาจับชิ้นงาน ( เล็ก )", tool_types[3], "", 1, 1, "")
 editor.create_new_tool("C-Clamp 3\"", tool_types[3], "", ,7 7, "")
 editor.create_new_tool("C-Clamp 4\", tool_types[3], "", ,8 8, "")
 editor.create_new_tool("C-Clamp 6\"", tool_types[3], "", ,2 2, "")
