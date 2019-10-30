@@ -1,9 +1,5 @@
 sqlalchemy
-flask_sqlalchemy
 pysqlite3
 flask
-<<<<<<< HEAD
 pymysql
-=======
 flask_sqlalchemy
->>>>>>> 1fa887f239275e0f842c045c9a77303f000d1d24

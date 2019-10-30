@@ -230,7 +230,7 @@ class Tool_list_editor:
         except:
             print("Can't change approved status")
             return False
-    def cancle_approved_status(self, selected_list):
+    def cancel_approved_status(self, selected_list):
         try:
             selected_list.approved_status = 0
             selected_list.approved_datetime = None
@@ -261,9 +261,6 @@ class Tool_list_editor:
             return False
     def if_shared(self, selected_list):
         return selected_list.shared
-    def set_shared(self, selected_list, id):
-        selected_list.shared = 1
-        selected_list.shared_from_ID = id
     def get_owner(self, selected_list):
         return selected_list.owner # return student object
     def get_owner_id(self, selected_list):
@@ -308,5 +305,3 @@ class Tool_group_editor:
         except:
             print("Can't change group's description")
             return False
-    def list_tools(self, selected_group):
-        return selected_group.tools
