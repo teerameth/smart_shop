@@ -4,7 +4,7 @@ from editor import Editor
 editor = Editor()
 default_password = "12345678"
 student_type = ["ปริญญาตรี", "ปริญญาโท", "ปริญญาเอก", "อื่น ๆ"]
-editor.student.create_new_student() # password, student_university_ID, name, surname, student_type, student_year, phone_number
+# editor.student.create_new_student() # password, student_university_ID, name, surname, student_type, student_year, phone_number
 editor.student.create_new_student(default_password,"61340500001","กรรณธนปราชญ์","ศรีโคกกรวด",student_type[0],2,"0935364032") 
 editor.student.create_new_student(default_password,"61340500002","กฤตภัค","จักรปริญญากุล",student_type[0],2,"0850611481") 
 editor.student.create_new_student(default_password,"61340500003","กฤตเมธ","ถาวงศ์",student_type[0],2,"0849482586") 
@@ -40,9 +40,6 @@ editor.student.create_new_student(default_password,"61340500032","ธีรเ�
 editor.student.create_new_student(default_password,"61340500033","นครินทร์","วรรณฤมล",student_type[0],2,"0626491511") 
 editor.student.create_new_student(default_password,"61340500034","นภพล","ฉัตรวิฆเนศ",student_type[0],2,"0925053302") 
 editor.student.create_new_student(default_password,"61340500035","นภัทร","จันทร์บูรณ์",student_type[0],2,"0863904549") 
-
-
-
 editor.student.create_new_student(default_password, "61340500036", "นวพล", "จำเริญพัด", student_type[0], 2, "0954380779")
 editor.student.create_new_student(default_password, "61340500037", "นิธิพัทธ์", "แพประสิทธิ์", student_type[0], 2, "0610953973")
 editor.student.create_new_student(default_password, "61340500038", "นิบุณ", "บุญประกอบ", student_type[0], 2, "0951847769")
