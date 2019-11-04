@@ -105,7 +105,7 @@ class Tool(db.Model):
     def delete_tool(self, selected_tool):
         db.session.delete(selected_tool)
         db.session.commit()
-    def add_suggestion(self, suggested_tool):
+    def add_suggestion(self, suggested_tool): #Add new suggestion tool and auto create group if didn't exist
         if self.group == None:
             group = Tool_group()
             self.group = group
@@ -113,7 +113,7 @@ class Tool(db.Model):
         # Check ว่ามี suggested_tool นั้นอยู่เเล้วมั้ยจะได้ไม่ใส่ซํ้า
         already = []
         for item in group.tools: already.append(item.tool) #group.tools เป็น Association ซึ่งมีสมาชิกที่เป็น Tool อยู่ด้านใน เรียกใช้ด้วย Association.tool
-        if suggested_tool not in already:
+        if suggested_tool not in already: #To prevent duplication of suggested tool list
             a = Association()
             a.tool = suggested_tool
             group.tools.append(a) #เพื่ม Association ที่บรรจุ suggested_tool อันใหม่ไว้ใน group.tools

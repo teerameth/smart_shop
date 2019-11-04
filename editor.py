@@ -27,7 +27,7 @@ class Editor:
         return types
     def list_tool_by_type(self, selected_type): #return list ของ tools ที่มี type ตรงกับที่ป้อนเข้าไป
         return db.session.query(Tool).filter_by(tool_type=selected_type).all()
-    def create_new_tool(self, name, tool_type, description, total, in_stock, picture): สร้าง tool ใหม่โดยบังคับใส่เเค่ name, tool_type, total, in_stock ที่เหลือใส่เป็น None ไปก่อนได้
+    def create_new_tool(self, name, tool_type, description, total, in_stock, picture): #สร้าง tool ใหม่โดยบังคับใส่เเค่ name, tool_type, total, in_stock ที่เหลือใส่เป็น None ไปก่อนได้
         tool = Tool(name=name, tool_type=tool_type, description=description, total=total, in_stock=in_stock, picture=picture)
         db.session.add(tool)
         db.session.commit()
@@ -36,7 +36,7 @@ class Editor:
     def list_all_student(self): #return list ของ students ทั้งหมด
         return db.session.query(Student).filter_by().all()
     def list_student_by_type(self, selected_type):
-        return db.session.q
+        return db.session.query(Student).filter_by(student_type = selected_type)
     def get_student_by_id(self, ID): #ใส่รหัสนักศึกษา(เป็น String ขนาด 11) เเล้ว return object Student
         try:
             return db.session.query(Student).filter_by(student_university_ID=str(ID)).one()
@@ -60,12 +60,11 @@ class Editor:
         return new_student
 ###### Tool_list ######
     def list_all_approved_lists(self):
-        return db.query(Tool_list).filter_by(approved_status=1).all()
+        return db.session.query(Tool_list).filter_by(approved_status=1).all()
     def list_all_returned_lists(self):
-        return db.query(Tool_list).filter_by(returned_status=1).all()
+        return db.session.query(Tool_list).filter_by(returned_status=1).all()
     def list_all_approved_but_not_returned_lists(self):
-        return db.query(Tool_list).filter_by(approved_status=1, returned_status=0).all()
+        return db.session.query(Tool_list).filter_by(approved_status=1, returned_status=0).all()
 ###### Tool_group ######
     def list_all_group(self):
-        return db.query(Tool_group).filter_by().all()
-    
+        return db.session.query(Tool_group).filter_by().all()
