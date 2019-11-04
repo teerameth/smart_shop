@@ -26,7 +26,7 @@ class Tool(db.Model):
     total = db.Column(db.Integer, nullable=False)
     in_stock = db.Column(db.Integer, nullable=False)
     picture = db.Column(db.String(100))
-    group_id = db.Column(db.Integer, db.ForeignKey('tool_group.id'))
+    group = db.relationship('Tool_group', backref='maintool')
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
 
 class Order(db.Model):
@@ -51,7 +51,8 @@ class Tool_group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
     description = db.Column(db.String(1000))
-    tools = db.relationship('Tool', backref='group')
+    tool_id = db.Column(db.Integer, db.ForeignKey('tool.id'))
+    tools = db.relationship('Tool')
 
 if __name__ == '__main__':
     db.create_all()
