@@ -19,7 +19,7 @@ class Association(db.Model):
 
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    password = db.Column(db.String(100), nullable=False)
+    password = db.Column(db.String(200), nullable=False)
     student_university_ID = db.Column(db.String(11), nullable=False) # stored in format 613405000xx
     name = db.Column(db.String(100), nullable=False)
     surname = db.Column(db.String(100), nullable=False)

@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # — coding: utf-8 —
 from editor import Editor
+from conversion import password_encode
 editor = Editor()
-default_password = "12345678"
+default_password = password_encode("12345678")
 student_type = ["ปริญญาตรี", "ปริญญาโท", "ปริญญาเอก", "อื่น ๆ"]
 # editor.student.create_new_student() # password, student_university_ID, name, surname, student_type, student_year, phone_number
 editor.create_new_student(default_password,"61340500001","กรรณธนปราชญ์","ศรีโคกกรวด",student_type[0],2,"0935364032") 
