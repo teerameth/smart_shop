@@ -12,7 +12,7 @@ def find_lastest(datetimes):
 def new_date_time():
     buff = str(datetime.datetime.now())
     return buff[2:4] + ":" + buff[5:7] + ":" + buff[8:10] + "-" + buff[11:13] + ":" + buff[14:16] + ":" + buff[17:19]
-###### HASH Password with PBKDF2-SHA256 algorithm ######
+###### HASH Password with PBKDF2-SHA256 algorithm ######https://passlib.readthedocs.io/en/stable/
 def password_encode(password): #encode password to store
     return pbkdf2_sha256.hash(password)
 def password_verify(password, stored_hash): #return True if password match with stored hash
