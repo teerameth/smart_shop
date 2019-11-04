@@ -84,20 +84,20 @@ class Tool(db.Model):
         selected_tool.name = name
         db.session.commit()
     def edit_type(self, selected_tool, new_type):
-            selected_tool.tool_type = new_type
-            db.session.commit()
+        selected_tool.tool_type = new_type
+        db.session.commit()
     def edit_description(self, selected_tool, new_description):
-            selected_tool.description = new_description
-            db.session.commit()
+        selected_tool.description = new_description
+        db.session.commit()
     def edit_total(self, selected_tool, new_total):
-            selected_tool.total = new_total
-            db.session.commit()
+        selected_tool.total = new_total
+        db.session.commit()
     def edit_stock(self, selected_tool, new_stock):
-            selected_tool.in_stock = new_stock
-            db.session.commit()
+        selected_tool.in_stock = new_stock
+        db.session.commit()
     def edit_picture(self, selected_tool, new_image_path):
-            selected_tool.picture = new_image_path
-            db.session.commit()
+        selected_tool.picture = new_image_path
+        db.session.commit()
     def delete_tool(self, selected_tool):
         db.session.delete(selected_tool)
         db.session.commit()
@@ -133,14 +133,14 @@ class Tool_list(db.Model):
     owner_id = db.Column(db.Integer, db.ForeignKey('student.id'))
     def list_all_tools(self): #return ออกมาในรูป list ของ tuple (Tool, amount)
         lists = []
-        for each_order in db.query(Order).filter_by().all(): lists.append((each_order.tool, each_order.amount))
+        for each_order in db.session.query(Order).filter_by().all(): lists.append((each_order.tool, each_order.amount))
         return lists
     def add_new_tool(self, new_tool, amount):
         new_order = Order(tool = new_tool, amount = amount, list = self)# สร้าง Order สำหรับ Tool อันใหม่ที่ใส่เข้า tool_list เเล้วบอกว่าเป็นของ tool_list อันนี้
         db.session.add(new_order)
         db.session.commit()
     def share(self, student_id):
-        new_list = Tool_list(owner=db.query(Student).filter_by(student_university_ID=student_id), tools=self.tools ,created_datetime=new_date_time(), shared=1, shared_from_ID=self.owner.student_university_ID)
+        new_list = Tool_list(owner=db.session.query(Student).filter_by(student_university_ID=student_id), tools=self.tools ,created_datetime=new_date_time(), shared=1, shared_from_ID=self.owner.student_university_ID)
         db.session.add(new_list)
         db.session.commit()
         return new_list
@@ -177,6 +177,6 @@ class Tool_group(db.Model):
     description = db.Column(db.String(1000))
     main_tool = db.relationship('Tool', backref='group') #เป็น list ของ Tool (เเต่มีสมาชิกเเค่ตัวเดียว) ***อย่าลืมใส่ [0]
     tools = db.relationship("Association", back_populates="tool_group") # เป็น list ของ Association -> มี Tool อยู่ด้านในอีกที เรียกใช้ได้จาก Association.tool
-    
+
 if __name__ == '__main__':
     db.create_all()
