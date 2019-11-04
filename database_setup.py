@@ -177,6 +177,26 @@ class Tool_group(db.Model):
     description = db.Column(db.String(1000))
     main_tool = db.relationship('Tool', backref='group') #เป็น list ของ Tool (เเต่มีสมาชิกเเค่ตัวเดียว) ***อย่าลืมใส่ [0]
     tools = db.relationship("Association", back_populates="tool_group") # เป็น list ของ Association -> มี Tool อยู่ด้านในอีกที เรียกใช้ได้จาก Association.tool
-    
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+    def main_tool(self): return self.main_tool
+    def list_item(self):
+        items_list = []
+        for assoc in self.tools: items_list.append(assoc.tool)
+        return items_list
+    def list_item_name(self):
+        items_name = []
+        for assoc in self.tools: items_name.append(assoc.tool.name)
+        return items_name
+    def remove_tool(self, remove):
+        for assoc in self.tools:
+            if assoc.tool == remove: self.remove(assoc)
+    def get_description(self): return self.description
+    def edit_description(self, new_description):
+        self.description = new_description
+        db.session.commit()
+
+
 if __name__ == '__main__':
     db.create_all()
