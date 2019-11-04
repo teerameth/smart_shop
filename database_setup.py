@@ -60,6 +60,12 @@ class Student(db.Model):
         for each_list in self.lists: datetimes.append(each_list.created_datetime)
         lastest = find_lastest(datetimes)
         return self.lists[lastest]
+    def create_new_list(self): #Create new tool_list and auto fill datetime and return that tool_list
+        new_list = Tool_list(owner = self, created_datetime = new_date_time())
+        db.session.add(new_list)
+        db.session.commit()
+        return new_list
+    
 
     
 
@@ -125,12 +131,52 @@ class Tool_list(db.Model):
     shared = db.Column(db.Integer) # สร้างเอง = 0, ถูกshareมา = 1
     shared_from_ID = db.Column(db.String(11)) # stored in format 613405000xx
     owner_id = db.Column(db.Integer, db.ForeignKey('student.id'))
+    def list_all_tools(self): #return ออกมาในรูป list ของ tuple (Tool, amount)
+        lists = []
+        for each_order in db.query(Order).filter_by().all(): lists.append((each_order.tool, each_order.amount))
+        return lists
+    def add_new_tool(self, new_tool, amount):
+        new_order = Order(tool = new_tool, amount = amount, list = self)# สร้าง Order สำหรับ Tool อันใหม่ที่ใส่เข้า tool_list เเล้วบอกว่าเป็นของ tool_list อันนี้
+        db.session.add(new_order)
+        db.session.commit()
+    def share(self, student_id):
+        new_list = Tool_list(owner=db.query(Student).filter_by(student_university_ID=student_id), tools=self.tools ,created_datetime=new_date_time(), shared=1, shared_from_ID=self.owner.student_university_ID)
+        db.session.add(new_list)
+        db.session.commit()
+        return new_list
+    def get_created_time(self): return self.created_datetime
+    def set_created_datetime(self, new_datetime):
+        self.created_datetime = new_datetime
+        db.session.commit()
+    def get_approved_status(self): return self.approved_status
+    def get_approved_datetime(self): return self.approved_datetime
+    def set_approved_status(self):
+        self.approved_status = 1
+        self.approved_datetime = new_date_time()
+        db.session.commit()
+    def cancle_approved_status(self):
+        self.approved_status = 0
+        self.approved_datetime = None
+        db.session.commit()
+    def get_returned_status(self): return self.returned_status
+    def get_returned_datetime(self): return self.returned_datetime
+    def set_returned_status(self):
+        self.returned_status = 1
+        self.returned_datetime = new_date_time()
+        db.session.commit()
+    def cancle_returned_status(self):
+        self.returned_status = 0
+        self.returned_datetime = None
+        db.session.commit()
+    def if_shared(self): return self.shared
+    def get_owner(self): return self.owner
+    def get_owner_id(self): return self.owner.student_university_ID
 
 class Tool_group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(1000))
     main_tool = db.relationship('Tool', backref='group') #เป็น list ของ Tool (เเต่มีสมาชิกเเค่ตัวเดียว) ***อย่าลืมใส่ [0]
     tools = db.relationship("Association", back_populates="tool_group") # เป็น list ของ Association -> มี Tool อยู่ด้านในอีกที เรียกใช้ได้จาก Association.tool
-
+    
 if __name__ == '__main__':
     db.create_all()
