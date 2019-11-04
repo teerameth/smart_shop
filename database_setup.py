@@ -2,6 +2,8 @@
 # — coding: utf-8 —
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from conversion import find_lastest #ใส่ list ของ datetimes เข้าไปเเล้วจะ return วันที่ล่าสุดออกมา
+from conversion import new_date_time # Generate datetime ใน format ที่เราจะทำการเก็บ
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -28,6 +30,37 @@ class Student(db.Model):
     def delete(self):
         db.session.delete(self)
         db.session.commit()
+    def get_id(self): return self.student_university_ID
+    def edit_id(self, new_id):
+        self.student_university_ID = new_id
+        db.session.commit()
+    def get_name(self): return self.name
+    def edit_name(self, new_name):
+        self.name = new_name
+        db.session.commit()
+    def get_surname(self): return self.surname
+    def edit_surname(self, new_surname):
+        self.surname = new_surname
+        db.session.commit()
+    def get_type(self): return self.student_type
+    def edit_type(self, new_type):
+        self.student_type = new_type
+        db.session.commit()
+    def get_year(self): return self.student_year
+    def edit_year(self, new_year):
+        self.student_year = new_year
+        db.session.commit()
+    def get_phone_number(self): return self.phone_number
+    def edit_phone_number(self, new_phone_number):
+        self.phone_number = new_phone_number
+        db.session.commit()
+    def get_lists(self): return self.lists
+    def get_lastest_list_by_create(self):
+        datetimes = []
+        for each_list in self.lists: datetimes.append(each_list.created_datetime)
+        lastest = find_lastest(datetimes)
+        return self.lists[lastest]
+
     
 
 class Tool(db.Model):
@@ -42,41 +75,23 @@ class Tool(db.Model):
     tool_groups = db.relationship("Association", back_populates="tool")
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
     def edit_name(self, selected_tool, name):
-        try:
-            selected_tool.name = name
-            db.session.commit()
-            return True
-        except: print("Change name error. Not found in Database")
+        selected_tool.name = name
+        db.session.commit()
     def edit_type(self, selected_tool, new_type):
-        try:
             selected_tool.tool_type = new_type
             db.session.commit()
-            return True
-        except: print("Change type error. Not found in Database")
     def edit_description(self, selected_tool, new_description):
-        try:
             selected_tool.description = new_description
             db.session.commit()
-            return True
-        except: print("Change description error. Not found in Database")
     def edit_total(self, selected_tool, new_total):
-        try:
             selected_tool.total = new_total
             db.session.commit()
-            return True
-        except: print("Change total error. Not found in Database")
     def edit_stock(self, selected_tool, new_stock):
-        try:
             selected_tool.in_stock = new_stock
             db.session.commit()
-            return True
-        except: print("Change stock error. Not found in Database")
     def edit_picture(self, selected_tool, new_image_path):
-        try:
             selected_tool.picture = new_image_path
             db.session.commit()
-            return True
-        except: print("Change image path error. Not found in Database")
     def delete_tool(self, selected_tool):
         db.session.delete(selected_tool)
         db.session.commit()
@@ -114,8 +129,8 @@ class Tool_list(db.Model):
 class Tool_group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(1000))
-    main_tool = db.relationship('Tool', backref='group')
-    tools = db.relationship("Association", back_populates="tool_group")
+    main_tool = db.relationship('Tool', backref='group') #เป็น list ของ Tool (เเต่มีสมาชิกเเค่ตัวเดียว) ***อย่าลืมใส่ [0]
+    tools = db.relationship("Association", back_populates="tool_group") # เป็น list ของ Association -> มี Tool อยู่ด้านในอีกที เรียกใช้ได้จาก Association.tool
 
 if __name__ == '__main__':
     db.create_all()
