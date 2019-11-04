@@ -4,7 +4,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from conversion import find_lastest #ใส่ list ของ datetimes เข้าไปเเล้วจะ return วันที่ล่าสุดออกมา
 from conversion import new_date_time # Generate datetime ใน format ที่เราจะทำการเก็บ
-
+from conversion import password_encode, password_verify #Password Hashing
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
@@ -27,6 +27,10 @@ class Student(db.Model):
     student_year = db.Column(db.Integer, nullable=False)
     phone_number = db.Column(db.String(10), nullable=False) #stored in format 09xxxxxxxx
     lists = db.relationship('Tool_list', backref='owner')
+    def verify_password(self, password): return password_verify(password, self.password)
+    def edit_password(self, password):
+        self.password = password_encode(password)
+        db.session.commit()
     def delete(self):
         db.session.delete(self)
         db.session.commit()
