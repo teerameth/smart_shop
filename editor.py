@@ -24,84 +24,36 @@ class Editor:
         self.tool_group = Tool_group_editor()
 
 class Tool_editor:
-    def list_all(self):
+    def list_all(self): #return list ของ tool ทั้งหมด
         return db.session.query(Tool).filter_by().all()
-    def list_all_type(self):
+    def list_all_type(self): #return ชื่อ type ของ tool ทั้งหมด
         types = []
         for tool in db.session.query(Tool).filter_by().all():
             if tool.tool_type not in types: types.append(tool.tool_type)
         return types
-    def list_by_type(self, selected_type):
+    def list_by_type(self, selected_type): #return list ของ tools ที่มี type ตรงกับที่ป้อนเข้าไป
         return db.session.query(Tool).filter_by(tool_type=selected_type).all()
-    def create_new_tool(self, name, tool_type, description, total, in_stock, picture):
+    def create_new_tool(self, name, tool_type, description, total, in_stock, picture): สร้าง tool ใหม่โดยบังคับใส่เเค่ name, tool_type, total, in_stock ที่เหลือใส่เป็น None ไปก่อนได้
         tool = Tool(name=name, tool_type=tool_type, description=description, total=total, in_stock=in_stock, picture=picture)
         db.session.add(tool)
         db.session.commit()
         return tool
-    def set_group_by_group_name(self, selected_tool, name):
-        try:
-            selected_tool.group = db.query(Tool_group).filter_by(name=name).one()
-        except:
-            print("Can't find group name: " + name + ".\n")
 
 class Student_editor:
-    def list_all(self):
+    def list_all(self): #return list ของ students ทั้งหมด
         return db.session.query(Student).filter_by().all()
-    def get_student_by_id(self, ID):
+    def get_student_by_id(self, ID): #ใส่รหัสนักศึกษา(เป็น String ขนาด 11) เเล้ว return object Student
         try:
             return db.session.query(Student).filter_by(student_university_ID=str(ID)).one()
         except:
             print("ID not found")
             return False
-    def get_id(self, selected_student):
-        return selected_student.student_university_ID
-    def edit_id(self, selected_student, new_student_university_ID):
-        try:
-            selected_student.student_university_ID = new_student_university_ID
-            db.session.commit()
-            return True
-        except:
-            print("Can't change student's ID")
-            return False
-    def get_name(self, selected_student):
-        return selected_student.name
-    def edit_name(self, selected_student, new_name):
-        try:
-            selected_student.name = new_name
-            db.session.commit()
-            return True
-        except:
-            print("Can't change student's name")
-            return False
-    def get_surname(self, selected_student):
-        return selected_student.surname
-    def edit_surname(self, selected_student, new_surname):
-        try:
+    
             selected_student.surname = new_surname
             db.session.commit()
             return True
         except:
             print("Can't change student's surname")
-            return False
-    def get_type(self, selected_student):
-        return selected_student.student_type
-    def edit_type(self, selected_student, new_type):
-        try:
-            selected_student.student_type = new_type
-            db.session.commit()
-            return True
-        except:
-            print("Can't change student's type")
-            return False
-    def get_year(self, selected_student):
-        return selected_student.stuent_year
-    def edit_year(self, selected_student, new_year):
-        try:
-            selected_student.student_year = new_year
-            db.session.commit()
-            return True
-        except:
-            print("Can't change student's year")
             return False
     def increase_year(self):
         all = db.query.filter_by().all()
@@ -113,112 +65,19 @@ class Student_editor:
         for each_student in all:
             each_student.student_year -= 1
         db.session.commit()
-    def get_phone_number(self, selected_student):
-        return selected_student.phone_number
-    def edit_phone_number(self, selected_student, new_phone_number):
-        try:
-            selected_student.phone_number = new_phone_number
-            db.session.commit()
-            return True
-        except:
-            print("Can't change student's phone_number")
-            return False
-    def get_lists(self, selected_student):
-        return selected_student.lists
-    def get_lastest_list_by_create(self, selected_student):
-        lists = selected_student.lists
-        datetimes = []
-        for each_list in lists:
-            datetimes.append(each_list.created_datetime)
-        lastest = find_lastest(datetimes)
-        return lists[lastest]
     def create_new_student(self, password, student_university_ID, name, surname, student_type, student_year, phone_number):
         new_student = Student(password=password, student_university_ID=student_university_ID, name=name, surname=surname, student_type=student_type, student_year=student_year, phone_number=phone_number)
         db.session.add(new_student)
         db.session.commit()
         return new_student
 class Tool_list_editor:
-    def list_all_tools(self, selected_list):
-        all = db.query(Order).filter_by().all()
-        lists = []
-        for each_order in all:
-            lists.append((each_order.tool, each_order.amount))
-        return selected_list.tools
-    def add_new_tool(self, selected_list, selected_tool):
-        new_order = Order(tool=selected_tool, amount=0)
-        return new_order
-    def create_new_list(self, student): #create new empty list + autoset created datetime and return that list
-        new_list = Tool_list(owner=student, created_datetime=new_date_time())
-        db.session.add(new_list)
-        db.session.commit()
-        return new_list
-    def share_list(self, shared_list, student): #share shared_list to student + autoset shared datetime and return that list
-        new_list = Tool_list(owner=student, tools=shared_list.tools ,created_datetime=new_date_time(), shared=1, shared_from_ID=shared_list.owner.student_university_ID)
-        db.session.add(new_list)
-        db.session.commit()
-        return new_list
     def list_all_approved_lists(self):
         return db.query(Tool_list).filter_by(approved_status=1).all()
     def list_all_returned_lists(self):
         return db.query(Tool_list).filter_by(returned_status=1).all()
     def list_all_approved_but_not_returned_lists(self):
         return db.query(Tool_list).filter_by(approved_status=1, returned_status=0).all()
-    def get_created_datetime(self, selected_list):
-        return selected_list.created_datetime
-    def set_created_datetime(self, selected_list, new_datetime):
-        try:
-            selected_list.created_datetime = new_datetime
-            db.session.commit()
-            return True
-        except:
-            print("Can't change created datetime")
-            return False
-    def get_approved_status(self, selected_list):
-        return selected_list.approved_status
-    def set_approved_status(self, selected_list):
-        try:
-            selected_list.approved_status = 1
-            selected_list.approved_datetime = new_date_time()
-            db.session.commit()
-            return True
-        except:
-            print("Can't change approved status")
-            return False
-    def cancel_approved_status(self, selected_list):
-        try:
-            selected_list.approved_status = 0
-            selected_list.approved_datetime = None
-            db.session.commit()
-            return True
-        except:
-            print("Can't change approved status")
-            return False
-    def get_returned_status(self, selected_list):
-        return selected_list.returned_status
-    def set_returned_status(self, selected_list):
-        try:
-            selected_list.returned_status = 1
-            selected_list.returned_datetime = new_date_time()
-            db.session.commit()
-            return True
-        except:
-            print("Can't set returned status")
-            return False
-    def cancle_returned_status(self, selected_list):
-        try:
-            selected_list.returned_status = 0
-            selected_list.returned_datetime = None
-            db.session.commit()
-            return True
-        except:
-            print("Can't cancle returned status")
-            return False
-    def if_shared(self, selected_list):
-        return selected_list.shared
-    def get_owner(self, selected_list):
-        return selected_list.owner # return student object
-    def get_owner_id(self, selected_list):
-        return selected_list.owner.student_university_ID #return student id
+
 
 class Tool_group_editor:
     def list_all_group(self):
