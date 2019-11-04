@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # — coding: utf-8 —
-from database_setup import db, Tool_list, Student, Tool, Tool_group, Order
+from database_setup import db, Tool_list, Student, Tool, Tool_group, Association, Order
 from datetime import datetime
 def find_lastest(datetimes):
     date = []
@@ -26,78 +26,18 @@ class Editor:
 class Tool_editor:
     def list_all(self):
         return db.session.query(Tool).filter_by().all()
+    def list_all_type(self):
+        types = []
+        for tool in db.session.query(Tool).filter_by().all():
+            if tool.tool_type not in types: types.append(tool.tool_type)
+        return types
     def list_by_type(self, selected_type):
         return db.session.query(Tool).filter_by(tool_type=selected_type).all()
-    def get_name(self, selected_tool):
-        return selected_tool.name
-    def edit_name(self, selected_tool, name):
-        try:
-            selected_tool.name = name
-            db.session.commit()
-            return True
-        except:
-            print("Change name error. Not found in Database")
-            return False
-    def get_type(self, selected_tool):
-        return selected_tool.tool_type
-    def edit_type(self, selected_tool, new_type):
-        try:
-            selected_tool.tool_type = new_type
-            db.session.commit()
-            return True
-        except:
-            print("Change type error. Not found in Database")
-            return False
-    def get_description(self, selected_tool):
-        return selected_tool.description
-    def edit_description(self, selected_tool, new_description):
-        try:
-            selected_tool.description = new_description
-            db.session.commit()
-            return True
-        except:
-            print("Change description error. Not found in Database")
-            return False
-    def get_total(self, selected_tool):
-        return selected_tool.total
-    def edit_total(self, selected_tool, new_total):
-        try:
-            selected_tool.total = new_total
-            db.session.commit()
-            return True
-        except:
-            print("Change total error. Not found in Database")
-            return False
-    def get_stock(self, selected_tool):
-        return selected_tool.in_stock
-    def edit_stock(self, selected_tool, new_stock):
-        try:
-            selected_tool.in_stock = new_stock
-            db.session.commit()
-            return True
-        except:
-            print("Change stock error. Not found in Database")
-            return False
-    def get_picture(self, selected_tool):
-        return selected_tool.picture
-    def edit_picture(self, selected_tool, new_image_path):
-        try:
-            selected_tool.picture = new_image_path
-            db.session.commit()
-            return True
-        except:
-            print("Change image path error. Not found in Database")
-            return False
     def create_new_tool(self, name, tool_type, description, total, in_stock, picture):
         tool = Tool(name=name, tool_type=tool_type, description=description, total=total, in_stock=in_stock, picture=picture)
         db.session.add(tool)
         db.session.commit()
         return tool
-    def delete_tool(self, selected_tool):
-        db.session.delete(selected_tool)
-        db.session.commit()
-    def get_group(self, selected_tool): #for suggestion system
-        return selected_tool.group #return Tool_group
     def set_group_by_group_name(self, selected_tool, name):
         try:
             selected_tool.group = db.query(Tool_group).filter_by(name=name).one()
@@ -105,9 +45,11 @@ class Tool_editor:
             print("Can't find group name: " + name + ".\n")
 
 class Student_editor:
-    def get_student_by_id(self, id):
+    def list_all(self):
+        return db.session.query(Student).filter_by().all()
+    def get_student_by_id(self, ID):
         try:
-            return db.query.filter_by(student_university_ID=id).one()
+            return db.session.query(Student).filter_by(student_university_ID=str(ID)).one()
         except:
             print("ID not found")
             return False
@@ -200,7 +142,7 @@ class Tool_list_editor:
         all = db.query(Order).filter_by().all()
         lists = []
         for each_order in all:
-            lists.append((each_order.tool, amount))
+            lists.append((each_order.tool, each_order.amount))
         return selected_list.tools
     def add_new_tool(self, selected_list, selected_tool):
         new_order = Order(tool=selected_tool, amount=0)
@@ -282,7 +224,7 @@ class Tool_group_editor:
     def list_all_group(self):
         return db.query(Tool_group).filter_by().all()
     def find_group_by_name(self, name):
-        return db.query(Tool_group),filter_by(name=name).one()
+        return db.query(Tool_group).filter_by(name=name).one()
     def delete_group(self, selected_group):
         db.session.delete(selected_group)
         db.commit()
@@ -290,10 +232,10 @@ class Tool_group_editor:
         selected_tool.group = selected_group
     def list_item_in_group(self, selected_group):
         return selected_group.tools
-    def remove_from_group(selected_tool):
+    def remove_from_group(self, selected_tool):
         selected_tool.group = None
-    def create_new_group(self, name):
-        new_group = Tool_group(name=name)
+    def create_new_group(self):
+        new_group = Tool_group()
         db.session.add(new_group)
         db.session.commit()
         return new_group
