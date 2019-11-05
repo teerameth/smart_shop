@@ -5,9 +5,11 @@ from flask_sqlalchemy import SQLAlchemy
 from conversion import find_lastest #ใส่ list ของ datetimes เข้าไปเเล้วจะ return วันที่ล่าสุดออกมา
 from conversion import new_date_time # Generate datetime ใน format ที่เราจะทำการเก็บ
 from conversion import password_encode, password_verify #Password Hashing
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
+
 
 class Association(db.Model):
     __tablename__ = 'association'
@@ -137,10 +139,10 @@ class Tool_list(db.Model):
     owner_id = db.Column(db.Integer, db.ForeignKey('student.id'))
     def list_all_tools(self): #return ออกมาในรูป list ของ tuple (Tool, amount)
         lists = []
-        for each_order in db.session.query(Order).filter_by().all(): lists.append((each_order.tool, each_order.amount))
+        for each_order in db.session.query(Order).filter_by().all(): lists.append((each_order.tool[0], each_order.amount))
         return lists
     def add_new_tool(self, new_tool, amount):
-        new_order = Order(tool = new_tool, amount = amount, list = self)# สร้าง Order สำหรับ Tool อันใหม่ที่ใส่เข้า tool_list เเล้วบอกว่าเป็นของ tool_list อันนี้
+        new_order = Order(tool = [new_tool], amount = amount, list = self)# สร้าง Order สำหรับ Tool อันใหม่ที่ใส่เข้า tool_list เเล้วบอกว่าเป็นของ tool_list อันนี้
         db.session.add(new_order)
         db.session.commit()
     def share(self, student_id):
