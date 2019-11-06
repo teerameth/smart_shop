@@ -2,6 +2,9 @@
 # — coding: utf-8 —
 from database_setup import db, Tool_list, Student, Tool, Tool_group, Association, Order
 from datetime import datetime
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
 def find_lastest(datetimes):
     date = []
     for i in range(len(datetimes)):

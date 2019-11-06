@@ -10,7 +10,7 @@ def find_lastest(datetimes):
     maximum = max(date)
     return date.index(maximum)
 def new_date_time():
-    buff = str(datetime.datetime.now())
+    buff = str(datetime.now())
     return buff[2:4] + ":" + buff[5:7] + ":" + buff[8:10] + "-" + buff[11:13] + ":" + buff[14:16] + ":" + buff[17:19]
 ###### HASH Password with PBKDF2-SHA256 algorithm ######https://passlib.readthedocs.io/en/stable/
 def password_encode(password): #encode password to store
