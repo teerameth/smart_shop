@@ -17,12 +17,13 @@ for student in students:
     new_list = student.create_new_list()
     new_list.add_new_tool(tools[0], 1)
 
-student = db.session.query(Student).filter_by(student_university_ID="61340500032").one()
+student = editor.get_student_by_id(61340500032)
 
 for lit in student.get_lists():
     for order in lit.orders:
         print(order.tool[0].name)
 new_list = student.create_new_list()
+new_list.add_new_tool(tools[10], 2)
 
 #######################################
 for student in students:
