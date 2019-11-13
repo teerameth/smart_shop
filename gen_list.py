@@ -12,10 +12,12 @@ db = SQLAlchemy(app)
 students = editor.list_all_student()
 tools = editor.list_all_tool()
 print(tools[0].name)
+
 for student in students:
     print(student.name)
     new_list = student.create_new_list()
-    new_list.add_new_tool(tools[0], 1)
+    new_list.add_new_tool(tools[randint(0,30)], randint(0,3))
+    new_list.add_new_tool(tools[randint(31,60)], randint(0,3))
 
 student = editor.get_student_by_id(61340500032)
 
@@ -30,5 +32,6 @@ for student in students:
     print(student.name)
     for lists in student.get_lists():
         for order in lists.orders:
-            print(len(order.tool))
+            print(order.tool.name)
+            print(order.amount)
             #print(order.tool[0])
