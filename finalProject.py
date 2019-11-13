@@ -6,7 +6,7 @@ from database_setup import db, Tool_list, Student, Tool, Tool_group, Association
 from editor import Editor
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/pitcure')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
 editor = Editor()
@@ -51,13 +51,13 @@ def createToolList(student_id):
 def deleteToolList(student_id, toollist_id):
     return "Delete tool list with confirm button"
 
-pitcure = os.path.join('static','P')
-app.config['UPLOAD_FOLDER'] = pitcure
+# pitcure = os.path.join('static','P')
+# app.config['UPLOAD_FOLDER'] = pitcure
 @app.route('/user/<int:student_id>/<int:toollist_id>/edit')
 def editToolList(student_id, toollist_id): #"Edit tool list and go to confirm"
     student = editor.get_student_by_id(str(student_id))
-    Pic1 = os.path.join(app.config['UPLOAD_FOLDER'],'1.jpg')
-    return render_template('edit_tool_list.html', student = student, imgP1 = Pic1)
+    # Pic1 = os.path.join(app.config['UPLOAD_FOLDER'],'1.jpg')
+    return render_template('edit_tool_list.html', student = student)
 
 @app.route('/user/<int:student_id>/<int:toollist_id>/confirm')
 def submitToollist(student_id,  toollist_id):
