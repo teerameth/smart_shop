@@ -85,7 +85,6 @@ class Tool(db.Model):
     picture = db.Column(db.String(100))
     group_id = db.Column(db.Integer, db.ForeignKey('tool_group.id'))
     tool_groups = db.relationship("Association", back_populates="tool")
-    order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
     def edit_name(self, selected_tool, name):
         selected_tool.name = name
         db.session.commit()
@@ -122,8 +121,9 @@ class Tool(db.Model):
         else: print("Already has this tool in suggestion group")
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    tool_id = db.Column(db.Integer, db.ForeignKey('tool.id'))
     amount = db.Column(db.Integer)
+    tool_id = db.Column(db.Integer, db.ForeignKey('tool.id'))
+    tool = db.relationship("Tool")
     list_id = db.Column(db.Integer, db.ForeignKey('tool_list.id'))
 
 class Tool_list(db.Model):
@@ -142,7 +142,7 @@ class Tool_list(db.Model):
         for each_order in db.session.query(Order).filter_by().all(): lists.append((each_order.tool[0], each_order.amount))
         return lists
     def add_new_tool(self, new_tool, amount):
-        new_order = Order(tool = [new_tool], amount = amount, list = self)# สร้าง Order สำหรับ Tool อันใหม่ที่ใส่เข้า tool_list เเล้วบอกว่าเป็นของ tool_list อันนี้
+        new_order = Order(tool = new_tool, amount = amount, list = self)# สร้าง Order สำหรับ Tool อันใหม่ที่ใส่เข้า tool_list เเล้วบอกว่าเป็นของ tool_list อันนี้
         db.session.add(new_order)
         db.session.commit()
     def share(self, student_id):
