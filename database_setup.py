@@ -122,7 +122,6 @@ class Tool(db.Model):
         else: print("Already has this tool in suggestion group")
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    tool = db.relationship('Tool')
     amount = db.Column(db.Integer)
     list_id = db.Column(db.Integer, db.ForeignKey('tool_list.id'))
 
