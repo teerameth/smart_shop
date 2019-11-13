@@ -85,7 +85,7 @@ class Tool(db.Model):
     picture = db.Column(db.String(100))
     group_id = db.Column(db.Integer, db.ForeignKey('tool_group.id'))
     tool_groups = db.relationship("Association", back_populates="tool")
-    order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
+    orders = db.relationship('Order', back_populates = 'tool')
     def edit_name(self, selected_tool, name):
         selected_tool.name = name
         db.session.commit()
@@ -122,6 +122,7 @@ class Tool(db.Model):
         else: print("Already has this tool in suggestion group")
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    tool_id = db.Column(db.Integer, db.ForeignKey('tool.id'))
     amount = db.Column(db.Integer)
     list_id = db.Column(db.Integer, db.ForeignKey('tool_list.id'))
 
