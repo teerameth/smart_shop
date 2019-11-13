@@ -25,7 +25,7 @@ for lit in student.get_lists():
     for order in lit.orders:
         print(order.tool[0].name)
 new_list = student.create_new_list()
-new_list.add_new_tool(tools[10], 2)
+new_list.add_new_tool(tools[10], 3)
 
 #######################################
 for student in students:
