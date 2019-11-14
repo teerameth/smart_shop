@@ -4,3 +4,4 @@ flask
 pymysql
 flask_sqlalchemy
 passlib
+AWSIoTPythonSDK
