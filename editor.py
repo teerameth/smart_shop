@@ -41,6 +41,7 @@ class Editor:
     def list_student_by_type(self, selected_type):
         return db.session.query(Student).filter_by(student_type = selected_type)
     def get_student_by_id(self, ID): #ใส่รหัสนักศึกษา(เป็น String ขนาด 11) เเล้ว return object Student
+        print(type(ID))
         try:
             return db.session.query(Student).filter_by(student_university_ID=str(ID)).one()
         except:

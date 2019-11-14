@@ -33,7 +33,6 @@ def allToolList(student_id):
     student = editor.get_student_by_id(str(student_id))
     lists = student.lists
     if request.method == 'GET':
-        print(len(lists[1].orders))
         return render_template('mainmenu.html', student=student, lists=lists)
     elif request.method == 'POST':
         return 'aaa'
