@@ -4,6 +4,7 @@ from flask import Flask, request, redirect, url_for, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 from database_setup import db, Tool_list, Student, Tool, Tool_group, Association, Order
 from editor import Editor
+from conversion import new_date_time
 import os
 
 app = Flask(__name__, static_url_path='/pitcure')
@@ -89,6 +90,18 @@ def approveList(studentLists, toollist_id):
 @app.route('/admin/<int:student_id>/<int:toollist_id>/print')
 def printList(studentLists, toollist_id):
     return "Print approved list"
+
+@app.route('/user/<int:student_id>/PDF')
+def allToolListPDF(student_id):
+    student = editor.get_student_by_id(str(student_id))
+    lists = student.lists
+    if request.method == 'GET':
+        date_time = new_date_time()
+        date = date_time[0:2] + "-" + date_time[3:5] + "-" + date_time[6:8]
+        time = date_time[9:11] + ":" + date_time[12:14]
+        return render_template('PDF.html', student=student, lists=lists, date = date, time = time)
+    elif request.method == 'POST':
+        return 'aaa'
 
 @app.route('/admin/stock')
 def toolStock():

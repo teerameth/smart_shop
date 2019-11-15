@@ -1,0 +1,80 @@
+<html>
+<head><title>PDF</title></head>
+
+<body onLoad="window.print()">
+
+<font face= "Angsana New", size="5"><div align="right" margin-top="5cm">
+    บัตร WorkShop No.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</div></font> <br>
+
+
+<img src="https://sites.google.com/site/imageshopfibo/_/rsrc/1573789133599/home/Icon%20FIBO.png" + width="40" Align = "left"  hspace="70" ><br>
+
+<font face= "Angsana New", size="5"><div align="center" margin-top="5cm"></div><B>
+    ใบยืมเครื่องมือ-อุปกรณ์    สถาบันวิทยาการหุ่นยนต์ภาคสนาม
+</B></div></font> <br>
+
+<font face= "Angsana New", size="0.1"><div align="center" margin-top="5cm"></div><B>
+		&nbsp;&nbsp;
+	</B></div></font> <br>
+
+<table align="center" bgcolor="#ffffff" border="1.5" bordercolor="black" cellspacing="0" width="600">
+<tr>
+    <td width="50"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
+        ลำดับที่
+    </font></div></td>
+    <td width="400"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
+        รายการ
+    </font></div></td>
+    <td width="50"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
+        จำนวน
+    </font></div></td>
+    <td width="100"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
+        หมายเหตุ
+	</font></div></td>
+</tr>
+<!-- ส่วนของข้อมูลรายการที่ยืม -->
+
+{% for i in range(lists[0].orders|length)  %}
+<tr>
+    <td width="50"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
+        {{i+1}}
+    </font></div></td>
+    <td width="400"><font face= "Angsana New", size="4"><div align="left" margin-top="5cm">
+		&nbsp;{{lists[0].orders[i].tool.name}}
+    </font></div></td>
+    <td width="50"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
+        {{lists[0].orders[i].amount}}
+    </font></div></td>
+    <td width="100"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
+        
+	</font></div></td>
+</tr>
+{% endfor %}
+</table>
+
+
+
+
+<font face= "Angsana New", size="0.1"><div align="center" style="line-height: 10%">
+		&nbsp;&nbsp;
+	</B></div></font> <br>
+<font face= "Angsana New", size="5"><div align="right"style="line-height: 50%">
+		ผู้รับผิดชอบ&nbsp;{{student.name}} {{student.surname}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	</div></font> <br>
+<font face= "Angsana New", size="5"><div align="right" style="line-height: 50%">
+		ระดับชั้นปี &nbsp;2&nbsp;&nbsp;&nbsp; รหัสนักศึกษา {{student.student_university_ID}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	</div></font> <br>
+<font face= "Angsana New", size="5"><div align="right" style="line-height: 50%">
+		เบอร์โทร {{student.phone_number}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	</div></font> <br>
+<font face= "Angsana New", size="5"><div align="right" style="line-height: 50%">
+		วันที่ยืม {{date}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </div></font> <br>
+    <font face= "Angsana New", size="5"><div align="right" style="line-height: 50%">
+		เวลาที่ยืม {{time}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	</div></font> <br>
+
+
+</body>
+</html>
