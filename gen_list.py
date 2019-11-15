@@ -25,7 +25,7 @@ db.session.query(Student).filter_by(student_university_ID=str(61340500032)).one(
 
 for lit in student.get_lists():
     for order in lit.orders:
-        print(order.tool[0].name)
+        print(order.tool.name, order.amount)
 new_list = student.create_new_list()
 new_list.add_new_tool(tools[10], 3)
 
