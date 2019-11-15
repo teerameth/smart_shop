@@ -18,6 +18,7 @@ for student in students:
     print(student.student_university_ID)
     new_list = student.create_new_list()
     new_list.add_new_tool(tools[randint(0,30)], randint(1,3))
+    new_list.add_new_tool(tools[randint(20,50)], randint(1,3))
     new_list.add_new_tool(tools[randint(31,60)], randint(1,3))
 
 student = editor.get_student_by_id(61340500032)
@@ -25,7 +26,7 @@ db.session.query(Student).filter_by(student_university_ID=str(61340500032)).one(
 
 for lit in student.get_lists():
     for order in lit.orders:
-        print(order.tool[0].name)
+        print(order.tool.name, order.amount)
 new_list = student.create_new_list()
 new_list.add_new_tool(tools[10], 3)
 

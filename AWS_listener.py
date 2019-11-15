@@ -8,15 +8,10 @@ AllowedActions = ['subscribe']
 
 # Custom MQTT message callback
 def customCallback(client, userdata, message):
-    # print("Received a new message: ")
-    # print(message.payload)
     string = str(message.payload)
     print(string)
     light_status = int(string[string.find('light') + 7])
     print(light_status)
-    # print("from topic: ")
-    # print(message.topic)
-    # print("--------------\n\n")
 
 
 # Read in command-line parameters
@@ -42,23 +37,6 @@ useWebsocket = args.useWebsocket
 clientId = args.clientId
 topic = args.topic
 
-if args.mode not in AllowedActions:
-    parser.error("Unknown --mode option %s. Must be one of %s" % (args.mode, str(AllowedActions)))
-    exit(2)
-
-if args.useWebsocket and args.certificatePath and args.privateKeyPath:
-    parser.error("X.509 cert authentication and WebSocket are mutual exclusive. Please pick one.")
-    exit(2)
-
-if not args.useWebsocket and (not args.certificatePath or not args.privateKeyPath):
-    parser.error("Missing credentials for authentication.")
-    exit(2)
-
-# Port defaults
-if args.useWebsocket and not args.port:  # When no port override for WebSocket, default to 443
-    port = 443
-if not args.useWebsocket and not args.port:  # When no port override for non-WebSocket, default to 8883
-    port = 8883
 
 # Configure logging
 logger = logging.getLogger("AWSIoTPythonSDK.core")
