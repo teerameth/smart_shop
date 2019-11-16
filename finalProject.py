@@ -12,6 +12,16 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
 editor = Editor()
 
+def content():
+	text = open('textfile.txt', 'r')
+	content = text.read()
+	text.close()
+	# if content=='1' :
+	# 	status='ON'
+	# elif content=='0' :
+	# 	status='OFF'
+	return content
+
 @app.route('/', methods = ['GET', 'POST'])
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
@@ -33,8 +43,9 @@ def register():
 def allToolList(student_id):
     student = editor.get_student_by_id(str(student_id))
     lists = student.lists
+    status = content()
     if request.method == 'GET':
-        return render_template('mainmenu.html', student=student, lists=lists)
+        return render_template('mainmenu.html', student=student, lists=lists , status=status)
     elif request.method == 'POST':
         return 'aaa'
 
@@ -49,7 +60,8 @@ def createToolList(student_id):
 
 @app.route('/user/<int:student_id>/<int:toollist_id>/delete')
 def deleteToolList(student_id, toollist_id):
-    return "Delete tool list with confirm button"
+    editor.get_tool_list_by_id(toollist_id).remove()
+    return redirect(url_for('allToolList', student_id = student_id))
 
 # pitcure = os.path.join('static','P')
 # app.config['UPLOAD_FOLDER'] = pitcure
