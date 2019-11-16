@@ -63,6 +63,8 @@ class Editor:
         db.session.commit()
         return new_student
 ###### Tool_list ######
+    def get_tool_list_by_id(self, id):
+        return db.session.query(Tool_list).filter_by(id = id).one()
     def list_all_approved_lists(self):
         return db.session.query(Tool_list).filter_by(approved_status=1).all()
     def list_all_returned_lists(self):
