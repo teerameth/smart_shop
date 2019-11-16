@@ -16,10 +16,16 @@
 						  <a class="nav-link" href="/user/{{student.student_university_ID}}" >Home <span class="sr-only">(current)</span></a>
 						</li>
 						<li class="nav-item">
-							
-							<button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-								สถานะพี่เหน่ง <span class="badge badge-success">ON</span>
-							</button>
+							{% if status == '1' %}
+								<button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+									สถานะพี่เหน่ง <span class="badge badge-success">ON</span>
+								</button>
+							{% endif %}
+							{% if status == '0' %}
+								<button class="btn btn-outline-danger my-2 my-sm-0" type="submit">
+									สถานะพี่เหน่ง <span class="badge badge-danger">OFF</span>
+								</button>
+							{% endif %}
 						</li>
 						
 					    </ul>
@@ -37,7 +43,7 @@
 					<th>
 						Name
 						<a href="/user/{{student.student_university_ID}}/{{n}}/edit" class="btn btn-warning btn-xs btn-sm" >Edit</a>
-                        <a href="#" class="btn btn-danger btn-xs btn-sm" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่?')">Delete</a>
+                        <a href="/user/{{student.student_university_ID}}/{{n}}/delete" class="btn btn-danger btn-xs btn-sm" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่?')">Delete</a>
 					</th>
 					<th>Amount</th>
 				</tr>
