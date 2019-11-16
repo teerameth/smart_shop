@@ -178,8 +178,8 @@ class Tool_list(db.Model):
     def get_owner(self): return self.owner
     def get_owner_id(self): return self.owner.student_university_ID
     def remove(self):
-        db.session.remove(self)
-        db.commit()
+        self.delete()
+        db.session.commit()
 
 class Tool_group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
