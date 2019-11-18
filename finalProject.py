@@ -39,8 +39,6 @@ def register():
 def allToolList(student_id):
     student = editor.get_student_by_id(str(student_id))
     lists = student.lists
-    for item in lists:
-        print(item.orders)
     status = content()
     if request.method == 'GET':
         return render_template('mainmenu.html', student=student, lists=lists , status=status)
@@ -142,4 +140,4 @@ def deleteTool(tool_id):
 if __name__ == '__main__':
     # app.secret_key = "11111111"
     app.debug = True
-    app.run(host='0.0.0.0', port=5000)#Change port to 80 before deploying
+    app.run(host='0.0.0.0', port=80)#Change port to 80 before deploying
