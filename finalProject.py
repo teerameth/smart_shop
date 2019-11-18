@@ -13,13 +13,9 @@ db = SQLAlchemy(app)
 editor = Editor()
 
 def content():
-	text = open('textfile.txt', 'r')
+	text = open('status.txt', 'r')
 	content = text.read()
 	text.close()
-	# if content=='1' :
-	# 	status='ON'
-	# elif content=='0' :
-	# 	status='OFF'
 	return content
 
 @app.route('/', methods = ['GET', 'POST'])
