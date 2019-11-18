@@ -39,6 +39,8 @@ def register():
 def allToolList(student_id):
     student = editor.get_student_by_id(str(student_id))
     lists = student.lists
+    for item in lists:
+        print(item.orders)
     status = content()
     if request.method == 'GET':
         return render_template('mainmenu.html', student=student, lists=lists , status=status)
