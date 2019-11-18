@@ -59,16 +59,16 @@ def deleteToolList(student_id, toollist_id):
     editor.get_tool_list_by_id(toollist_id).remove()
     return redirect(url_for('allToolList', student_id = student_id))
 
-# pitcure = os.path.join('static','P')
-# app.config['UPLOAD_FOLDER'] = pitcure
+
 @app.route('/user/<int:student_id>/<int:toollist_id>/edit')
 def editToolList(student_id, toollist_id): #"Edit tool list and go to confirm"
     student = editor.get_student_by_id(str(student_id))
-    # Pic1 = os.path.join(app.config['UPLOAD_FOLDER'],'1.jpg')
-    return render_template('edit_tool_list.html', student = student)
+    status = content()
+    alltool = editor.list_all_tool()
+    return render_template('edit_tool_list.html', student = student , status=status , alltool=alltool)
 
 @app.route('/user/<int:student_id>/<int:toollist_id>/confirm')
-def submitToollist(student_id,  toollist_id):
+def submitToollist(student_id, toollist_id):
     return "Pick some additional suggested tool and submit"
 
 @app.route('/admin')
