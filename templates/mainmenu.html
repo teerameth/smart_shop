@@ -1,3 +1,4 @@
+<meta http-equiv="Refresh" content="2">
 <html>
 	<head>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -37,17 +38,17 @@
 					</div>
 				  </nav>
 		<h1>{{student.student_university_ID}}<br>{{student.name}} {{student.surname}}</h1>
-		{% for n in range(lists|length) %}
+		{% for list in lists %}
 			<table border="5">
 				<tr>
 					<th>
 						Name
-						<a href="/user/{{student.student_university_ID}}/{{n}}/edit" class="btn btn-warning btn-xs btn-sm" >Edit</a>
-                        <a href="/user/{{student.student_university_ID}}/{{n}}/delete" class="btn btn-danger btn-xs btn-sm" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่?')">Delete</a>
+						<a href="/user/{{student.student_university_ID}}/{{list.id}}/edit" class="btn btn-warning btn-xs btn-sm" >Edit</a>
+                        <a href="/user/{{student.student_university_ID}}/{{list.id}}/delete" class="btn btn-danger btn-xs btn-sm" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่?')">Delete</a>
 					</th>
 					<th>Amount</th>
 				</tr>
-				{% for order in lists[n].orders %}
+				{% for order in list.orders %}
 				<tr>
 					<td>{{order.tool.name}}</td>
 					<td>{{order.amount}}</td>

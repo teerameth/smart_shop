@@ -12,6 +12,8 @@ def customCallback(client, userdata, message):
     print(string)
     light_status = int(string[string.find('light') + 7])
     print(light_status)
+    with open("status.txt", "w") as f:
+        f.write(str(light_status))
 
 
 # Read in command-line parameters
