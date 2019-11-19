@@ -14,7 +14,7 @@
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					  <ul class="navbar-nav mr-auto">
 						<li class="nav-item active">
-						  <a class="nav-link" href="/user/{{student.student_university_ID}}" >Home <span class="sr-only">(current)</span></a>
+						  <a class="nav-link" href="/admin/{{student.student_university_ID}}" >Home <span class="sr-only">(current)</span></a>
 						</li>
 						<li class="nav-item">
 							{% if status == '1' %}
@@ -42,9 +42,9 @@
 			<table border="5">
 				<tr>
 					<th>
-						Name
-						<a href="/user/{{student.student_university_ID}}/{{list.id}}/edit" class="btn btn-warning btn-xs btn-sm" >Edit</a>
-                        <a href="/user/{{student.student_university_ID}}/{{list.id}}/delete" class="btn btn-danger btn-xs btn-sm" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่?')">Delete</a>
+                        Name
+                        <a href="/admin/{{student.student_university_ID}}/{{list.id}}/approve" class="btn btn-warning btn-xs btn-sm" >Edit</a>
+						
 					</th>
 					<th>Amount</th>
 				</tr>
@@ -56,7 +56,6 @@
 				</tr>
 			</table>
 		{% endfor %}
-		<a class="btn btn-dark" href="/user/{{student.student_university_ID}}/new" >Creat new list</a>
-		<a class="btn btn-danger btn-xs" href="/" >Logout</a>
+		<a class="btn btn-danger btn-xs" href="/admin" >Logout</a>
 	    </body>
 </html>

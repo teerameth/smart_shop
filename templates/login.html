@@ -85,6 +85,16 @@
                     <div class="login-main-text">
                        <h2>Smart Shop<br> Login Page</h2>
                        <p>Login from here to access.</p>
+                       {% if status == '1' %}
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                                สถานะพี่เหน่ง <span class="badge badge-success">ON</span>
+                            </button>
+                        {% endif %}
+                        {% if status == '0' %}
+                            <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">
+                                สถานะพี่เหน่ง <span class="badge badge-danger">OFF</span>
+                            </button>
+                        {% endif %}
                     </div>
                  </div>
                  <div class="main">
