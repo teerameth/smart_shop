@@ -1,3 +1,4 @@
+<meta http-equiv="Refresh" content="2">
 <html>
 	<head>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -13,26 +14,41 @@
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					  <ul class="navbar-nav mr-auto">
 						<li class="nav-item active">
-						  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+						  <a class="nav-link" href="/user/{{student.student_university_ID}}" >Home <span class="sr-only">(current)</span></a>
 						</li>
 						<li class="nav-item">
-						  <a class="nav-link" href="#">Link</a>
+							{% if status == '1' %}
+								<button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+									สถานะพี่เหน่ง <span class="badge badge-success">ON</span>
+								</button>
+							{% endif %}
+							{% if status == '0' %}
+								<button class="btn btn-outline-danger my-2 my-sm-0" type="submit">
+									สถานะพี่เหน่ง <span class="badge badge-danger">OFF</span>
+								</button>
+							{% endif %}
 						</li>
-					  </ul>
-					  <form class="form-inline my-2 my-lg-0">
-						<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-						<button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
-					  </form>
+						
+					    </ul>
+					    <form class="form-inline my-2 my-lg-0">
+							<span class="navbar-text">
+								{{student.student_university_ID}}  {{student.name}} {{student.surname}}  
+							</span>
+					    </form> 
 					</div>
 				  </nav>
 		<h1>{{student.student_university_ID}}<br>{{student.name}} {{student.surname}}</h1>
-		{% for n in range(lists|length) %}
+		{% for list in lists %}
 			<table border="5">
 				<tr>
-					<th>Name</th>
+					<th>
+						Name
+						<a href="/user/{{student.student_university_ID}}/{{list.id}}/edit" class="btn btn-warning btn-xs btn-sm" >Edit</a>
+                        <a href="/user/{{student.student_university_ID}}/{{list.id}}/delete" class="btn btn-danger btn-xs btn-sm" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่?')">Delete</a>
+					</th>
 					<th>Amount</th>
 				</tr>
-				{% for order in lists[n].orders %}
+				{% for order in list.orders %}
 				<tr>
 					<td>{{order.tool.name}}</td>
 					<td>{{order.amount}}</td>
