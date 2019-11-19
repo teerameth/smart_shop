@@ -25,6 +25,8 @@ def login():
         return render_template('login.html')
     elif request.method == 'POST':
         student_id = request.form['username_field']
+        if student_id == "12345":
+            return redirect(url_for('adminHome'))
         return redirect(url_for('allToolList', student_id = student_id))
 
 @app.route('/resetpassword')
@@ -74,6 +76,7 @@ def submitToollist(student_id, toollist_id):
 
 @app.route('/admin')
 def adminHome():
+    
     return "Admin Home Page.\n Select between Approving & Editing"
 
 @app.route('/admin/history')

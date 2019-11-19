@@ -157,22 +157,35 @@ class Tool_list(db.Model):
     def get_approved_status(self): return self.approved_status
     def get_approved_datetime(self): return self.approved_datetime
     def set_approved_status(self):
+        if self.approved_status == 1: return False #already approved
         self.approved_status = 1
         self.approved_datetime = new_date_time()
+        tools = db.session.query(Tool).filter_by().all()
+        for order in self.orders:
+            order.tool.in_stock -= order.amount
         db.session.commit()
     def cancle_approved_status(self):
+        if self.approved_status == 0: return False #didn't approved yet
         self.approved_status = 0
         self.approved_datetime = None
+        for order in self.orders:
+            order.tool.in_stock += order.amount
         db.session.commit()
     def get_returned_status(self): return self.returned_status
     def get_returned_datetime(self): return self.returned_datetime
     def set_returned_status(self):
+        if self.returned_status == 1: return False #already returned
         self.returned_status = 1
         self.returned_datetime = new_date_time()
+        for order in self.orders:
+            order.tool.in_stock += order.amount
         db.session.commit()
     def cancle_returned_status(self):
+        if self.returned_status == 0: return False #didn't returned yet
         self.returned_status = 0
         self.returned_datetime = None
+        for order in self.orders:
+            order.tool.in_stock -= order.amount
         db.session.commit()
     def if_shared(self): return self.shared
     def get_owner(self): return self.owner
