@@ -1,3 +1,4 @@
+<meta http-equiv="Refresh" content="2">
 <html>
 	<head>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -44,32 +45,37 @@
 				</table>
 			</h1>
 		<h2>Edit Tool</h2>
+		<a class="btn btn-danger btn-xs" href="/user/{{student.student_university_ID}}" >Cancel&Exit</a>
 		<div class="container">
 			<div class="row">
 				<h3>Tool Cart</h3>
 			</div>
 			<div class="row" id= "row2">
-				<table class="table" id="table1" style="width:50%; float:left">
+				<table class="table" id="table1" style="width:60%; float:left">
 					<thead class= "thead-dark">
 						<tr>
 							<th scope="col">Image</th>
-							<th scope="col">Name</th>
+							<th scope="col" style="width: 7rem;">Name</th>
 							<th scope="col">Total</th>
 							<th scope="col">In Stock</th>
 							<th scope="col">Quantity</th>
+							<th scope="col">Add</th>
 						</tr>
 					</thead>
 					<tbody id="tableProducts">
 						{% for tool in alltool %}
 						<tr>
 							<td><img style="height: 5rem;" src="{{ url_for('static', filename='picture/no-image.png') }}" alt ="NoIMG"></td>
-							<td>{{tool.name}}</td>
+							<td style="width: 10rem">{{tool.name}}</td>
 							<td>{{tool.total}}</td>
 							<td>{{tool.in_stock}}</td>
 							<td>
 								<button class="btn btn-primary">-</button>
 								<input style="width: 2rem;" value="1" disabled>
 								<button class="btn btn-primary">+</button>
+							</td>
+							<td>
+								<a href="#" class="btn btn-warning btn-xs btn-sm" >Add</a>
 							</td>
 						{% endfor %}
 						</tr>
@@ -80,23 +86,25 @@
 				</table>
 				
 
-				<table class="table" id="table2" style="width:50%; float:right">
+				<table class="table" id="table2" style="width:40%; float:right">
 						<thead class= "thead-light">
 							<tr>
 								<th scope="col">Image</th>
-								<th scope="col">Name</th>
-								<th scope="col">Quantity</th>
+								<th scope="col" style="width: 10rem">Name</th>
+								<th scope="col">Amount</th>
+								<th scope="col">Deleat</th>
 							</tr>
 						</thead>
 						<tbody id="tableProducts">
+							{% for order in toollist.orders %}
 							<tr>
 								<td><img style="height: 5rem;" src="{{ url_for('static', filename='picture/0.1.jpg') }}" alt ="IMGP1"></td>
-								<td>เลื่อยตัดเหล็ก</td>
+								<td style="width: 10rem">{{order.tool.name}}</td>
+								<td>{{order.amount}}</td>
 								<td>
-									<button class="btn btn-primary">-</button>
-									<input style="width: 2rem;" value="1" disabled>
-									<button class="btn btn-primary">+</button>
+									<a href="#" class="btn btn-danger btn-xs btn-sm" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่?')">Delete</a>
 								</td>
+							{% endfor %}
 							</tr>
 						</tbody>
 						<tfoot id= "total">

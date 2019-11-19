@@ -65,7 +65,8 @@ def editToolList(student_id, toollist_id): #"Edit tool list and go to confirm"
     student = editor.get_student_by_id(str(student_id))
     status = content()
     alltool = editor.list_all_tool()
-    return render_template('edit_tool_list.html', student = student , status=status , alltool=alltool)
+    toollist = editor.get_tool_list_by_id(toollist_id)
+    return render_template('edit_tool_list.html', student = student , status=status , alltool=alltool , toollist=toollist)
 
 @app.route('/user/<int:student_id>/<int:toollist_id>/confirm')
 def submitToollist(student_id, toollist_id):
