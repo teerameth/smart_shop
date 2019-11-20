@@ -132,7 +132,7 @@ def approveList(studentLists, toollist_id):
 def printList(studentLists, toollist_id):
     return "Print approved list"
 
-@app.route('/user/<int:student_id>/PDF')
+@app.route('/admin/<int:student_id>/PDF')
 def allToolListPDF(student_id):
     student = editor.get_student_by_id(str(student_id))
     lists = student.lists
