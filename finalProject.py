@@ -21,8 +21,9 @@ def content():
 @app.route('/', methods = ['GET', 'POST'])
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
+    status = content()
     if request.method == 'GET':
-        return render_template('login.html')
+        return render_template('login.html', status=status)
     elif request.method == 'POST':
         student_id = request.form['username_field']
         if student_id == "12345":
@@ -70,14 +71,38 @@ def editToolList(student_id, toollist_id): #"Edit tool list and go to confirm"
     toollist = editor.get_tool_list_by_id(toollist_id)
     return render_template('edit_tool_list.html', student = student , status=status , alltool=alltool , toollist=toollist)
 
+@app.route('/user/<int:student_id>/<int:toollist_id>/edit/<string:tool>/minus', methods=['POST'])
+def calculator_minus(student_id, toollist_id,tool,action):
+    toollist = editor.get_tool_list_by_id(toollist_id)
+    print(minus)
+    for order in toollist.orders:
+        if order.tool == tool: 
+            order.amount -= 1
+            return redirect(url_for('editToolList', student_id = student_id, toollist_id = toollist_id))
+            
+@app.route('/user/<int:student_id>/<int:toollist_id>/edit/<string:tool>/plus', methods=['POST'])
+def calculator_plus(student_id, toollist_id,tool,action):
+    toollist = editor.get_tool_list_by_id(toollist_id)
+    for order in toollist.orders:
+        if order.tool.name == tool: 
+            order.amount += 1
+            return redirect(url_for('editToolList', student_id = student_id, toollist_id = toollist_id))
+
 @app.route('/user/<int:student_id>/<int:toollist_id>/confirm')
 def submitToollist(student_id, toollist_id):
-    return "Pick some additional suggested tool and submit"
+    student = editor.get_student_by_id(str(student_id))
+    status = content()
+    toollist = editor.get_tool_list_by_id(toollist_id)
+    #return "Pick some additional suggested tool and submit"
+    return render_template('submit_tool_list.html', student = student , status=status , toollist=toollist )
 
-@app.route('/admin')
-def adminHome():
-    
-    return "Admin Home Page.\n Select between Approving & Editing"
+@app.route('/admin', methods = ['GET', 'POST'])
+def adminHome(): #"Admin Home Page.\n Select between Approving & Editing"
+    if request.method == 'GET':
+        return render_template('adminhome.html')
+    elif request.method == 'POST':
+        student_id = request.form['username_field']
+        return redirect(url_for('studentLists', student_id = student_id))
 
 @app.route('/admin/history')
 def history():
@@ -93,7 +118,11 @@ def returnedHistory():
 
 @app.route('/admin/<int:student_id>')
 def studentLists(student_id):
-    return "All student's lists sorted by datetime"
+    #return "All student's lists sorted by datetime"
+    student = editor.get_student_by_id(str(student_id))
+    lists = student.lists
+    status = content()
+    return render_template('student_lists.html', student=student, lists=lists , status=status)
 
 @app.route('/admin/<int:student_id>/<int:toollist_id>/approve')
 def approveList(studentLists, toollist_id):

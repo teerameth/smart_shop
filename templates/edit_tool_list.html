@@ -3,6 +3,17 @@
 	<head>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 		<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=ukOU6O2tED7gDXGBXU0FNbI0MNy0ENx3tr_B607oGip9LKonVyx0al7xlByIbJJV2o_DSx744Q6ei3_mq9ySAGXD1-k1lX101WXgabdNnkMu9U8Gl5zVmIhpK7hxoWhHg0UQG4BWFWE75OsnoyEJclN8h7-00ZhV6AOo-b9jD_Sm9_5RxVlgURVcv9URt9HH9Vjl6lSHQtseja9PJG91NRRULawCo3mChsFPKEIAbf8Mar0p0PvqWI6BABPK7_kN6GZxSUKoL0T3rLsE1hkt_LvAsfn-GY6sEm8FdAseHTQR28twP3oC_QdKQ1TyfLGkNGhfz2pEOApGei0KgYI6R_4tMDm3hcZthzVuWn1Gp7nlPzk3Atcmnc61he2lf13xg8s1z22rsaybxf90MKjg_d9De94SV_LmFZFMUYf1sl5jePKbLwPiAk1j3QqQueBKf6PTzNXtdZlDzd2rx3n_Q2jqR742rI-Nj00m6eJatn4" charset="UTF-8"></script><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+		<style>
+			.zoom{
+				width: 100;
+				transition: transfrom .3s;	
+			}
+			.zoom:hover{
+				-ms-transform: scale(2); /* IE 9 */
+  				-webkit-transform: scale(2); /* Safari 3-8 */
+  				transform: scale(2); 
+			}
+		</style>
 	</head>	
 	<body>
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -37,28 +48,24 @@
 				</form> 
 			</div>
 		  </nav>
-			<h1><table border="5">
-					<tr>
-						<th>{{student.student_university_ID}}</th>
-						<th>{{student.name}} {{student.surname}}</th>
-					</tr>
-				</table>
-			</h1>
+			
 		<h2>Edit Tool</h2>
-		<a class="btn btn-danger btn-xs" href="/user/{{student.student_university_ID}}" >Cancel&Exit</a>
+		
 		<div class="container">
-			<div class="row">
+			<div class="row" >
 				<h3>Tool Cart</h3>
-			</div>
-			<div class="row" id= "row2">
-				<table class="table" id="table1" style="width:60%; float:left">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-danger btn-xs" href="/user/{{student.student_university_ID}}" style="float:right">Exit</a>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-success btn-xs" href="/user/{{student.student_university_ID}}/{{toollist.id}}/confirm" >confirm</a>
+			</div><br>
+			
+			<div class="row" id= "row2" >
+				<table class="table" id="table1" style="width:45%; float:left">
 					<thead class= "thead-dark">
 						<tr>
 							<th scope="col">Image</th>
 							<th scope="col" style="width: 7rem;">Name</th>
 							<th scope="col">Total</th>
 							<th scope="col">In Stock</th>
-							<th scope="col">Quantity</th>
 							<th scope="col">Add</th>
 						</tr>
 					</thead>
@@ -66,18 +73,13 @@
 						{% for tool in alltool %}
 						<tr>
 							{% if tool.picture == "" %}
-							<td><img style="height: 5rem;" src="{{ url_for('static', filename='picture/no-image.png') }}" alt ="NoIMG"></td>
+							<td><img class="zoom" src="{{ url_for('static', filename='picture/no-image.png') }}" alt ="NoIMG"></td>
 							{% else %}
-							<td><img style="height: 5rem;" src="{{ url_for('static', filename='picture/' + tool.picture + '.jpg') }}" alt ="NoIMG"></td>
+							<td><img class="zoom" src="{{ url_for('static', filename='picture/' + tool.picture + '.jpg') }}" alt ="NoIMG"></td>
 							{% endif %}
 							<td style="width: 10rem">{{tool.name}}</td>
 							<td>{{tool.total}}</td>
 							<td>{{tool.in_stock}}</td>
-							<td>
-								<button class="btn btn-primary">-</button>
-								<input style="width: 2rem;" value="1" disabled>
-								<button class="btn btn-primary">+</button>
-							</td>
 							<td>
 								<a href="#" class="btn btn-warning btn-xs btn-sm" >Add</a>
 							</td>
@@ -90,21 +92,29 @@
 				</table>
 				
 
-				<table class="table" id="table2" style="width:40%; float:right">
+				<table class="table" id="table2" style="width:55%; float:right">
 						<thead class= "thead-light">
 							<tr>
 								<th scope="col">Image</th>
 								<th scope="col" style="width: 10rem">Name</th>
 								<th scope="col">Amount</th>
-								<th scope="col">Deleat</th>
+								<th scope="col">Delete</th>
 							</tr>
 						</thead>
 						<tbody id="tableProducts">
 							{% for order in toollist.orders %}
 							<tr>
-								<td><img style="height: 5rem;" src="{{ url_for('static', filename='picture/0.1.jpg') }}" alt ="IMGP1"></td>
+								{% if order.tool.picture == "" %}
+								<td><img class="zoom" src="{{ url_for('static', filename='picture/no-image.png') }}" alt ="NoIMG"></td>
+								{% else %}
+								<td><img class="zoom" src="{{ url_for('static', filename='picture/' + order.tool.picture + '.jpg') }}" alt ="NoIMG"></td>
+								{% endif %}								
 								<td style="width: 10rem">{{order.tool.name}}</td>
-								<td>{{order.amount}}</td>
+								<td>
+										<a href="/user/{{student.student_university_ID}}/{{toollist.id}}/edit/{{order.tool}}/minus" class="btn btn-primary" >-</a>
+										<input style="width: 2rem;" name="amout" value="{{order.amount}}" disabled>
+										<button class="btn btn-primary">+</button>
+									</td>
 								<td>
 									<a href="#" class="btn btn-danger btn-xs btn-sm" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่?')">Delete</a>
 								</td>
@@ -115,9 +125,9 @@
 	
 						</tfoot>
 					</table>
-
-
+			</div>
+			
+			<a class="btn btn-danger btn-xs" href="/user/{{student.student_university_ID}}" >Exit</a>
 		</div>
-		<a class="btn btn-danger btn-xs" href="/user/{{student.student_university_ID}}" >Cancel&Exit</a>
 	    </body>
 </html>
