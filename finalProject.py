@@ -125,11 +125,11 @@ def studentLists(student_id):
     return render_template('student_lists.html', student=student, lists=lists , status=status)
 
 @app.route('/admin/<int:student_id>/<int:toollist_id>/approve')
-def approveList(studentLists, toollist_id):
+def approveList(student_id, toollist_id):
     return "Edit selected list before approve"
 
 @app.route('/admin/<int:student_id>/<int:toollist_id>/print')
-def printList(studentLists, toollist_id):
+def printList(student_id, toollist_id):
     return "Print approved list"
 
 @app.route('/admin/<int:student_id>/PDF')
