@@ -132,15 +132,18 @@ def approveList(student_id, toollist_id):
 def printList(student_id, toollist_id):
     return "Print approved list"
 
-@app.route('/admin/<int:student_id>/PDF')
-def allToolListPDF(student_id):
+@app.route('/admin/<int:student_id>/<int:toollist_id>/PDF')
+def allToolListPDF(student_id, toollist_id):
     student = editor.get_student_by_id(str(student_id))
-    lists = student.lists
+    for item in student.lists:
+        if item.id == toollist_id:
+            tool_list = item
+            break
     if request.method == 'GET':
         date_time = new_date_time()
         date = date_time[0:2] + "-" + date_time[3:5] + "-" + date_time[6:8]
         time = date_time[9:11] + ":" + date_time[12:14]
-        return render_template('PDF.html', student=student, lists=lists, date = date, time = time)
+        return render_template('PDF.html', student=student, tool_list = tool_list, date = date, time = time)
     elif request.method == 'POST':
         return 'aaa'
 
