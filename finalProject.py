@@ -149,7 +149,8 @@ def allToolListPDF(student_id, toollist_id):
 
 @app.route('/admin/stock')
 def toolStock():
-    return "Check stock of all tools"
+    return render_template('managing_stock.html')
+    # "Check stock of all tools"
 
 @app.route('/admin/stock/<int:tool_id>')
 def toolStatus(tool_id):
