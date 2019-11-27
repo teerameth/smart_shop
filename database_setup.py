@@ -67,7 +67,7 @@ class Student(db.Model):
         lastest = find_lastest(datetimes)
         return self.lists[lastest]
     def create_new_list(self): #Create new tool_list and auto fill datetime and return that tool_list
-        new_list = Tool_list(owner = self, created_datetime = new_date_time())
+        new_list = Tool_list(owner = self, created_datetime = new_date_time(), stored = 0)
         db.session.add(new_list)
         db.session.commit()
         return new_list
@@ -137,6 +137,7 @@ class Tool_list(db.Model):
     shared = db.Column(db.Integer) # สร้างเอง = 0, ถูกshareมา = 1
     shared_from_ID = db.Column(db.String(11)) # stored in format 613405000xx
     owner_id = db.Column(db.Integer, db.ForeignKey('student.id'))
+    stored = db.Column(db.Integer) #0 = normal, 1 = store (not shown)
     def list_all_tools(self): #return ออกมาในรูป list ของ tuple (Tool, amount)
         lists = []
         for each_order in db.session.query(Order).filter_by().all(): lists.append((each_order.tool[0], each_order.amount))
@@ -192,6 +193,9 @@ class Tool_list(db.Model):
     def get_owner_id(self): return self.owner.student_university_ID
     def remove(self):
         db.session.delete(self)
+        db.session.commit()
+    def store(self):
+        self.stored = 1
         db.session.commit()
 
 class Tool_group(db.Model):

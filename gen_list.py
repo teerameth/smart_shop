@@ -13,28 +13,33 @@ students = editor.list_all_student()
 tools = editor.list_all_tool()
 print(tools[0].name)
 
-for student in students:
-    print(student.name)
-    print(student.student_university_ID)
-    new_list = student.create_new_list()
-    new_list.add_new_tool(tools[randint(0,30)], randint(1,3))
-    new_list.add_new_tool(tools[randint(20,50)], randint(1,3))
-    new_list.add_new_tool(tools[randint(31,60)], randint(1,3))
+def gen():
+    for student in students:
+        print(student.name)
+        print(student.student_university_ID)
+        new_list = student.create_new_list()
+        new_list.add_new_tool(tools[randint(0,30)], randint(1,3))
+        new_list.add_new_tool(tools[randint(20,50)], randint(1,3))
+        new_list.add_new_tool(tools[randint(31,60)], randint(1,3))
 
-student = editor.get_student_by_id(61340500032)
-db.session.query(Student).filter_by(student_university_ID=str(61340500032)).one()[0].name
+gen()
+gen()
+gen()
 
-for lit in student.get_lists():
-    for order in lit.orders:
-        print(order.tool.name, order.amount)
-new_list = student.create_new_list()
-new_list.add_new_tool(tools[10], 3)
+# student = editor.get_student_by_id(61340500032)
+# db.session.query(Student).filter_by(student_university_ID=str(61340500032)).one()[0].name
 
-#######################################
-for student in students:
-    print(student.name)
-    for lists in student.get_lists():
-        for order in lists.orders:
-            print(order.tool.name)
-            print(order.amount)
-            #print(order.tool[0])
+# for lit in student.get_lists():
+#     for order in lit.orders:
+#         print(order.tool.name, order.amount)
+# new_list = student.create_new_list()
+# new_list.add_new_tool(tools[10], 3)
+
+# #######################################
+# for student in students:
+#     print(student.name)
+#     for lists in student.get_lists():
+#         for order in lists.orders:
+#             print(order.tool.name)
+#             print(order.amount)
+#             #print(order.tool[0])
