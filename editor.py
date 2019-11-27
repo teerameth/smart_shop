@@ -21,6 +21,8 @@ def new_date_time():
             
 class Editor:
 ###### Tool ######
+    def get_tool_by_id(self, id):
+        return db.session.query(Tool).filter_by(id = id).one()
     def list_all_tool(self): #return list ของ tool ทั้งหมด
         return db.session.query(Tool).filter_by().all()
     def list_all_type_of_tool(self): #return ชื่อ type ของ tool ทั้งหมด
