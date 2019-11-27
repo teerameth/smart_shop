@@ -59,7 +59,7 @@ def createToolList(student_id):
 
 @app.route('/user/<int:student_id>/<int:toollist_id>/delete')
 def deleteToolList(student_id, toollist_id):
-    editor.get_tool_list_by_id(toollist_id).remove()
+    editor.get_tool_list_by_id(toollist_id).store()
     return redirect(url_for('allToolList', student_id = student_id))
 
 

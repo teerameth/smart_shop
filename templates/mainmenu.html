@@ -39,22 +39,24 @@
 				  </nav><br>
 		
 		{% for list in lists %}
-			<table border="5">
-				<tr>
-					<th>
-						Name
-						<a href="/user/{{student.student_university_ID}}/{{list.id}}/edit" class="btn btn-warning btn-xs btn-sm" >Edit</a>
-                        <a href="/user/{{student.student_university_ID}}/{{list.id}}/delete" class="btn btn-danger btn-xs btn-sm" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่?')">Delete</a>
-					</th>
-					<th>Amount</th>
-				</tr>
-				{% for order in list.orders %}
-				<tr>
-					<td>{{order.tool.name}}</td>
-					<td>{{order.amount}}</td>
-				{% endfor %}
-				</tr>
-			</table>
+			{% if list.stored == 0 %}
+				<table border="5">
+					<tr>
+						<th>
+							Name
+							<a href="/user/{{student.student_university_ID}}/{{list.id}}/edit" class="btn btn-warning btn-xs btn-sm" >Edit</a>
+							<a href="/user/{{student.student_university_ID}}/{{list.id}}/delete" class="btn btn-danger btn-xs btn-sm" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่?')">Delete</a>
+						</th>
+						<th>Amount</th>
+					</tr>
+					{% for order in list.orders %}
+					<tr>
+						<td>{{order.tool.name}}</td>
+						<td>{{order.amount}}</td>
+					{% endfor %}
+					</tr>
+				</table>
+			{% endif %}
 		{% endfor %}
 		<a class="btn btn-dark" href="/user/{{student.student_university_ID}}/new" >Creat new list</a>
 		<a class="btn btn-danger btn-xs" href="/" >Logout</a>
