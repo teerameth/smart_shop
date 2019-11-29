@@ -80,7 +80,11 @@ def editToolList(student_id, toollist_id): #"Edit tool list and go to confirm"
 def add_tool(student_id, toollist_id,tool): #"add tool to list"
     toollist = editor.get_tool_list_by_id(toollist_id)
     this_tool = editor.get_tool_by_id(tool)
-    toollist.add_new_tool(this_tool,1)
+    basket = []
+    for order in toollist.orders:
+        basket.append(order.tool.id)
+    if this_tool.id not in basket:
+        toollist.add_new_tool(this_tool,1)
     return redirect(url_for('editToolList', student_id = student_id, toollist_id = toollist_id))
 
 @app.route('/user/<int:student_id>/<int:toollist_id>/edit/<string:tool>/minus', methods=['POST'])
