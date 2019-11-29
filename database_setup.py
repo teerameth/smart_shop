@@ -134,6 +134,7 @@ class Tool_list(db.Model):
     approved_datetime = db.Column(db.String(27))
     returned_status = db.Column(db.Integer) # default = 0
     returned_datetime = db.Column(db.String(27))
+    last_edited_datetime = db.Column(db.String(27))
     shared = db.Column(db.Integer) # สร้างเอง = 0, ถูกshareมา = 1
     shared_from_ID = db.Column(db.String(11)) # stored in format 613405000xx
     owner_id = db.Column(db.Integer, db.ForeignKey('student.id'))
