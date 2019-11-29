@@ -70,17 +70,19 @@
 					<tbody id="tableProducts">
 						{% for tool in alltool %}
 						<tr>
-							{% if tool.picture == "" %}
-							<td><img class="zoom" src="{{ url_for('static', filename='picture/no-image.png') }}" alt ="NoIMG"></td>
-							{% else %}
-							<td><img class="zoom" src="{{ url_for('static', filename='picture/' + tool.picture + '.jpg') }}" alt ="NoIMG"></td>
+							{% if tool.id not in basket %}
+								{% if tool.picture == "" %}
+								<td><img class="zoom" src="{{ url_for('static', filename='picture/no-image.png') }}" alt ="NoIMG"></td>
+								{% else %}
+								<td><img class="zoom" src="{{ url_for('static', filename='picture/' + tool.picture + '.jpg') }}" alt ="NoIMG"></td>
+								{% endif %}
+								<td style="width: 10rem">{{tool.name}}</td>
+								<td>{{tool.total}}</td>
+								<td>{{tool.in_stock}}</td>
+								<td>
+									<a href="/user/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
+								</td>
 							{% endif %}
-							<td style="width: 10rem">{{tool.name}}</td>
-							<td>{{tool.total}}</td>
-							<td>{{tool.in_stock}}</td>
-							<td>
-								<a href="/user/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
-							</td>
 						{% endfor %}
 						</tr>
 					</tbody>
