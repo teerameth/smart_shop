@@ -94,8 +94,9 @@ def edit_amount(student_id, toollist_id,order_id, action):
     toollist = editor.get_tool_list_by_id(toollist_id)
     for order in toollist.orders:
         if order.id == order_id:
-            if action == 0: order.decrease()
-            elif action == 1: order.increase()
+            if action == 0: order.decrease() #minus
+            elif action == 1: order.increase() #add
+            elif action == 2: order.destroy() #destroy
             return redirect(url_for('editToolList', student_id = student_id, toollist_id = toollist_id))
 
 @app.route('/user/<int:student_id>/<int:toollist_id>/confirm')

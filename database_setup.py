@@ -136,6 +136,9 @@ class Order(db.Model):
         if self.amount > self.tool.in_stock:
             self.amount = self.tool.in_stock
         db.session.commit()
+    def destroy(self):
+        db.session.delete(self)
+        db.session.commit()
 class Tool_list(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     orders = db.relationship('Order', backref='list')
