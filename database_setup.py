@@ -129,10 +129,13 @@ class Order(db.Model):
         if self.amount < self.tool.in_stock: self.amount += 1
         db.session.commit()
     def decrease(self):
-        if self.amount > 1:
+        if self.amount > 0:
             self.amount -= 1
         db.session.commit()
-
+    def fit(self):
+        if self.amount > self.tool.in_stock:
+            self.amount = self.tool.in_stock
+        db.session.commit()
 class Tool_list(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     orders = db.relationship('Order', backref='list')
