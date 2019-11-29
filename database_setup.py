@@ -198,6 +198,9 @@ class Tool_list(db.Model):
     def store(self):
         self.stored = 1
         db.session.commit()
+    def update_datetime(self):
+        self.last_edited_datetime = new_date_time()
+        db.session.commit()
 
 class Tool_group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
