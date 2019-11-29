@@ -194,4 +194,4 @@ def deleteTool(tool_id):
 if __name__ == '__main__':
     # app.secret_key = "11111111"
     app.debug = True
-    app.run(host='0.0.0.0', port=80)#Change port to 80 before deploying
+    app.run(host='0.0.0.0', port=5000)#Change port to 80 before deploying
