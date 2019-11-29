@@ -125,6 +125,14 @@ class Order(db.Model):
     tool_id = db.Column(db.Integer, db.ForeignKey('tool.id'))
     tool = db.relationship("Tool")
     list_id = db.Column(db.Integer, db.ForeignKey('tool_list.id'))
+    def increase(self):
+        if self.amount < tool.in_stock:
+            self.amount += 1
+        db.session.commit()
+    def decrease(self):
+        if self.amount < 1:
+            self.amount -= 1
+        db.session.commit()
 
 class Tool_list(db.Model):
     id = db.Column(db.Integer, primary_key=True)

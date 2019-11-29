@@ -90,10 +90,9 @@ def add_tool(student_id, toollist_id,tool): #"add tool to list"
 @app.route('/user/<int:student_id>/<int:toollist_id>/edit/<string:tool>/minus', methods=['POST'])
 def calculator_minus(student_id, toollist_id,tool,action):
     toollist = editor.get_tool_list_by_id(toollist_id)
-    print(minus)
     for order in toollist.orders:
         if order.tool == tool: 
-            order.amount -= 1
+            order.decrease()
             return redirect(url_for('editToolList', student_id = student_id, toollist_id = toollist_id))
             
 @app.route('/user/<int:student_id>/<int:toollist_id>/edit/<string:tool>/plus', methods=['POST'])
@@ -101,7 +100,7 @@ def calculator_plus(student_id, toollist_id,tool,action):
     toollist = editor.get_tool_list_by_id(toollist_id)
     for order in toollist.orders:
         if order.tool.name == tool: 
-            order.amount += 1
+            order.increase()
             return redirect(url_for('editToolList', student_id = student_id, toollist_id = toollist_id))
 
 @app.route('/user/<int:student_id>/<int:toollist_id>/confirm')
