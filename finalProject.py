@@ -69,7 +69,7 @@ def editToolList(student_id, toollist_id): #"Edit tool list and go to confirm"
     status = content()
     alltool = editor.list_all_tool()
     toollist = editor.get_tool_list_by_id(toollist_id)
-    toollist.last_edited_datetime = new_date_time()
+    toollist.update_datetime()
     basket = []
     for order in toollist.orders:
         basket.append(order.tool.id)
