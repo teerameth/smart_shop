@@ -87,20 +87,13 @@ def add_tool(student_id, toollist_id,tool): #"add tool to list"
         toollist.add_new_tool(this_tool,1)
     return redirect(url_for('editToolList', student_id = student_id, toollist_id = toollist_id))
 
-@app.route('/user/<int:student_id>/<int:toollist_id>/edit/<string:tool>/minus', methods=['POST'])
-def calculator_minus(student_id, toollist_id,tool,action):
+@app.route('/user/<int:student_id>/<int:toollist_id>/edit/<int:order_id>/<int:action>')
+def edit_amount(student_id, toollist_id,order_id, action):
     toollist = editor.get_tool_list_by_id(toollist_id)
     for order in toollist.orders:
-        if order.tool == tool: 
-            order.decrease()
-            return redirect(url_for('editToolList', student_id = student_id, toollist_id = toollist_id))
-            
-@app.route('/user/<int:student_id>/<int:toollist_id>/edit/<string:tool>/plus', methods=['POST'])
-def calculator_plus(student_id, toollist_id,tool,action):
-    toollist = editor.get_tool_list_by_id(toollist_id)
-    for order in toollist.orders:
-        if order.tool.name == tool: 
-            order.increase()
+        if order.id == order_id:
+            if action == 0: order.decrease()
+            elif action == 1: order.increase()
             return redirect(url_for('editToolList', student_id = student_id, toollist_id = toollist_id))
 
 @app.route('/user/<int:student_id>/<int:toollist_id>/confirm')
