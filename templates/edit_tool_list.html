@@ -53,7 +53,14 @@
 			<div class="row" >
 				<h3>Tool Cart</h3>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-danger btn-xs" href="/user/{{student.student_university_ID}}" style="float:right">Exit</a>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-success btn-xs" href="/user/{{student.student_university_ID}}/{{toollist.id}}/confirm" >Submit</a>
+				{% if have_stock == True %}
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-success btn-xs" href="/user/{{student.student_university_ID}}/{{toollist.id}}/confirm" >Submit</a>
+				{% endif %}
+				{% if have_stock == False %}
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-success btn-xs" >Submit</a>
+					<font color="red">not enough item in stock</font>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-success btn-xs" href="/user/{{student.student_university_ID}}/{{toollist.id}}/auto_adjust" >ปรับจำนวนของอัตโนมัติ</a>
+				{% endif %}
 			</div><br>
 			
 			<div class="row" id= "row2" >
@@ -111,12 +118,17 @@
 								{% endif %}								
 								<td style="width: 10rem">{{order.tool.name}}</td>
 								<td>
-										<a href="/user/{{student.student_university_ID}}/{{toollist.id}}/edit/{{order.tool}}/minus" class="btn btn-primary" >-</a>
-										<input style="width: 2rem;" name="amout" value="{{order.amount}}" disabled>
-										<button class="btn btn-primary">+</button>
+										<a href="/user/{{student.student_university_ID}}/{{toollist.id}}/edit/{{order.id}}/0" class="btn btn-primary" >-</a>
+										{% if order.amount > order.tool.in_stock %}
+											<input style="width: 2rem;background-color:tomato;" name="amout" value="{{order.amount}}/{{order.tool.in_stock}}" disabled>
+										{% endif %}
+										{% if order.amount <= order.tool.in_stock %}
+											<input style="width: 2rem;" name="amout" value="{{order.amount}}/{{order.tool.in_stock}}" disabled>
+										{% endif %}
+										<a href="/user/{{student.student_university_ID}}/{{toollist.id}}/edit/{{order.id}}/1" class="btn btn-primary">+</a>
 									</td>
 								<td>
-									<a href="#" class="btn btn-danger btn-xs btn-sm" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่?')">Delete</a>
+									<a href="/user/{{student.student_university_ID}}/{{toollist.id}}/edit/{{order.id}}/2" class="btn btn-danger btn-xs btn-sm" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่?')">Delete</a>
 								</td>
 							</tr>
 							{% endfor %}

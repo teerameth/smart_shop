@@ -71,10 +71,12 @@ def editToolList(student_id, toollist_id): #"Edit tool list and go to confirm"
     toollist = editor.get_tool_list_by_id(toollist_id)
     toollist.update_datetime()
     basket = []
+    have_stock = True
     for order in toollist.orders:
         basket.append(order.tool.id)
+        if order.amount > order.tool.in_stock: have_stock = False #บอกวา่ของที่กดไว้ เกินจำนวนที่ยืมได้
     print(basket)
-    return render_template('edit_tool_list.html', student = student , status=status , alltool=alltool , toollist=toollist, toollist_id = toollist_id, basket = basket)
+    return render_template('edit_tool_list.html', student = student , status=status , alltool=alltool , toollist=toollist, toollist_id = toollist_id, basket = basket, have_stock = have_stock)
 
 @app.route('/user/<int:student_id>/<int:toollist_id>/<tool>/add_tool')
 def add_tool(student_id, toollist_id,tool): #"add tool to list"
@@ -87,21 +89,14 @@ def add_tool(student_id, toollist_id,tool): #"add tool to list"
         toollist.add_new_tool(this_tool,1)
     return redirect(url_for('editToolList', student_id = student_id, toollist_id = toollist_id))
 
-@app.route('/user/<int:student_id>/<int:toollist_id>/edit/<string:tool>/minus', methods=['POST'])
-def calculator_minus(student_id, toollist_id,tool,action):
-    toollist = editor.get_tool_list_by_id(toollist_id)
-    print(minus)
-    for order in toollist.orders:
-        if order.tool == tool: 
-            order.amount -= 1
-            return redirect(url_for('editToolList', student_id = student_id, toollist_id = toollist_id))
-            
-@app.route('/user/<int:student_id>/<int:toollist_id>/edit/<string:tool>/plus', methods=['POST'])
-def calculator_plus(student_id, toollist_id,tool,action):
+@app.route('/user/<int:student_id>/<int:toollist_id>/edit/<int:order_id>/<int:action>')
+def edit_amount(student_id, toollist_id,order_id, action):
     toollist = editor.get_tool_list_by_id(toollist_id)
     for order in toollist.orders:
-        if order.tool.name == tool: 
-            order.amount += 1
+        if order.id == order_id:
+            if action == 0: order.decrease() #minus
+            elif action == 1: order.increase() #add
+            elif action == 2: order.destroy() #destroy
             return redirect(url_for('editToolList', student_id = student_id, toollist_id = toollist_id))
 
 @app.route('/user/<int:student_id>/<int:toollist_id>/confirm')
@@ -112,6 +107,11 @@ def submitToollist(student_id, toollist_id):
     #return "Pick some additional suggested tool and submit"
     return render_template('submit_tool_list.html', student = student , status=status , toollist=toollist )
 
+@app.route('/user/<int:student_id>/<int:toollist_id>/auto_adjust')
+def auto_adjust(student_id, toollist_id):
+    toollist = editor.get_tool_list_by_id(toollist_id)
+    for order in toollist.orders: order.fit()
+    return redirect(url_for('editToolList', student_id = student_id, toollist_id = toollist_id))
 @app.route('/admin', methods = ['GET', 'POST'])
 def adminHome(): #"Admin Home Page.\n Select between Approving & Editing"
     if request.method == 'GET':
