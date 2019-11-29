@@ -176,10 +176,11 @@ def toolStatus(tool_id):
 @app.route('/admin/stock/new')
 def createTool():
     return "Create new tool and redirect to editTool()"
-
+    
 @app.route('/admin/stock/<int:tool_id>/edit')
 def editTool(tool_id):
-    return "Edit tool's information and have link to edit tool's suggestion group"
+    this_tool = editor.get_tool_by_id(tool_id)
+    return render_template('tool_id_edit.html', this_tool = this_tool)
 
 @app.route('/admin/stock/<int:tool_id>/edit/group')
 def editToolGroup(tool_id):
