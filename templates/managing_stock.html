@@ -1,28 +1,90 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+    <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+                <!-- <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=ukOU6O2tED7gDXGBXU0FNbI0MNy0ENx3tr_B607oGip9LKonVyx0al7xlByIbJJV2o_DSx744Q6ei3_mq9ySAGXD1-k1lX101WXgabdNnkMu9U8Gl5zVmIhpK7hxoWhHg0UQG4BWFWE75OsnoyEJclN8h7-00ZhV6AOo-b9jD_Sm9_5RxVlgURVcv9URt9HH9Vjl6lSHQtseja9PJG91NRRULawCo3mChsFPKEIAbf8Mar0p0PvqWI6BABPK7_kN6GZxSUKoL0T3rLsE1hkt_LvAsfn-GY6sEm8FdAseHTQR28twP3oC_QdKQ1TyfLGkNGhfz2pEOApGei0KgYI6R_4tMDm3hcZthzVuWn1Gp7nlPzk3Atcmnc61he2lf13xg8s1z22rsaybxf90MKjg_d9De94SV_LmFZFMUYf1sl5jePKbLwPiAk1j3QqQueBKf6PTzNXtdZlDzd2rx3n_Q2jqR742rI-Nj00m6eJatn4" charset="UTF-8"></script><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
+                <style>
+                    .zoom{
+                        width: 50;
+                        transition: transfrom .3s;	
+                    }
+                    .zoom:hover{
+                        -ms-transform: scale(2); /* IE 9 */
+                          -webkit-transform: scale(2); /* Safari 3-8 */
+                          transform: scale(2); 
+                    }
+                </style>
+    </head>	
 <body>
-        <table align="center" bgcolor="#ffffff" border="1.5" bordercolor="black" cellspacing="0" width="600">
-                <tr>
-                    <td width="450"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm"><B>
-                        Managing Stock
-                    </B></font></div></td>
-                    <td width="150"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
-                        Create new
-                    </font></div></td>
-        <table align="center" bgcolor="#ffffff" border="1.5" bordercolor="black" cellspacing="0" width="600">
-                <tr>
+        <table align="center" bgcolor="#ffffff" border="1.5" bordercolor="black" cellspacing="0" width="650">
+            <tr>
+                <td width="450"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm"><B>
+                    Managing Stock
+                </B></font></div></td>
+                <td width="150"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
+                    Create new
+                </font></div></td>
+            </tr>
+        </table>
+        <table align="center" bgcolor="#ffffff" border="1.5" bordercolor="black" cellspacing="0" width="650">
+            <tr>
                     <td width="50"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
-                        ลำดับที่
+                        No.
                     </font></div></td>
-                    <td width="450"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
-                        รายการ
+
+                    <td width="100"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
+                        Image
                     </font></div></td>
+
+                    <td width="350"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
+                        Name
+                    </font></div></td>
+
                     <td width="50"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
-                        Edit
+                        Total
                     </font></div></td>
+
                     <td width="50"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
-                        หมายเหตุ
+                        In Stock
                     </font></div></td>
-                </tr>
+
+                    <td width="50"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
+                        Detail
+                    </font></div></td>
+            </tr>
+                
+            {% for i in range(alltool|length)  %}
+            <tr>
+                <td width="50" valign="top"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
+                    {{i+1}}
+                </font></div></td>
+                <td width="100"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
+                    {% if alltool[i].picture == "" %}
+					    <img class="zoom" width="100" src="{{ url_for('static', filename='picture/no-image.png') }}" alt ="NoIMG">
+					{% else %}
+					    <img class="zoom" width="100" src="{{ url_for('static', filename='picture/' + alltool[i].picture + '.jpg') }}" alt ="NoIMG">
+					{% endif %}
+                </font></div></td>
+                    
+                <td width="350" valign="top"><font face= "Angsana New", size="4"><div align="left"  margin-top="5cm">
+                    &nbsp;-&nbsp;{{alltool[i].name}}
+                </font></div></td>
+
+                <td width="50" valign="top"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
+                    {{alltool[i].total}}
+                </font></div></td>
+
+                <td width="50" valign="top"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
+                    {{alltool[i].in_stock}}
+                </font></div></td>
+
+                <td width="50" valign="top"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
+                    <button type="submit" class="btn btn-success", value = 'Detail'>Detail</button>
+                </font></div></td>
     
+            </tr>
+            {% endfor %}
+                
+        </table>
+
 </body>
