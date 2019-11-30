@@ -6,11 +6,21 @@ from database_setup import db, Tool_list, Student, Tool, Tool_group, Association
 from editor import Editor
 from conversion import new_date_time
 import os
+from werkzeug.utils import secure_filename
+
+UPLOAD_FOLDER = '/tmp'  
+UPLOAD_FOLDER = './static/picture' 
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__, static_url_path='/pitcure')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 db = SQLAlchemy(app)
 editor = Editor()
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def content():
 	text = open('status.txt', 'r')
@@ -29,6 +39,20 @@ def login():
         if student_id == "12345":
             return redirect(url_for('adminHome'))
         return redirect(url_for('allToolList', student_id = student_id))
+
+@app.route('/test')
+def test():
+    text = open('status.txt', 'r')
+    status = text.read()
+    text.close()
+    return render_template('test.html', status = status)
+
+@app.route('/status')
+def statusUpdate():
+    text = open('status.txt', 'r')
+    status = text.read()
+    text.close()
+    return render_template('status.html', status = status)
 
 @app.route('/resetpassword')
 def resetPassword():
@@ -62,6 +86,9 @@ def deleteToolList(student_id, toollist_id):
     editor.get_tool_list_by_id(toollist_id).store()
     return redirect(url_for('allToolList', student_id = student_id))
 
+@app.route('/user/<int:student_id>/<int:toollist_id>/view')
+def viewToolList(student_id, toollist_id):
+    student = editor.get_student_by_id(str(student_id))
 
 @app.route('/user/<int:student_id>/<int:toollist_id>/edit')
 def editToolList(student_id, toollist_id): #"Edit tool list and go to confirm"
@@ -173,13 +200,38 @@ def toolStock():
 def toolStatus(tool_id):
     return "Check specific tool status ว่าอยู่ที่ใครบ้าง ยืมไปตอนไหน"
 
-@app.route('/admin/stock/new')
+@app.route('/admin/stock/new', methods=['GET', 'POST'])
 def createTool():
-    return "Create new tool and redirect to editTool()"
-
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            #return redirect(url_for('uploaded_file',filename=filename))
+    return '''
+    <!doctype html>
+    <title>Upload new File</title>
+    <h1>Upload new File</h1>
+    <form method=post enctype=multipart/form-data>
+      <input type=file name=file>
+      <input type=submit value=Upload>
+    </form>
+    '''  
+    #return "Create new tool and redirect to editTool()"
+    
 @app.route('/admin/stock/<int:tool_id>/edit')
 def editTool(tool_id):
-    return "Edit tool's information and have link to edit tool's suggestion group"
+    this_tool = editor.get_tool_by_id(tool_id)
+    return render_template('tool_id_edit.html', this_tool = this_tool)
 
 @app.route('/admin/stock/<int:tool_id>/edit/group')
 def editToolGroup(tool_id):
