@@ -36,7 +36,7 @@ def login():
         return render_template('login.html', status=status)
     elif request.method == 'POST':
         student_id = request.form['username_field']
-        if student_id == "12345":
+        if student_id == "admin":
             return redirect(url_for('adminHome'))
         return redirect(url_for('allToolList', status = status, student_id = student_id))
 
