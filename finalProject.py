@@ -24,9 +24,9 @@ def allowed_file(filename):
 
 def content():
 	text = open('status.txt', 'r')
-	status = text.read()
+	content = text.read()
 	text.close()
-	return status
+	return content
 
 @app.route('/', methods = ['GET', 'POST'])
 @app.route('/login', methods = ['GET', 'POST'])
@@ -36,21 +36,23 @@ def login():
         return render_template('login.html', status=status)
     elif request.method == 'POST':
         student_id = request.form['username_field']
-        if student_id == "admin":
+        if student_id == "12345":
             return redirect(url_for('adminHome'))
-        return redirect(url_for('allToolList', status = status, student_id = student_id))
+        return redirect(url_for('allToolList', student_id = student_id))
 
 @app.route('/test')
 def test():
-    status = content()
-    return render_template('test.html', status = status)
-
-@app.route('/status')
-def getUpdate():
     text = open('status.txt', 'r')
     status = text.read()
     text.close()
-    return jsonify(status=status)
+    return render_template('test.html', status = status)
+
+@app.route('/status')
+def statusUpdate():
+    text = open('status.txt', 'r')
+    status = text.read()
+    text.close()
+    return render_template('status.html', status = status)
 
 @app.route('/resetpassword')
 def resetPassword():
@@ -85,12 +87,8 @@ def deleteToolList(student_id, toollist_id):
     return redirect(url_for('allToolList', student_id = student_id))
 
 @app.route('/user/<int:student_id>/<int:toollist_id>/view')
-def viewToolList(student_id, toollist_id): #"Edit tool list and go to confirm"
+def viewToolList(student_id, toollist_id):
     student = editor.get_student_by_id(str(student_id))
-    status = content()
-    toollist = editor.get_tool_list_by_id(toollist_id)
-    return render_template('view_tool_list.html', student = student , status=status, toollist=toollist, toollist_id = toollist_id)
-
 
 @app.route('/user/<int:student_id>/<int:toollist_id>/edit')
 def editToolList(student_id, toollist_id): #"Edit tool list and go to confirm"
@@ -181,15 +179,18 @@ def printList(student_id, toollist_id):
 
 @app.route('/admin/<int:student_id>/<int:toollist_id>/PDF')
 def allToolListPDF(student_id, toollist_id):
+    student = editor.get_student_by_id(str(student_id))
+    for item in student.lists:
+        if item.id == toollist_id:
+            tool_list = item
+            break
     if request.method == 'GET':
-        student = editor.get_student_by_id(str(student_id))
-        for tool_list in student.lists:
-            if tool_list.id == toollist_id:
-                date_time = new_date_time()
-                date = date_time[0:2] + "-" + date_time[3:5] + "-" + date_time[6:8]
-                time = date_time[9:11] + ":" + date_time[12:14]
-                return render_template('PDF.html', student=student, tool_list = tool_list, date = date, time = time)
-        
+        date_time = new_date_time()
+        date = date_time[0:2] + "-" + date_time[3:5] + "-" + date_time[6:8]
+        time = date_time[9:11] + ":" + date_time[12:14]
+        return render_template('PDF.html', student=student, tool_list = tool_list, date = date, time = time)
+    elif request.method == 'POST':
+        return 'aaa'
 
 @app.route('/admin/stock')
 def toolStock():
