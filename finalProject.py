@@ -38,11 +38,11 @@ def test():
     return render_template('test.html', status = status)
 
 @app.route('/status')
-def statusUpdate():
+def getUpdate():
     text = open('status.txt', 'r')
     status = text.read()
     text.close()
-    return render_template('status.html', status = status)
+    return jsonify(status=status)
 
 @app.route('/resetpassword')
 def resetPassword():
