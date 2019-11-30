@@ -1,7 +1,7 @@
-<meta http-equiv="Refresh" content="2">
 <html>
 	<head>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 	</head>	
 	<body>
@@ -17,16 +17,12 @@
 						  <a class="nav-link" href="/user/{{student.student_university_ID}}" >Home <span class="sr-only">(current)</span></a>
 						</li>
 						<li class="nav-item">
-							{% if status == '1' %}
-								<button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-									สถานะพี่เหน่ง <span class="badge badge-success">ON</span>
-								</button>
-							{% endif %}
-							{% if status == '0' %}
-								<button class="btn btn-outline-danger my-2 my-sm-0" type="submit">
-									สถานะพี่เหน่ง <span class="badge badge-danger">OFF</span>
-								</button>
-							{% endif %}
+							<button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="on">
+								สถานะพี่เหน่ง <span class="badge badge-success">ON</span>
+							</button>
+							<button class="btn btn-outline-danger my-2 my-sm-0" type="submit" id="off">
+								สถานะพี่เหน่ง <span class="badge badge-danger">OFF</span>
+							</button>
 						</li>
 						
 					    </ul>
@@ -43,14 +39,14 @@
 				<table border="5">
 					<tr>
 						<th>
-							{% if list.approved_status == 0 %}
-								<a href="/user/{{student.student_university_ID}}/{{list.id}}/edit" class="btn btn-warning btn-xs btn-sm" >Edit</a>
-								<a href="/user/{{student.student_university_ID}}/{{list.id}}/delete" class="btn btn-danger btn-xs btn-sm" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่?')">Delete</a>
+							{% if list.approved_status !=1 %}
+							<a href="/user/{{student.student_university_ID}}/{{list.id}}/edit" class="btn btn-warning btn-xs btn-sm" >Edit</a>
+							<a href="/user/{{student.student_university_ID}}/{{list.id}}/delete" class="btn btn-danger btn-xs btn-sm" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่?')">Delete</a>
 							{% endif %}
 							{% if list.approved_status == 1 %}
-								<a href="/user/{{student.student_university_ID}}/{{list.id}}/view" class="btn btn-warning btn-xs btn-sm" >View</a>
+							<a href="/user/{{student.student_university_ID}}/{{list.id}}/view" class="btn btn-warning btn-xs btn-sm" >View</a>
 							{% endif %}
-								<br>Created: {{list.created_datetime}}
+							<br>Created: {{list.created_datetime}}
 							<br>Last Edited: {{list.last_edited_datetime}}
 							{% if list.approved_status == 1 %}
 								<br>Approved: {{list.approved_datetime}}
@@ -72,5 +68,23 @@
 		{% endfor %}
 		<a class="btn btn-dark" href="/user/{{student.student_university_ID}}/new" >Creat new list</a>
 		<a class="btn btn-danger btn-xs" href="/" >Logout</a>
+		<script type=text/javascript>
+			function getUpdate() {
+				$.getJSON("/status",
+						function (data) {
+							var status = data.status;
+							if(status == '1'){
+								$('#on').show()
+								$('#off').hide()
+							}
+							else{
+								$('#on').hide()
+								$('#off').show()
+							}
+						}
+				);
+			}
+			setInterval('getUpdate()', 10);
+		</script>
 	    </body>
 </html>
