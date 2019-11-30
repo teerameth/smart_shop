@@ -42,14 +42,9 @@
 				<table border="5">
 					<tr>
 						<th>
-							{% if list.approved_status == 0 %}
-								<a href="/user/{{student.student_university_ID}}/{{list.id}}/edit" class="btn btn-warning btn-xs btn-sm" >Edit</a>
-								<a href="/user/{{student.student_university_ID}}/{{list.id}}/delete" class="btn btn-danger btn-xs btn-sm" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่?')">Delete</a>
-							{% endif %}
-							{% if list.approved_status == 1 %}
-								<a href="/user/{{student.student_university_ID}}/{{list.id}}/view" class="btn btn-warning btn-xs btn-sm" >View</a>
-							{% endif %}
-								<br>Created: {{list.created_datetime}}
+							<a href="/user/{{student.student_university_ID}}/{{list.id}}/edit" class="btn btn-warning btn-xs btn-sm" >Edit</a>
+							<a href="/user/{{student.student_university_ID}}/{{list.id}}/delete" class="btn btn-danger btn-xs btn-sm" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่?')">Delete</a>
+							<br>Created: {{list.created_datetime}}
 							<br>Last Edited: {{list.last_edited_datetime}}
 							{% if list.approved_status == 1 %}
 								<br>Approved: {{list.approved_datetime}}
