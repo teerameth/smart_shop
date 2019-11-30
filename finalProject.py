@@ -151,8 +151,6 @@ def adminHome(): #"Admin Home Page.\n Select between Approving & Editing"
 
 @app.route('/admin/history')
 def history():
-    approved_lists = list_all_approved_lists
-    
     return "All History will be shown here by datetime or enter student's ID"
 
 @app.route('/admin/history/approved')
