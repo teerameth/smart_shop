@@ -4,7 +4,6 @@ from database_setup import db, Tool_list, Student, Tool, Tool_group, Association
 from editor import Editor
 editor = Editor()
 from random import randint
-from conversion import new_date_time
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -14,7 +13,7 @@ students = editor.list_all_student()
 tools = editor.list_all_tool()
 print(tools[0].name)
 
-def gen(mode):
+def gen():
     for student in students:
         print(student.name)
         print(student.student_university_ID)
@@ -23,19 +22,10 @@ def gen(mode):
         new_list.add_new_tool(tools[randint(0,30)], randint(1,3))
         new_list.add_new_tool(tools[randint(20,50)], randint(1,3))
         new_list.add_new_tool(tools[randint(31,60)], randint(1,3))
-        if(mode == 1):
-            new_list.approved_status = 1
-            new_list.approved_datetime = new_date_time()
-            new_list.returned_status = 1
-            new_list.returned_datetime = new_date_time()
-        else:
-            new_list.approved_status = 0
-            new_list.returned_status = 0
 
-
-gen(1)
-gen(0)
-gen(0)
+gen()
+gen()
+gen()
 
 # student = editor.get_student_by_id(61340500032)
 # db.session.query(Student).filter_by(student_university_ID=str(61340500032)).one()[0].name

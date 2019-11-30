@@ -1,6 +1,5 @@
 <html>
 	<head>
-			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 		<style>
 			.zoom{
@@ -13,7 +12,7 @@
   				transform: scale(2); 
 			}
 		</style>
-	</head>
+	</head>	
 	<body>
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 			<a class="navbar-brand" href="#">Smart shop</a>
@@ -27,12 +26,16 @@
 				  <a class="nav-link" href="/user/{{student.student_university_ID}}" >Home <span class="sr-only">(current)</span></a>
 				</li>
 				<li class="nav-item">
-					<button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="on">
-						สถานะพี่เหน่ง <span class="badge badge-success">ON</span>
-					</button>
-					<button class="btn btn-outline-danger my-2 my-sm-0" type="submit" id="off">
-						สถานะพี่เหน่ง <span class="badge badge-danger">OFF</span>
-					</button>
+					{% if status == '1' %}
+						<button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+							สถานะพี่เหน่ง <span class="badge badge-success">ON</span>
+						</button>
+					{% endif %}
+					{% if status == '0' %}
+						<button class="btn btn-outline-danger my-2 my-sm-0" type="submit">
+							สถานะพี่เหน่ง <span class="badge badge-danger">OFF</span>
+						</button>
+					{% endif %}
 				</li>
 				
 				</ul>
@@ -139,23 +142,5 @@
 			
 			<a class="btn btn-danger btn-xs" href="/user/{{student.student_university_ID}}" >Exit</a>
 		</div>
-		<script type=text/javascript>
-			function getUpdate() {
-				$.getJSON("/status",
-						function (data) {
-							var status = data.status;
-							if(status == '1'){
-								$('#on').show()
-								$('#off').hide()
-							}
-							else{
-								$('#on').hide()
-								$('#off').show()
-							}
-						}
-				);
-			}
-			setInterval('getUpdate()', 10);
-		</script>
 	    </body>
 </html>
