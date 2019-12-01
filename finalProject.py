@@ -6,27 +6,17 @@ from database_setup import db, Tool_list, Student, Tool, Tool_group, Association
 from editor import Editor
 from conversion import new_date_time
 import os
-from werkzeug.utils import secure_filename
-
-UPLOAD_FOLDER = '/tmp'  
-UPLOAD_FOLDER = './static/picture' 
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__, static_url_path='/pitcure')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 db = SQLAlchemy(app)
 editor = Editor()
 
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
 def content():
 	text = open('status.txt', 'r')
-	status = text.read()
+	content = text.read()
 	text.close()
-	return status
+	return content
 
 @app.route('/', methods = ['GET', 'POST'])
 @app.route('/login', methods = ['GET', 'POST'])
@@ -36,21 +26,23 @@ def login():
         return render_template('login.html', status=status)
     elif request.method == 'POST':
         student_id = request.form['username_field']
-        if student_id == "admin":
+        if student_id == "12345":
             return redirect(url_for('adminHome'))
-        return redirect(url_for('allToolList', status = status, student_id = student_id))
+        return redirect(url_for('allToolList', student_id = student_id))
 
 @app.route('/test')
 def test():
-    status = content()
-    return render_template('test.html', status = status)
-
-@app.route('/status')
-def getUpdate():
     text = open('status.txt', 'r')
     status = text.read()
     text.close()
-    return jsonify(status=status)
+    return render_template('test.html', status = status)
+
+@app.route('/status')
+def statusUpdate():
+    text = open('status.txt', 'r')
+    status = text.read()
+    text.close()
+    return render_template('status.html', status = status)
 
 @app.route('/resetpassword')
 def resetPassword():
@@ -85,12 +77,8 @@ def deleteToolList(student_id, toollist_id):
     return redirect(url_for('allToolList', student_id = student_id))
 
 @app.route('/user/<int:student_id>/<int:toollist_id>/view')
-def viewToolList(student_id, toollist_id): #"Edit tool list and go to confirm"
+def viewToolList(student_id, toollist_id):
     student = editor.get_student_by_id(str(student_id))
-    status = content()
-    toollist = editor.get_tool_list_by_id(toollist_id)
-    return render_template('view_tool_list.html', student = student , status=status, toollist=toollist, toollist_id = toollist_id)
-
 
 @app.route('/user/<int:student_id>/<int:toollist_id>/edit')
 def editToolList(student_id, toollist_id): #"Edit tool list and go to confirm"
@@ -167,7 +155,7 @@ def studentLists(student_id):
     student = editor.get_student_by_id(str(student_id))
     lists = student.lists
     status = content()
-    return render_template('student_lists.html', student=student, lists=lists , status=status)
+    return render_template('admin_approve.html', student=student, lists=lists , status=status)
 
 @app.route('/admin/<int:student_id>/<int:toollist_id>/approve')
 def approveList(student_id, toollist_id):
@@ -179,15 +167,18 @@ def printList(student_id, toollist_id):
 
 @app.route('/admin/<int:student_id>/<int:toollist_id>/PDF')
 def allToolListPDF(student_id, toollist_id):
+    student = editor.get_student_by_id(str(student_id))
+    for item in student.lists:
+        if item.id == toollist_id:
+            tool_list = item
+            break
     if request.method == 'GET':
-        student = editor.get_student_by_id(str(student_id))
-        for tool_list in student.lists:
-            if tool_list.id == toollist_id:
-                date_time = new_date_time()
-                date = date_time[0:2] + "-" + date_time[3:5] + "-" + date_time[6:8]
-                time = date_time[9:11] + ":" + date_time[12:14]
-                return render_template('PDF.html', student=student, tool_list = tool_list, date = date, time = time)
-        
+        date_time = new_date_time()
+        date = date_time[0:2] + "-" + date_time[3:5] + "-" + date_time[6:8]
+        time = date_time[9:11] + ":" + date_time[12:14]
+        return render_template('PDF.html', student=student, tool_list = tool_list, date = date, time = time)
+    elif request.method == 'POST':
+        return 'aaa'
 
 @app.route('/admin/stock')
 def toolStock():
@@ -199,33 +190,9 @@ def toolStock():
 def toolStatus(tool_id):
     return "Check specific tool status ว่าอยู่ที่ใครบ้าง ยืมไปตอนไหน"
 
-@app.route('/admin/stock/new', methods=['GET', 'POST'])
+@app.route('/admin/stock/new')
 def createTool():
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        file = request.files['file']
-        # if user does not select file, browser also
-        # submit an empty part without filename
-        if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            #return redirect(url_for('uploaded_file',filename=filename))
-    return '''
-    <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
-    <form method=post enctype=multipart/form-data>
-      <input type=file name=file>
-      <input type=submit value=Upload>
-    </form>
-    '''  
-    #return "Create new tool and redirect to editTool()"
+    return "Create new tool and redirect to editTool()"
     
 @app.route('/admin/stock/<int:tool_id>/edit')
 def editTool(tool_id):

@@ -1,10 +1,15 @@
 <html>
 <head><title>PDF</title></head>
-<body onload="window.print()">
+
+<body onLoad="window.print()">
+
 <font face= "Angsana New", size="5"><div align="right" margin-top="5cm">
     บัตร WorkShop No.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </div></font> <br>
+
+
 <img src="https://sites.google.com/site/imageshopfibo/_/rsrc/1573789133599/home/Icon%20FIBO.png" + width="40" Align = "left"  hspace="70" ><br>
+
 <font face= "Angsana New", size="5"><div align="center" margin-top="5cm"></div><B>
     ใบยืมเครื่องมือ-อุปกรณ์    สถาบันวิทยาการหุ่นยนต์ภาคสนาม
 </B></div></font> <br>
@@ -30,16 +35,16 @@
 </tr>
 <!-- ส่วนของข้อมูลรายการที่ยืม -->
 
-{% for i in range(tool_list.orders|length)  %}
+{% for i in range(lists[0].orders|length)  %}
 <tr>
     <td width="50"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
         {{i+1}}
     </font></div></td>
     <td width="400"><font face= "Angsana New", size="4"><div align="left" margin-top="5cm">
-		&nbsp;{{tool_list.orders[i].tool.name}}
+		&nbsp;{{lists[0].orders[i].tool.name}}
     </font></div></td>
     <td width="50"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
-        {{tool_list.orders[i].amount}}
+        {{lists[0].orders[i].amount}}
     </font></div></td>
     <td width="100"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
         
@@ -47,6 +52,9 @@
 </tr>
 {% endfor %}
 </table>
+
+
+
 
 <font face= "Angsana New", size="0.1"><div align="center" style="line-height: 10%">
 		&nbsp;&nbsp;
@@ -66,5 +74,7 @@
     <font face= "Angsana New", size="5"><div align="right" style="line-height: 50%">
 		เวลาที่ยืม {{time}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	</div></font> <br>
+
+
 </body>
 </html>
