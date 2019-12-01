@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # — coding: utf-8 —
-from flask import Flask, request, redirect, url_for, jsonify, render_template
+from flask import Flask, request, redirect, url_for, jsonify, render_template,flash
 from flask_sqlalchemy import SQLAlchemy
 from database_setup import db, Tool_list, Student, Tool, Tool_group, Association, Order
 from editor import Editor
@@ -201,6 +201,14 @@ def toolStatus(tool_id):
 
 @app.route('/admin/stock/new', methods=['GET', 'POST'])
 def createTool():
+    # typee=''
+    # numm=''
+    # tooll=list(editor.list_all_tool())
+    # for i in range(0,len(tooll)) :
+    #     if tooll[i].id==2 :
+    #         typee+=str(i)
+    # #return typee
+    # ###########################################
     if request.method == 'POST':
         # check if the post request has the file part
         if 'file' not in request.files:
@@ -213,7 +221,7 @@ def createTool():
             flash('No selected file')
             return redirect(request.url)
         if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
+            filename = secure_filename('xx.jpg')
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             #return redirect(url_for('uploaded_file',filename=filename))
     return '''
@@ -227,9 +235,23 @@ def createTool():
     '''  
     #return "Create new tool and redirect to editTool()"
     
-@app.route('/admin/stock/<int:tool_id>/edit')
+@app.route('/admin/stock/<int:tool_id>/edit', methods=['GET', 'POST'])
 def editTool(tool_id):
     this_tool = editor.get_tool_by_id(tool_id)
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(str(tool_id)+'.jpg')
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     return render_template('tool_id_edit.html', this_tool = this_tool)
 
 @app.route('/admin/stock/<int:tool_id>/edit/group')
