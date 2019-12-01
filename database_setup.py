@@ -85,26 +85,26 @@ class Tool(db.Model):
     picture = db.Column(db.String(100))
     group_id = db.Column(db.Integer, db.ForeignKey('tool_group.id'))
     tool_groups = db.relationship("Association", back_populates="tool")
-    def edit_name(self, selected_tool, name):
-        selected_tool.name = name
+    def edit_name(self, name):
+        self.name = name
         db.session.commit()
-    def edit_type(self, selected_tool, new_type):
-        selected_tool.tool_type = new_type
+    def edit_type(self, new_type):
+        self.tool_type = new_type
         db.session.commit()
-    def edit_description(self, selected_tool, new_description):
-        selected_tool.description = new_description
+    def edit_description(self, new_description):
+        self.description = new_description
         db.session.commit()
-    def edit_total(self, selected_tool, new_total):
-        selected_tool.total = new_total
+    def edit_total(self, new_total):
+        self.total = new_total
         db.session.commit()
-    def edit_stock(self, selected_tool, new_stock):
-        selected_tool.in_stock = new_stock
+    def edit_stock(self, new_stock):
+        self.in_stock = new_stock
         db.session.commit()
-    def edit_picture(self, selected_tool, new_image_path):
-        selected_tool.picture = new_image_path
+    def edit_picture(self, new_image_path):
+        self.picture = new_image_path
         db.session.commit()
-    def delete_tool(self, selected_tool):
-        db.session.delete(selected_tool)
+    def delete_tool(self):
+        db.session.delete(self)
         db.session.commit()
     def add_suggestion(self, suggested_tool): #Add new suggestion tool and auto create group if didn't exist
         if self.group == None:
