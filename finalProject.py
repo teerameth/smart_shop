@@ -155,7 +155,7 @@ def studentLists(student_id):
     student = editor.get_student_by_id(str(student_id))
     lists = student.lists
     status = content()
-    return render_template('student_lists.html', student=student, lists=lists , status=status)
+    return render_template('admin_approve.html', student=student, lists=lists , status=status)
 
 @app.route('/admin/<int:student_id>/<int:toollist_id>/approve')
 def approveList(student_id, toollist_id):
