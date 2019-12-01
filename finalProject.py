@@ -2,7 +2,7 @@
 # — coding: utf-8 —
 from flask import Flask, request, redirect, url_for, jsonify, render_template,flash
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, login_user, logout_user, UserMixin, login_required
+from flask_login import LoginManager, login_user, logout_user, current_user, UserMixin, login_required
 from database_setup import db, Tool_list, Student, Tool, Tool_group, Association, Order
 from editor import Editor
 from conversion import new_date_time, password_verify
@@ -80,7 +80,7 @@ def register():
 @app.route('/user/<int:student_id>', methods = ['GET', 'POST'])
 @login_required
 def allToolList(student_id):
-    if(editor.get_student_by_id(student_id).is_authenticated):
+    if(current_user.is_authenticated and editor.get_student_by_id(student_id).id == current_user.id):
         student = editor.get_student_by_id(str(student_id))
         lists = student.lists
         status = content()
@@ -88,7 +88,7 @@ def allToolList(student_id):
             return render_template('mainmenu.html', student=student, lists=lists , status=status)
         elif request.method == 'POST':
             return 'aaa'
-    else: "ERROR"
+    else: return redirect(url_for('logout'))
 
 @app.route('/user/<int:student_id>/<int:toollist_id>/share')
 def shareToolList(student_id, toollist_id):
