@@ -61,48 +61,12 @@
 			</div><br>
 			
 			<div class="row" id= "row2" >
-				<table class="table" id="table1" style="width:45%; float:left">
-					<thead class= "thead-dark">
-						<tr>
-							<th scope="col">Image</th>
-							<th scope="col" style="width: 7rem;">Name</th>
-							<th scope="col">Total</th>
-							<th scope="col">In Stock</th>
-							<th scope="col">Add</th>
-						</tr>
-					</thead>
-					<tbody id="tableProducts">
-						{% for tool in alltool %}
-						<tr>
-							{% if tool.id not in basket %}
-								{% if tool.picture == "" %}
-								<td><img class="zoom" src="{{ url_for('static', filename='picture/no-image.png') }}" alt ="NoIMG"></td>
-								{% else %}
-								<td><img class="zoom" src="{{ url_for('static', filename='picture/' + tool.picture + '.jpg') }}" alt ="NoIMG"></td>
-								{% endif %}
-								<td style="width: 10rem">{{tool.name}}</td>
-								<td>{{tool.total}}</td>
-								<td>{{tool.in_stock}}</td>
-								<td>
-									<a href="/user/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
-								</td>
-							{% endif %}
-						{% endfor %}
-						</tr>
-					</tbody>
-					<tfoot id= "total">
-
-					</tfoot>
-				</table>
-				
-
 				<table class="table" id="table2" style="width:55%; float:right">
 						<thead class= "thead-light">
 							<tr>
 								<th scope="col">Image</th>
 								<th scope="col" style="width: 10rem">Name</th>
 								<th scope="col">Amount</th>
-								<th scope="col">Delete</th>
 							</tr>
 						</thead>
 						<tbody id="tableProducts">
@@ -114,19 +78,10 @@
 								<td><img class="zoom" src="{{ url_for('static', filename='picture/' + order.tool.picture + '.jpg') }}" alt ="NoIMG"></td>
 								{% endif %}								
 								<td style="width: 10rem">{{order.tool.name}}</td>
-								<td>
-										<a href="/user/{{student.student_university_ID}}/{{toollist.id}}/edit/{{order.id}}/0" class="btn btn-primary" >-</a>
-										{% if order.amount > order.tool.in_stock %}
-											<input style="width: 2rem;background-color:tomato;" name="amout" value="{{order.amount}}/{{order.tool.in_stock}}" disabled>
-										{% endif %}
-										{% if order.amount <= order.tool.in_stock %}
-											<input style="width: 2rem;" name="amout" value="{{order.amount}}/{{order.tool.in_stock}}" disabled>
-										{% endif %}
-										<a href="/user/{{student.student_university_ID}}/{{toollist.id}}/edit/{{order.id}}/1" class="btn btn-primary">+</a>
+								    <td>
+											<input style="width: 2rem;" name="amout" value="{{order.amount}}" disabled>
 									</td>
-								<td>
-									<a href="/user/{{student.student_university_ID}}/{{toollist.id}}/edit/{{order.id}}/2" class="btn btn-danger btn-xs btn-sm" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่?')">Delete</a>
-								</td>
+								
 							</tr>
 							{% endfor %}
 							

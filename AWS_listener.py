@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# — coding: utf-8 —
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
 import logging
 import time

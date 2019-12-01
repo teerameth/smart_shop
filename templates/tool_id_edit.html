@@ -23,55 +23,40 @@
             </B></font></div></td>
         </tr>
     </table>
-    <table align="center" bgcolor="#ffffff" border="1.5" bordercolor="black" cellspacing="0" width="650">
-        <tr>
-            <td width="300"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
-                {% if this_tool.picture == "" %}
-					<img width="150" src="{{ url_for('static', filename='picture/no-image.png') }}" alt ="NoIMG">
-				{% else %}
-					<img  width="150" src="{{ url_for('static', filename='picture/' + this_tool.picture + '.jpg') }}" alt ="NoIMG">
-				{% endif %}
+        <table align="center" bgcolor="#ffffff" border="1.5" bordercolor="black" cellspacing="0" width="650">
+            <tr>
+                <td width="50"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
+                    สำหรับใส่รูปภาพ
+                    {% if this_tool.picture == "" %}
+					    <img class="zoom" width="50" src="{{ url_for('static', filename='picture/no-image.png') }}" alt ="NoIMG">
+					{% else %}
+					    <img class="zoom" width="50" src="{{ url_for('static', filename='picture/' + this_tool.picture + '.jpg') }}" alt ="NoIMG">
+					{% endif %}
                 </font></div></td>
 
-                <td width="350" valign="top"><font face= "Angsana New", size="4"><div align="left" margin-top="5cm" valign="top">
-                    ชื่ออุปกรณ์: <textarea name="address" cols="20" rows="1" size="4">{{this_tool.name}}</textarea> <br />
-                    จำนวนทั้งหมด: <textarea name="address" cols="5" rows="1">{{this_tool.total}}</textarea> <br />
-                    คงเหลือใน Stock: <textarea name="address" cols="5" rows="1">{{this_tool.in_stock}}</textarea> <br />
-                    Upload/edit image<br />
-                    Submit&nbsp;
-                    Delete 
-                </font></div>
-            </td>
-        </tr>
-    </table>
-    
-    <table align="center" bgcolor="#ffffff" border="1.5" bordercolor="black" cellspacing="0" width="650">
-        <tr>
-            <td width="650"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm"><B>
-                tool address
-            </B></font></div></td>
-        </tr>
-    </table>
-    
-    <table align="center" bgcolor="#ffffff" border="1.5" bordercolor="black" cellspacing="0" width="650">
-        <tr>
-            <td width="50"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
-                ลำดับที่
-            </font></div></td>
-            <td width="300"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
-                ชื่อผู้ยืม
-            </font></div></td>
-            <td width="50" valign="top"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm" valign="top">
-                ชั้นปี
-            </font></div>
-            <td width="100" valign="top"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm" valign="top">
-                วันที่ยืม
-            </font></div>
-            <td width="100" valign="top"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm" valign="top">
-                จำนวน
-            </font></div>
-            </td>
-        </tr>
-    </table>
+                    <td width="100"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
+                        {{this_tool.name}}
+                    </font></div></td>
 
+                    <td width="100"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
+                        ชื่ออุปกรณ์ {{this_tool.name}}
+                    </font></div></td>
+
+                    <td width="100"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
+                        จำนวนทั้งหมด: {{this_tool.total}}
+                    </font></div></td>
+
+                    <td width="100"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
+                        คงเหลือใน Stock: {{this_tool.in_stock}}
+                    </font></div></td>
+
+                    <td width="50"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
+                        Submit
+                    </font></div></td>
+
+                    <td width="50"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
+                        Detail
+                    </font></div></td>
+            </tr>
+        </table>
 </body>
