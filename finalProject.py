@@ -241,9 +241,9 @@ def editTool(tool_id):
                 buffer.append(approved_list.owner.student_university_ID)
                 buffer.append(order.amount)
                 if approved_list.returned_status == 1:
-                    buffer.append("ยังไม่คืน")
-                else:
                     buffer.append("คืนแล้ว")
+                else:
+                    buffer.append("ยังไม่คืน")
                 table.append(buffer)
                 continue
     return render_template('tool_id_edit.html', this_tool = this_tool, table = table)
