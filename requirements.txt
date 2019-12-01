@@ -6,3 +6,4 @@ flask_sqlalchemy
 passlib
 AWSIoTPythonSDK
 flask-sijax
+flask-login
