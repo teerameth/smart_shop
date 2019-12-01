@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # — coding: utf-8 —
-from flask import Flask, request, redirect, url_for, jsonify, render_template
+from flask import Flask, request, redirect, url_for, jsonify, render_template,flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, UserMixin, login_required
 from database_setup import db, Tool_list, Student, Tool, Tool_group, Association, Order
@@ -221,6 +221,14 @@ def toolStatus(tool_id):
 
 @app.route('/admin/stock/new', methods=['GET', 'POST'])
 def createTool():
+    # typee=''
+    # numm=''
+    # tooll=list(editor.list_all_tool())
+    # for i in range(0,len(tooll)) :
+    #     if tooll[i].id==2 :
+    #         typee+=str(i)
+    # #return typee
+    # ###########################################
     if request.method == 'POST':
         # check if the post request has the file part
         if 'file' not in request.files:
@@ -233,7 +241,7 @@ def createTool():
             flash('No selected file')
             return redirect(request.url)
         if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
+            filename = secure_filename('xx.jpg')
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             #return redirect(url_for('uploaded_file',filename=filename))
     return '''
@@ -247,26 +255,42 @@ def createTool():
     '''  
     #return "Create new tool and redirect to editTool()"
     
-@app.route('/admin/stock/<int:tool_id>/edit')
+@app.route('/admin/stock/<int:tool_id>/edit', methods=['GET', 'POST'])
 def editTool(tool_id):
     this_tool = editor.get_tool_by_id(tool_id)
-    approved_lists = editor.list_all_approved_lists()
-    table = [] #index: 0=datetime, 1=name&surname, 2=year, 3=number, 4=status
-    for approved_list in approved_lists:
-        buffer = []
-        for order in approved_list.orders:
-            if order.tool.id == tool_id:
-                buffer.append(approved_list.approved_datetime)
-                buffer.append(approved_list.owner.name + " " + approved_list.owner.surname)
-                buffer.append(approved_list.owner.student_university_ID)
-                buffer.append(order.amount)
-                if approved_list.returned_status == 1:
-                    buffer.append("คืนแล้ว")
-                else:
-                    buffer.append("ยังไม่คืน")
-                table.append(buffer)
-                continue
-    return render_template('tool_id_edit.html', this_tool = this_tool, table = table)
+    if request.method == 'GET':
+        approved_lists = editor.list_all_approved_lists()
+        table = [] #index: 0=datetime, 1=name&surname, 2=year, 3=number, 4=status
+        for approved_list in approved_lists:
+            buffer = []
+            for order in approved_list.orders:
+                if order.tool.id == tool_id:
+                    buffer.append(approved_list.approved_datetime)
+                    buffer.append(approved_list.owner.name + " " + approved_list.owner.surname)
+                    buffer.append(approved_list.owner.student_university_ID)
+                    buffer.append(order.amount)
+                    if approved_list.returned_status == 1:
+                        buffer.append("คืนแล้ว")
+                    else:
+                        buffer.append("ยังไม่คืน")
+                    table.append(buffer)
+                    continue
+        return render_template('tool_id_edit.html', this_tool = this_tool, table = table)
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(str(tool_id)+'.jpg')
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    return render_template('tool_id_edit.html', this_tool = this_tool)
 
 @app.route('/admin/stock/<int:tool_id>/edit/group')
 def editToolGroup(tool_id):
