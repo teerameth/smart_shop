@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # — coding: utf-8 —
 from flask import Flask
+from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 from conversion import find_lastest #ใส่ list ของ datetimes เข้าไปเเล้วจะ return วันที่ล่าสุดออกมา
 from conversion import new_date_time # Generate datetime ใน format ที่เราจะทำการเก็บ
@@ -19,7 +20,7 @@ class Association(db.Model):
     tool_group = db.relationship("Tool_group", back_populates="tools")
     tool = db.relationship("Tool", back_populates="tool_groups")
 
-class Student(db.Model):
+class Student(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     password = db.Column(db.String(200), nullable=False)
     student_university_ID = db.Column(db.String(11), nullable=False) # stored in format 613405000xx

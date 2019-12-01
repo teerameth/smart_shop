@@ -2,9 +2,10 @@
 # — coding: utf-8 —
 from flask import Flask, request, redirect, url_for, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, login_user, logout_user, UserMixin, login_required
 from database_setup import db, Tool_list, Student, Tool, Tool_group, Association, Order
 from editor import Editor
-from conversion import new_date_time
+from conversion import new_date_time, password_verify
 import os
 from werkzeug.utils import secure_filename
 
@@ -12,11 +13,17 @@ UPLOAD_FOLDER = '/tmp'
 UPLOAD_FOLDER = './static/picture' 
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
-app = Flask(__name__, static_url_path='/pitcure')
+app = Flask(__name__, static_url_path='/picture')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 db = SQLAlchemy(app)
 editor = Editor()
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return editor.get_student_by_id(user_id)
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -36,9 +43,19 @@ def login():
         return render_template('login.html', status=status)
     elif request.method == 'POST':
         student_id = request.form['username_field']
-        if student_id == "admin":
-            return redirect(url_for('adminHome'))
-        return redirect(url_for('allToolList', status = status, student_id = student_id))
+        password = request.form['password_field']
+        if student_id == "admin": return redirect(url_for('adminHome'))
+        user = load_user(student_id)
+        if password_verify(password, editor.get_student_by_id(student_id).password):
+            login_user(user)
+            print("Login")
+            return redirect(url_for('allToolList', status = status, student_id = student_id))
+    return redirect(url_for('login'))
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
 
 @app.route('/test')
 def test():
@@ -61,14 +78,17 @@ def register():
     return "For new user"
 
 @app.route('/user/<int:student_id>', methods = ['GET', 'POST'])
+@login_required
 def allToolList(student_id):
-    student = editor.get_student_by_id(str(student_id))
-    lists = student.lists
-    status = content()
-    if request.method == 'GET':
-        return render_template('mainmenu.html', student=student, lists=lists , status=status)
-    elif request.method == 'POST':
-        return 'aaa'
+    if(editor.get_student_by_id(student_id).is_authenticated):
+        student = editor.get_student_by_id(str(student_id))
+        lists = student.lists
+        status = content()
+        if request.method == 'GET':
+            return render_template('mainmenu.html', student=student, lists=lists , status=status)
+        elif request.method == 'POST':
+            return 'aaa'
+    else: "ERROR"
 
 @app.route('/user/<int:student_id>/<int:toollist_id>/share')
 def shareToolList(student_id, toollist_id):
@@ -259,6 +279,6 @@ def deleteTool(tool_id):
 
 
 if __name__ == '__main__':
-    # app.secret_key = "11111111"
+    app.secret_key = "11111111"
     app.debug = True
     app.run(host='0.0.0.0', port=5000)#Change port to 80 before deploying
