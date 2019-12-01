@@ -230,7 +230,23 @@ def createTool():
 @app.route('/admin/stock/<int:tool_id>/edit')
 def editTool(tool_id):
     this_tool = editor.get_tool_by_id(tool_id)
-    return render_template('tool_id_edit.html', this_tool = this_tool)
+    approved_lists = editor.list_all_approved_lists()
+    table = [] #index: 0=datetime, 1=name&surname, 2=year, 3=number, 4=status
+    for approved_list in approved_lists:
+        buffer = []
+        for order in approved_list.orders:
+            if order.tool.id == tool_id:
+                buffer.append(approved_list.approved_datetime)
+                buffer.append(approved_list.owner.name + " " + approved_list.owner.surname)
+                buffer.append(approved_list.owner.student_university_ID)
+                buffer.append(order.amount)
+                if approved_list.returned_status == 1:
+                    buffer.append("ยังไม่คืน")
+                else:
+                    buffer.append("คืนแล้ว")
+                table.append(buffer)
+                continue
+    return render_template('tool_id_edit.html', this_tool = this_tool, table = table)
 
 @app.route('/admin/stock/<int:tool_id>/edit/group')
 def editToolGroup(tool_id):
