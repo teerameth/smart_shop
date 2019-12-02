@@ -41,7 +41,7 @@ def login():
     if current_user.is_authenticated: return redirect(url_for('logout'))
     status = content()
     if request.method == 'GET':
-        return render_template('login.html', status=status)
+        return render_template('login.html', status=status,wrong=0)
     elif request.method == 'POST':
         student_id = request.form['username_field']
         password = request.form['password_field']
@@ -51,12 +51,16 @@ def login():
                 login_user(user)
                 print("Login as Admin")
                 return redirect(url_for('adminHome'))
+            else :
+                return render_template('login.html', status=status,wrong=1)
         else:
             user = load_user(student_id)
             if password_verify(password, editor.get_student_by_id(student_id).password):
                 login_user(user)
                 print("Login")
                 return redirect(url_for('allToolList', status = status, student_id = student_id))
+            else :
+                return render_template('login.html', status=status,wrong=1)
     return redirect(url_for('login'))
 
 @app.route('/logout')
