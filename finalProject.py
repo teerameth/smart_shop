@@ -88,9 +88,13 @@ def getUpdate():
     text.close()
     return jsonify(status=status)
 
-@app.route('/resetpassword')
-def resetPassword():
-    return render_template('resetpassword.html')
+@app.route('/reset_pass_word_user')
+def resetPassworduser():
+    return render_template('re_pass_user.html')
+
+@app.route('/reset_pass_word_admin')
+def resetPasswordadmin():
+    return render_template('re_pass_admin.html')
 
 @app.route('/register')
 def register():
