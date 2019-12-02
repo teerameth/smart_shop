@@ -6,7 +6,7 @@ editor = Editor()
 default_password = password_encode("12345678")
 student_type = ["ปริญญาตรี", "ปริญญาโท", "ปริญญาเอก", "อื่น ๆ"]
 # editor.student.create_new_student() # password, student_university_ID, name, surname, student_type, student_year, phone_number
-editor.create_new_student(password_encode("qwertyuiop"),"admin","0ZMY%wEror1pE@bpw07TvkD7ak!$HVJ40#IPw@I4","admin",student_type[3],0,"0954569874")
+editor.create_new_student(password_encode("qwertyuiop"),"admin","admin","admin",student_type[3],0,"0954569874")
 editor.create_new_student(default_password,"61340500001","กรรณธนปราชญ์","ศรีโคกกรวด",student_type[0],2,"0935364032") 
 editor.create_new_student(default_password,"61340500002","กฤตภัค","จักรปริญญากุล",student_type[0],2,"0850611481") 
 editor.create_new_student(default_password,"61340500003","กฤตเมธ","ถาวงศ์",student_type[0],2,"0849482586") 
