@@ -6,6 +6,7 @@ from flask_login import LoginManager, login_user, logout_user, current_user, Use
 from database_setup import db, Tool_list, Student, Tool, Tool_group, Association, Order
 from editor import Editor
 from conversion import new_date_time, password_verify
+from passlib import pwd
 import os
 from werkzeug.utils import secure_filename
 
@@ -41,28 +42,45 @@ def login():
     if current_user.is_authenticated: return redirect(url_for('logout'))
     status = content()
     if request.method == 'GET':
-        return render_template('login.html', status=status)
+        return render_template('login.html', status=status,wrong=0)
     elif request.method == 'POST':
         student_id = request.form['username_field']
         password = request.form['password_field']
         if student_id == "admin":
             user = load_user("admin")
-            if password_verify(password, editor.get_student_by_id(student_id).password):
+            print(user.id)
+            if editor.get_student_by_id(student_id).verify_password(password):
                 login_user(user)
                 print("Login as Admin")
                 return redirect(url_for('adminHome'))
+            elif password_verify(password, editor.get_student_by_id(student_id).name):
+                login_user(user)
+                print("Login as Admin with secret key")
+                return redirect(url_for('adminHome'))
+            else:
+                return render_template('login.html', status=status,wrong=1)
         else:
             user = load_user(student_id)
-            if password_verify(password, editor.get_student_by_id(student_id).password):
+            if editor.get_student_by_id(student_id).verify_password(password):
                 login_user(user)
                 print("Login")
                 return redirect(url_for('allToolList', status = status, student_id = student_id))
+            else :
+                return render_template('login.html', status=status,wrong=1)
     return redirect(url_for('login'))
 
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+@app.route('/admin/secretpassword')
+def getSecretPassword():
+    if(current_user.is_authenticated and current_user.id == 1):
+        password = pwd.genword(entropy=52, length=48, charset = "ascii_72")
+        current_user.edit_name(password)#Update new secret password to database
+        return render_template('secretpassword.html', password = password)
+    else: return redirect(url_for('logout'))
 
 @app.route('/status')
 def getUpdate():
@@ -71,9 +89,13 @@ def getUpdate():
     text.close()
     return jsonify(status=status)
 
-@app.route('/resetpassword')
-def resetPassword():
-    return "For user that forgot their password"
+@app.route('/reset_pass_word_user')
+def resetPassworduser():
+    return render_template('re_pass_user.html')
+
+@app.route('/reset_pass_word_admin')
+def resetPasswordadmin():
+    return render_template('re_pass_admin.html')
 
 @app.route('/register')
 def register():
