@@ -195,8 +195,14 @@
     <body>
             <div class="sidenav">
                     <div class="login-main-text">
-                       <h2>Smart Shop<br> Forgot password User</h2>
-                       
+                       <h2>Smart Shop<br> Forgot password Page</h2>
+                       <p>Login from here to access.</p>
+                       <button class="btn btn-success my-2 my-sm-0" type="submit" id="on">
+                            สถานะพี่เหน่ง <span class="badge badge-success">ON</span>
+                        </button>
+                        <button class="btn btn-danger my-2 my-sm-0" type="submit" id="off">
+                            สถานะพี่เหน่ง <span class="badge badge-danger">OFF</span>
+                        </button>
                     </div>
                  </div>
                  <div class="main">
@@ -208,14 +214,14 @@
                                 <input type="text" class="form-control" placeholder="Enter Student ID" name="username_field" required auto>
                              </div>
                              <div class="form-group">
-                                <label for="password_field"><b> New Password</b></label>
+                                <label for="password_field"><b>Password</b></label>
                                 <input type="password" class="form-control" placeholder="Enter Password" name="password_field">
-                             
-                                <label for="password_field"><b> Confirm New Password</b></label>
-                                <input type="comfirm_password" class="form-control" placeholder="Enter Confirm Password" name="password_field">
                              </div>
                              <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Log in</button>
-                              </form>
+                             <div class="text-center">
+                                <a class="small" href="/resetpassword" class="btn btn-warning btn-xs btn-sm" >Forgot password?</a></div>
+                                <!-- <a class="small" href="#">Forgot password?</a></div> -->
+                          </form>
                        </div>
                     </div>
                  </div>
