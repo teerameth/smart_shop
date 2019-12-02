@@ -140,6 +140,9 @@ class Order(db.Model):
     def destroy(self):
         db.session.delete(self)
         db.session.commit()
+    def set_amount(self, new_amount):
+        self.amount = new_amount
+        db.session.commit()
 class Tool_list(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     orders = db.relationship('Order', backref='list')
