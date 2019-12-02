@@ -241,9 +241,11 @@ def studentLists(student_id):
 @login_required
 def approveList(student_id, toollist_id):
     if(current_user.is_authenticated and current_user.id == 1):
-        pass #code here
-        return "Edit selected list before approve"
+        student=editor.get_student_by_id(str(student_id))
+        toollist=editor.get_tool_by_id(str(toollist_id))
+        return render_template('approve_list.html', student=student,toollist=toollist)
     else: return redirect(url_for('logout'))
+    
 
 @app.route('/admin/<int:student_id>/<int:toollist_id>/print')
 @login_required
