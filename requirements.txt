@@ -7,3 +7,4 @@ passlib
 AWSIoTPythonSDK
 flask-sijax
 flask_login
+openpyxl
