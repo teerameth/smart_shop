@@ -191,7 +191,9 @@ def studentLists(student_id):
 
 @app.route('/admin/<int:student_id>/<int:toollist_id>/approve')
 def approveList(student_id, toollist_id):
-    return "Edit selected list before approve"
+    student=editor.get_student_by_id(str(student_id))
+    toollist=editor.get_tool_by_id(str(toollist_id))
+    return render_template('approve_list.html', student=student,toollist=toollist)
 
 @app.route('/admin/<int:student_id>/<int:toollist_id>/print')
 def printList(student_id, toollist_id):
