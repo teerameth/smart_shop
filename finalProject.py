@@ -48,6 +48,7 @@ def login():
         password = request.form['password_field']
         if student_id == "admin":
             user = load_user("admin")
+            print(user.id)
             if editor.get_student_by_id(student_id).verify_password(password):
                 login_user(user)
                 print("Login as Admin")
