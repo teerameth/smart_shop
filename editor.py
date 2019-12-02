@@ -39,7 +39,7 @@ class Editor:
         return tool
 ###### Student ######
     def list_all_student(self): #return list ของ students ทั้งหมด
-        return db.session.query(Student).filter_by().all()
+        return db.session.query(Student).filter_by().all()[1:]
     def list_student_by_type(self, selected_type):
         return db.session.query(Student).filter_by(student_type = selected_type)
     def get_student_by_id(self, ID): #ใส่รหัสนักศึกษา(เป็น String ขนาด 11) เเล้ว return object Student
