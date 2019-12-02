@@ -77,7 +77,7 @@ def getUpdate():
 
 @app.route('/resetpassword')
 def resetPassword():
-    return render_template('resetpassword.html')
+    return render_template('forgotpassword_description.html')
 
 @app.route('/register')
 def register():
