@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # — coding: utf-8 —
-from flask import Flask, request, redirect, url_for, jsonify, render_template,flash
+from flask import Flask, request, redirect, url_for, jsonify, render_template,flash,send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, current_user, UserMixin, login_required
 from database_setup import db, Tool_list, Student, Tool, Tool_group, Association, Order
@@ -299,8 +299,8 @@ def allHistory():
                 sheet.append(["คืน", "ชื่ออุปกรณ์", "ประเภท", "จำนวน"])
                 for order in tool_list.orders:
                     sheet.append(["", order.tool.name, order.tool.tool_type, order.amount])
-        wb.save("all.xls")
-        return "All Approved lists history will be shown here by datetime"
+        wb.save("./static/excel/all.xls")
+        return send_from_directory('./static/excel','all.xls', as_attachment=True)
     else: return redirect(url_for('logout'))
 
 @app.route('/admin/history/approved')#ยังไม่ได้คืน
@@ -317,8 +317,8 @@ def approvedHistory():
             sheet.append(["ยืม", "ชื่ออุปกรณ์", "ประเภท", "จำนวน"])
             for order in tool_list.orders:
                 sheet.append(["", order.tool.name, order.tool.tool_type, order.amount])
-        wb.save("approved.xls")
-        return "<a href=\"approved.xls\">Download</a>"
+        wb.save("./static/excel/approved.xls")
+        return send_from_directory('./static/excel','approved.xls', as_attachment=True)
     else: return redirect(url_for('logout'))
 
 @app.route('/admin/history/returned')
@@ -338,8 +338,8 @@ def returnedHistory():
             sheet.append(["คืน", "ชื่ออุปกรณ์", "ประเภท", "จำนวน"])
             for order in tool_list.orders:
                 sheet.append(["", order.tool.name, order.tool.tool_type, order.amount])
-        wb.save("returned.xls")
-        return "All returned lists history will be shown here by datetime"
+        wb.save("./static/excel/returned.xls")
+        return send_from_directory('./static/excel','returned.xls', as_attachment=True)
     else: return redirect(url_for('logout'))
 
 @app.route('/admin/<int:student_id>')
