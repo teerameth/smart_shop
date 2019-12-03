@@ -376,26 +376,32 @@ def studentLists(student_id):
 @login_required
 def approveList(student_id, toollist_id):
     if(current_user.is_authenticated and current_user.id == 1):
-        student = editor.get_student_by_id(str(student_id))
-        for item in student.lists:
-            if toollist_id == item.id:
-                toollist = item
-                continue
-        return render_template('approve_list.html', student=student,toollist=toollist)
+        editor.get_tool_list_by_id(toollist_id).set_approved_status()
+        return render_template('approve_list.html', student=editor.get_student_by_id(student_id),toollist=editor.get_tool_list_by_id(toollist_id))
     else: return redirect(url_for('logout'))
-    
+
+@app.route('/admin/<int:student_id>/<int:toollist_id>/return')
+@login_required
+def returnList(student_id, toollist_id):
+    if(current_user.is_authenticated and current_user.id == 1):
+        editor.get_tool_list_by_id(toollist_id).set_returned_status()
+        return redirect(url_for('studentLists', student_id=student_id))
+    else: return redirect(url_for('logout'))
+
 @app.route('/admin/<int:student_id>/<int:toollist_id>/cancle_approved')
 @login_required
 def cancleApproved(student_id, toollist_id):
     if(current_user.is_authenticated and current_user.id == 1):
-        pass
+        editor.get_tool_list_by_id(toollist_id).cancle_approved_status()
+        return redirect(url_for('studentLists', student_id=student_id))
     else: return redirect(url_for('logout'))
     
 @app.route('/admin/<int:student_id>/<int:toollist_id>/cancle_returned')
 @login_required
 def cancleReturned(student_id, toollist_id):
     if(current_user.is_authenticated and current_user.id == 1):
-        pass
+        editor.get_tool_list_by_id(toollist_id).cancle_returned_status()
+        return redirect(url_for('studentLists', student_id=student_id))
     else: return redirect(url_for('logout'))
 
 @app.route('/admin/<int:student_id>/<int:toollist_id>/print')
