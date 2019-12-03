@@ -26,29 +26,6 @@
 					</div>
 				  </nav><br>
 		
-		{% for list in lists %}
-			<table border="5">
-				<tr>
-					<th>
-                        Name
-						<a href="/admin/{{student.student_university_ID}}/{{list.id}}/approve" class="btn btn-warning btn-xs btn-sm" >Edit</a>
-						<a href="/admin/{{student.student_university_ID}}/{{list.id}}/PDF" class="btn btn-info btn-xs btn-sm" target="_blank">Print</a>
-
-						
-					</th>
-					<th>Amount</th>
-				</tr>
-				{% for order in list.orders %}
-				<tr>
-					<td>{{order.tool.name}}</td>
-					<td>{{order.amount}}</td>
-				{% endfor %}
-				</tr>
-			</table>
-		{% endfor %}
-		
-		</body>
-		
 
 		<section id="tabs" class="project-tab">
 				<div class="container">
@@ -59,7 +36,7 @@
 									<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">ต้องการยืม</a>
 									<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">ยืมแล้ว</a>
 									<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">คืนแล้ว</a>
-									<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-deleted" role="tab" aria-controls="nav-deleted" aria-selected="false">ลบโดยผู้ใช้</a>
+									
 								</div>
 							</nav>
 							<div class="tab-content" id="nav-tabContent">
@@ -74,7 +51,7 @@
 												</thead>
 												<tbody>
 														{% for list in lists %}
-														{% if list.approved_status == 0 and list.returned_status == 0 %}
+														{% if list.approved_status == 0 and list.returned_status == 0 and list.stored == 0%}
 														<tr>		
 															<td>
 																{{list.last_edited_datetime}}
@@ -113,15 +90,13 @@
 										</thead>
 										<tbody>
 											{% for list in lists %}
-											{% if list.approved_status == 1 and list.returned_status == 0 %}
+											{% if list.approved_status == 1 and list.returned_status == 0 and list.stored == 0%}
 											<tr>		
 												<td>
 														{{list.approved_datetime}}
 												</td>
 												<td></td>
-												<td align = "right">
-														<a href="/user/{{student.student_university_ID}}/{{list.id}}/view" class="btn btn-warning btn-xs btn-sm" >View</a>
-												</td>
+												
 											</tr>
 											{% for order in list.orders %}
 											<tr>
@@ -147,7 +122,7 @@
 										</thead>
 										<tbody>
 												{% for list in lists %}
-											{% if list.approved_status == 1 and list.returned_status == 1 %}
+											{% if list.approved_status == 1 and list.returned_status == 1 and list.stored == 0%}
 											<tr>		
 												<td align = "center">
 														{{list.approved_datetime}}
@@ -156,9 +131,7 @@
 														{{list.returned_datetime}}
 												</td>
 												<td></td>
-												<td align = "right">
-														<a href="/user/{{student.student_university_ID}}/{{list.id}}/view" class="btn btn-warning btn-xs btn-sm" >View</a>
-												</td>
+												
 											</tr>
 											{% for order in list.orders %}
 											<tr>
@@ -174,46 +147,14 @@
 									</table>
 								</div>
 								
-								<div class="tab-pane fade " id="nav-deleted" role="tabpanel" aria-labelledby="nav-deleted-tab">
-										<table class="table" cellspacing="0">
-											<thead>
-												<tr align = "center">
-													<th>วันที่ - เวลา</th>
-													<th>รายละเอียด</th>
-													<th>จำนวน</th>
-												</tr>
-											</thead>
-											<tbody>
-													{% for list in lists %}
-												{% if list.approved_status == 1 and list.returned_status == 1 %}
-												<tr>		
-													<td>
-															{{list.returned_datetime}}
-													</td>
-													<td></td>
-													<td align = "right">
-															<a href="/user/{{student.student_university_ID}}/{{list.id}}/view" class="btn btn-warning btn-xs btn-sm" >View</a>
-													</td>
-												</tr>
-												{% for order in list.orders %}
-												<tr>
-														<td></td>
-													<td>{{order.tool.name}}</td>
-													<td align = "center">{{order.amount}}</td>
-													{% endfor %}
-												</tr>
-												{% endif %}
-											{% endfor %}
-											</tbody>
-										</table>
-									</div>
+								
 
 							</div>
 						</div>
 					</div>
 				</div>
 			</section>		
-
+	</body>
 		
 											
 </html>
