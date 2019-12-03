@@ -70,10 +70,13 @@
         <div class="sidenav">
             <div class="topbutton">
                 <a class="btn btn-danger btn-xs logout" href="/" >Logout</a>
-                <a class="btn btn-info btn-xs" href= '/admin/stock'> Reset User Password</a>
-                <a class="btn btn-info btn-xs" href= '/admin/stock'> Reset Admin Password</a>
+                <a class="btn btn-info btn-xs" href= '/admin/reset_password_user'> Reset User Password</a>
+                <a class="btn btn-info btn-xs" href= '/admin/reset_password_admin'> Reset Admin Password</a>
                 <a class="btn btn-info btn-xs" href= '/admin/secretpassword', target="_blank"> Get Secret Password </a>
                 <a class="btn btn-info btn-xs stock" style="float: right;" href= '/admin/stock'> Managing Stock</a>
+                {% if use_secret_key == 1 %}
+                    <p style="color: red;">Current secret password expired. Note that the secret is an one-time-use password. Plaese click "Get Secret Password" button to get a new one.</p>
+                {% endif %}
             </div>
 
             <div class="login-main-text">
