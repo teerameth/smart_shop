@@ -376,8 +376,18 @@ def studentLists(student_id):
 @login_required
 def approveList(student_id, toollist_id):
     if(current_user.is_authenticated and current_user.id == 1):
-        # editor.get_tool_list_by_id(toollist_id).set_approved_status()
-        return render_template('approve_list.html', student=editor.get_student_by_id(student_id),toollist=editor.get_tool_list_by_id(toollist_id))
+        student = editor.get_student_by_id(str(student_id))
+        status = content()
+        alltool = editor.list_all_tool()
+        toollist = editor.get_tool_list_by_id(toollist_id)
+        toollist.update_datetime()
+        basket = []
+        have_stock = True
+        for order in toollist.orders:
+            basket.append(order.tool.id)
+            if order.amount > order.tool.in_stock: have_stock = False #บอกวา่ของที่กดไว้ เกินจำนวนที่ยืมได้
+        print(basket)
+        return render_template('approve_list.html', student = student , status=status , alltool=alltool , toollist=toollist, toollist_id = toollist_id, basket = basket, have_stock = have_stock)
     else: return redirect(url_for('logout'))
 
 @app.route('/admin/<int:student_id>/<int:toollist_id>/approve/<int:order_id>/<int:action>')
