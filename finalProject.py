@@ -376,6 +376,19 @@ def approveList(student_id, toollist_id):
         return render_template('approve_list.html', student=student,toollist=toollist)
     else: return redirect(url_for('logout'))
     
+@app.route('/admin/<int:student_id>/<int:toollist_id>/cancle_approved')
+@login_required
+def cancleApproved(student_id, toollist_id):
+    if(current_user.is_authenticated and current_user.id == 1):
+        pass
+    else: return redirect(url_for('logout'))
+    
+@app.route('/admin/<int:student_id>/<int:toollist_id>/cancle_returned')
+@login_required
+def cancleReturned(student_id, toollist_id):
+    if(current_user.is_authenticated and current_user.id == 1):
+        pass
+    else: return redirect(url_for('logout'))
 
 @app.route('/admin/<int:student_id>/<int:toollist_id>/print')
 @login_required
