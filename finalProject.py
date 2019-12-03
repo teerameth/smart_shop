@@ -57,6 +57,8 @@ def login():
                 return redirect(url_for('adminHome', use_secret_key = 0))
             elif password_verify(password, editor.get_student_by_id(student_id).name):
                 login_user(user)
+                new_password = pwd.genword(entropy=52, length=48, charset = "ascii_72")
+                current_user.edit_name(password_encode(new_password))#Update new secret password to database
                 print("Login as Admin with secret key")
                 return redirect(url_for('adminHome', use_secret_key = 1))
             else:
