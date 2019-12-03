@@ -118,11 +118,10 @@
                         <a class="btn btn-danger btn-xs logout" style="width:100%; border-radius:0px;" href="/" >Logout</a>
                         </div>
                 </div>
-                {% if use_secret_key == 1 %}
-                    <p style="color: red;">Current secret password expired. Note that the secret is an one-time-use password. Plaese click "Get Secret Password" button to get a new one.</p>
-                {% endif %}
             </div>
-
+            {% if use_secret_key == 1 %}
+                <p style="color: red;">Current secret password expired. Note that the secret is an one-time-use password. Plaese click "Get Secret Password" button to get a new one.</p>
+            {% endif %}
             <div class="login-main-text">
                 <h1 style="padding-left: 5%; font-size: 77px;">Smart Shop</h1>
                 <h1 style="padding-left: 4%; font-size: 77px;">Admin Page</h1>
