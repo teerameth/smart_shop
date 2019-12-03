@@ -46,7 +46,7 @@
 							<h3>Tool</h3>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-danger btn-xs" href="/admin/{{student.student_university_ID}}" style="float:right">Exit</a>
 							{% if have_stock == True %}
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-success btn-xs" href="#" >Approve</a>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-success btn-xs" href="/admin/{{student.student_university_ID}}/{{toollist_id}}/approve_now" >Approve</a>
 							{% endif %}
 							{% if have_stock == False %}
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-success btn-xs" >Approve</a>
