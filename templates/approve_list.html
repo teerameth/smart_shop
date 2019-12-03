@@ -51,7 +51,7 @@
 							{% if have_stock == False %}
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-success btn-xs" >Approve</a>
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <h6 style="color: red;">not enough item in stock</h6>
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-success btn-xs" href="/user/{{student.student_university_ID}}/{{toollist.id}}/auto_adjust" >ปรับจำนวนของอัตโนมัติ</a>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-success btn-xs" href="/admin/{{student.student_university_ID}}/{{toollist.id}}/auto_adjust" >ปรับจำนวนของอัตโนมัติ</a>
 							{% endif %}
 						</div><br>
 					</div>
@@ -95,7 +95,7 @@
 															<td style="width: 10rem">{{tool.name}}</td>
 															<td>{{tool.in_stock}}/{{tool.total}}</td>
 															<td>
-																<a href="/user/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
+																<a href="/admin/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
 															</td>
 														{% endif %}
 													</tr>
@@ -127,7 +127,7 @@
 																			<td style="width: 10rem">{{tool.name}}</td>
 																			<td>{{tool.in_stock}}/{{tool.total}}</td>
 																			<td>
-																				<a href="/user/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
+																				<a href="/admin/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
 																			</td>
 																		{% endif %}
 																	</tr>
@@ -160,7 +160,7 @@
 																	<td style="width: 10rem">{{tool.name}}</td>
 																	<td>{{tool.in_stock}}/{{tool.total}}</td>
 																	<td>
-																		<a href="/user/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
+																		<a href="/admin/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
 																	</td>
 																{% endif %}
 															</tr>
@@ -193,7 +193,7 @@
 																	<td style="width: 10rem">{{tool.name}}</td>
 																	<td>{{tool.in_stock}}/{{tool.total}}</td>
 																	<td>
-																		<a href="/user/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
+																		<a href="/admin/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
 																	</td>
 																{% endif %}
 															</tr>
@@ -226,7 +226,7 @@
 																	<td style="width: 10rem">{{tool.name}}</td>
 																	<td>{{tool.in_stock}}/{{tool.total}}</td>
 																	<td>
-																		<a href="/user/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
+																		<a href="/admin/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
 																	</td>
 																{% endif %}
 															</tr>
@@ -259,7 +259,7 @@
 																	<td style="width: 10rem">{{tool.name}}</td>
 																	<td>{{tool.in_stock}}/{{tool.total}}</td>
 																	<td>
-																		<a href="/user/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
+																		<a href="/admin/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
 																	</td>
 																{% endif %}
 															</tr>
@@ -292,7 +292,7 @@
 																	<td style="width: 10rem">{{tool.name}}</td>
 																	<td>{{tool.in_stock}}/{{tool.total}}</td>
 																	<td>
-																		<a href="/user/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
+																		<a href="/admin/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
 																	</td>
 																{% endif %}
 															</tr>
@@ -325,7 +325,7 @@
 																	<td style="width: 10rem">{{tool.name}}</td>
 																	<td>{{tool.in_stock}}/{{tool.total}}</td>
 																	<td>
-																		<a href="/user/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
+																		<a href="/admin/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
 																	</td>
 																{% endif %}
 															</tr>
@@ -358,7 +358,7 @@
 																	<td style="width: 10rem">{{tool.name}}</td>
 																	<td>{{tool.in_stock}}/{{tool.total}}</td>
 																	<td>
-																		<a href="/user/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
+																		<a href="/admin/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
 																	</td>
 																{% endif %}
 															</tr>
@@ -391,7 +391,7 @@
 																	<td style="width: 10rem">{{tool.name}}</td>
 																	<td>{{tool.in_stock}}/{{tool.total}}</td>
 																	<td>
-																		<a href="/user/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
+																		<a href="/admin/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
 																	</td>
 																{% endif %}
 															</tr>
@@ -425,17 +425,17 @@
 											{% endif %}								
 											<td style="width: 10rem">{{order.tool.name}}</td>
 											<td>
-													<a href="/user/{{student.student_university_ID}}/{{toollist.id}}/edit/{{order.id}}/0" class="btn btn-primary" >-</a>
+													<a href="/admin/{{student.student_university_ID}}/{{toollist.id}}/approve/{{order.id}}/0" class="btn btn-primary" >-</a>
 													{% if order.amount > order.tool.in_stock %}
 														<input style="width: 2rem;background-color:tomato;" name="amout" value="{{order.amount}}/{{order.tool.in_stock}}" disabled>
 													{% endif %}
 													{% if order.amount <= order.tool.in_stock %}
 														<input style="width: 2rem;" name="amout" value="{{order.amount}}/{{order.tool.in_stock}}" disabled>
 													{% endif %}
-													<a href="/user/{{student.student_university_ID}}/{{toollist.id}}/edit/{{order.id}}/1" class="btn btn-primary">+</a>
+													<a href="/admin/{{student.student_university_ID}}/{{toollist.id}}/approve/{{order.id}}/1" class="btn btn-primary">+</a>
 												</td>
 											<td>
-												<a href="/user/{{student.student_university_ID}}/{{toollist.id}}/edit/{{order.id}}/2" class="btn btn-danger btn-xs btn-sm" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่?')">Delete</a>
+												<a href="/admin/{{student.student_university_ID}}/{{toollist.id}}/approve/{{order.id}}/2" class="btn btn-danger btn-xs btn-sm" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่?')">Delete</a>
 											</td>
 										</tr>
 										{% endfor %}
