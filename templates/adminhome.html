@@ -9,14 +9,17 @@
 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
         <style>
 
         body {        
             font-family: 'Kanit', sans-serif;
           }
         .login-main-text-left{
-            margin-top: 17%;
-            padding: 60px;
+            padding: 0px;
             color: #fff;
             }
         .sidenav1{
@@ -31,11 +34,12 @@
             padding-top: 0px;
             }
         .topbutton{
-            padding-left:40%;
+            padding-left:95%;
         }
         .dropdown {
         position: relative;
         display: inline-block;
+        right:0;
         }
 
         .dropdown-content {
@@ -46,13 +50,15 @@
         box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
         padding: 0px 0px;
         z-index: 1;
+        right:-50%;
         }
+        .btn-xs:hover{background: #a1a1a1;}
 
         .dropdown:hover .dropdown-content {
         display: block;
         }
         .login-main-text{
-            margin-top: 5%;
+            margin-top: 3%;
             margin-left: 53%;
             }
         .btn-xs{
@@ -79,19 +85,19 @@
     <body>
         <div class="sidenav1">
             <div class="login-main-text-left">
-                <h2>คำอธิบาย<br>วิธีใช้เว็บ</h2>
+                <img src="{{ url_for('static', filename='picture/9.0.png')}}"width="500" heigt="1000" >
             </div>
         </div>
 
         <div class="sidenav">
             <div class="topbutton">
                 <div class="dropdown" >
-                    <a class="btn btn-info btn-xs" style="color:#ffff;border-radius:0px;">press button</a>
+                    <a class="btn btn-xs" style="border-radius:0px; font-size:50px;"><i class="fas fa-bars"></i></a>
                         <div class="dropdown-content">
-                        <a class="btn btn-info btn-xs" href= '/admin/reset_password_user' style="margin: 0; border-radius:0px;" > Reset User Password</a>
-                        <a class="btn btn-info btn-xs" href= '/admin/reset_password_admin' style="border-radius:0px;"> Reset Admin Password</a>
-                        <a class="btn btn-info btn-xs" href= '/admin/secretpassword' style="border-radius:0px;"> Get Secret Password </a>
-                        <a class="btn btn-info btn-xs stock" href= '/admin/stock' style="border-radius:0px;"> Managing Stock</a>
+                        <a class="btn btn-xs" href= '/admin/reset_password_user' style="margin: 0; border-radius:0px;" > Edit User Password</a>
+                        <a class="btn btn-xs" href= '/admin/reset_password_admin' style="border-radius:0px;"> Edit Admin Password</a>
+                        <a class="btn btn-xs" href= '/admin/secretpassword' style="border-radius:0px;"> Get Secret Password </a>
+                        <a class="btn btn-xs stock" href= '/admin/stock' style="border-radius:0px;"> Managing Stock</a>
                         <a class="btn btn-danger btn-xs logout" style="width:100%; border-radius:0px;" href="/" >Logout</a>
                         </div>
                 </div>
@@ -101,8 +107,8 @@
             </div>
 
             <div class="login-main-text">
-                <h1 class="display-1">Smart Shop</h1>
-                <h1 class="display-1" style="padding-left: 3%;">Admin Page</h1>
+                <h1 style="padding-left: 5%; font-size: 77px;">Smart Shop</h1>
+                <h1 style="padding-left: 4%; font-size: 77px;">Admin Page</h1>
             </div>
 
             <div class="main">
