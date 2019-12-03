@@ -165,7 +165,9 @@ class Tool_list(db.Model):
         db.session.add(new_order)
         db.session.commit()
     def share(self, student_id):
-        new_list = Tool_list(owner=db.session.query(Student).filter_by(student_university_ID=student_id), tools=self.tools ,created_datetime=new_date_time(), shared=1, shared_from_ID=self.owner.student_university_ID)
+        new_list = Tool_list(owner=db.session.query(Student).filter_by(student_university_ID=student_id), created_datetime=new_date_time(), shared=1, shared_from_ID=self.owner.student_university_ID)
+        for order in self.orders:
+            new_list.add_new_tool(order.tool, order.amount)
         db.session.add(new_list)
         db.session.commit()
         return new_list
