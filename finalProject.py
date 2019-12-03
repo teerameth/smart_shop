@@ -38,6 +38,13 @@ def content():
 	text.close()
 	return status
 
+def get_created_datetime(tool_list):
+    return tool_list.created_datetime
+def get_approved_datetime(tool_list):
+    return tool_list.approved_datetime
+def get_returned_datetime(tool_list):
+    return tool_list.returned_datetime
+
 @app.route('/', methods = ['GET', 'POST'])
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
@@ -161,6 +168,7 @@ def allToolList(student_id):
     if(current_user.is_authenticated and editor.get_student_by_id(student_id).id == current_user.id):
         student = editor.get_student_by_id(str(student_id))
         lists = student.lists
+        lists = sorted(lists, key=get_created_datetime, reverse=True)
         status = content()
         if request.method == 'GET':
             return render_template('mainmenu.html', student=student, lists=lists , status=status)
@@ -297,11 +305,6 @@ def history():
         return render_template('history.html')
     else: return redirect(url_for('logout'))
 
-def get_approved_datetime(tool_list):
-    return tool_list.approved_datetime
-def get_returned_datetime(tool_list):
-    return tool_list.returned_datetime
-
 @app.route('/admin/history/all')
 @login_required
 def allHistory():
@@ -412,7 +415,7 @@ def editAndApproveList(student_id, toollist_id,order_id, action):
         return render_template('approve_list.html', student=editor.get_student_by_id(student_id),toollist=editor.get_tool_list_by_id(toollist_id))
     else: return redirect(url_for('logout'))
 
-@app.route('/admin/<int:student_id>/<int:toollist_id>/edit/<int:tool_id>/add_tool')
+@app.route('/admin/<int:student_id>/<int:toollist_id>/<int:tool_id>/add_tool')
 @login_required
 def adminAddToolInList(student_id, toollist_id,tool_id):
     if(current_user.is_authenticated and current_user.id == 1):
