@@ -13,6 +13,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
         <style>
 
         body {        
@@ -98,7 +104,16 @@
                         <a class="btn btn-xs" href= '/admin/reset_password_admin' style="border-radius:0px;"> Edit Admin Password</a>
                         <a class="btn btn-xs" href= '/admin/secretpassword' style="border-radius:0px;"> Get Secret Password </a>
                         <a class="btn btn-xs stock" href= '/admin/stock' style="border-radius:0px;"> Managing Stock</a>
-                        <a class="btn btn-xs stock" href= '/admin/history' style="border-radius:0px;"> Export History</a>
+                        <div class="dropdown dropleft">
+                                <button type="button" class="btn btn-xs dropdown-toggle" data-toggle="dropdown"style="border-radius:0px;">
+                                Export History
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="btn btn-xs" href= '/admin/history/all' style="border-radius:0px;"> All</a>
+                                    <a class="btn btn-xs" href= '/admin/history/approved' style="border-radius:0px;"> Approved</a>
+                                    <a class="btn btn-xs" href= '/admin/history/returned' style="border-radius:0px;"> Returned</a>
+                                </div>
+                              </div>
                         <a class="btn btn-danger btn-xs logout" style="width:100%; border-radius:0px;" href="/" >Logout</a>
                         </div>
                 </div>
