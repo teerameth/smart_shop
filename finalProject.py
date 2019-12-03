@@ -356,8 +356,11 @@ def studentLists(student_id):
 @login_required
 def approveList(student_id, toollist_id):
     if(current_user.is_authenticated and current_user.id == 1):
-        student=editor.get_student_by_id(str(student_id))
-        toollist=editor.get_tool_by_id(str(toollist_id))
+        student = editor.get_student_by_id(str(student_id))
+        for item in student.lists:
+            if toollist_id == item.id:
+                toollist = item
+                continue
         return render_template('approve_list.html', student=student,toollist=toollist)
     else: return redirect(url_for('logout'))
     
