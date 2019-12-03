@@ -168,14 +168,19 @@ def allToolList(student_id):
             return 'aaa'
     else: return redirect(url_for('logout'))
 
-@app.route('/user/<int:student_id>/<int:toollist_id>/share')
+@app.route('/user/<int:student_id>/<int:toollist_id>/share', methods = ['GET', 'POST'])
 @login_required
 def shareToolList(student_id, toollist_id):
     if(current_user.is_authenticated and editor.get_student_by_id(student_id).id == current_user.id):
         student = editor.get_student_by_id(str(student_id))
         status = content()
         toollist = editor.get_tool_list_by_id(toollist_id)
-        return render_template('shareList.html', student = student , status=status, toollist=toollist, toollist_id = toollist_id)
+        if request.method == 'GET':
+            return render_template('shareList.html', student = student , status=status, toollist=toollist, student_id = student_id, toollist_id = toollist_id)
+        elif request.method == 'POST':
+            student_idSh = request.form['studentid_field']
+            toollist.share(student_idSh)
+            return redirect(url_for('allToolList', student_id = student_id))
     else: return redirect(url_for('logout'))
 
 

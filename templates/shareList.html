@@ -3,65 +3,97 @@
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 		<style>
-			.zoom{
+        .zoom{
 				width: 100;
 				transition: transfrom .3s;	
 			}
-			.zoom:hover{
+		.zoom:hover{
 				-ms-transform: scale(2); /* IE 9 */
   				-webkit-transform: scale(2); /* Safari 3-8 */
   				transform: scale(2); 
 			}
-            @media screen and (max-width: 450px) {
+        
+        @media screen and (min-width: 768px){
+
                 .login-form{
-                    margin-top: 10%;
+                    margin-top: 20%;
+                    margin-left: 20%;
                 }
             }
-            @media screen and (min-width: 768px){
-                .main{
-                    margin-left: 42%; 
-                }
-                .login-form{
-                    margin-top: 70%;
-                }
+
+        .login-main-text{
+                margin-top: 17%;
+                padding: 60px;
+                color: #fff;
             }
+        
+        .btn-login {
+            font-size: 0.9rem;
+            letter-spacing: 0.05rem;
+            padding: 0.75rem 1rem;
+            border-radius: 2rem;
+        }
+        
 		</style>
 	</head>
 	<body>
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-			<a class="navbar-brand" href="#">Smart shop</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-  
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			  <ul class="navbar-nav mr-auto">
-				<li class="nav-item active">
-				  <a class="nav-link" href="/user/{{student.student_university_ID}}" >Home <span class="sr-only">(current)</span></a>
-				</li>
-				<li class="nav-item">
-					<button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="on">
-						สถานะพี่เหน่ง <span class="badge badge-success">ON</span>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+					<a class="navbar-brand" href="#">Smart shop</a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
 					</button>
-					<button class="btn btn-outline-danger my-2 my-sm-0" type="submit" id="off">
-						สถานะพี่เหน่ง <span class="badge badge-danger">OFF</span>
-					</button>
-				</li>
-				
-				</ul>
-				<form class="form-inline my-2 my-lg-0">
-					<span class="navbar-text">
-						{{student.student_university_ID}}  {{student.name}} {{student.surname}}  
-					</span>
-				</form> 
-			</div>
-		  </nav>
+		  
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					  <ul class="navbar-nav mr-auto">
+						<li class="nav-item active">
+						  <a class="nav-link" href="/user/{{student.student_university_ID}}" >Home <span class="sr-only">(current)</span></a>
+						</li>
+						<li class="nav-item">
+							<button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="on">
+								สถานะพี่เหน่ง <span class="badge badge-success">ON</span>
+							</button>
+							<button class="btn btn-outline-danger my-2 my-sm-0" type="submit" id="off">
+								สถานะพี่เหน่ง <span class="badge badge-danger">OFF</span>
+							</button>
+						</li>
+						
+					    </ul>
+					    <form class="form-inline my-2 my-lg-0">
+							<span class="navbar-text">
+								<a class="btn btn-outline-secondary btn-sm" href="/user/{{student.student_university_ID}}/change_password_user" >Change Password</a>
+								{{student.student_university_ID}}  {{student.name}} {{student.surname}} 
+								<a class="btn btn-success" href="/user/{{student.student_university_ID}}/new" >Creat new list</a>
+								<a class="btn btn-danger btn-xs" href="/logout" >Logout</a> 
+							</span>
+					    </form> 
+					</div>
+				  </nav><br>
+		
+		<script type=text/javascript>
+			function getUpdate() {
+				$.getJSON("/status",
+						function (data) {
+							var status = data.status;
+							if(status == '1'){
+								$('#on').show()
+								$('#off').hide()
+							}
+							else{
+								$('#on').hide()
+								$('#off').show()
+							}
+						}
+				);
+			}
+			setInterval('getUpdate()', 100);
+		</script>
 			
 		<br>
 		
 		<div class="container">
 			<div class="row" >
-				<h3>Share List</h3>
+                <h3>Share List</h3>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-danger btn-xs" href="/user/{{student.student_university_ID}}" style="float:right">Exit</a>
 				{% if have_stock == True %}
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-success btn-xs" href="/user/{{student.student_university_ID}}/{{toollist.id}}/confirm" >Submit</a>
 				{% endif %}
@@ -72,8 +104,8 @@
 				{% endif %}
 			</div><br>
 			
-			<div class="row" id= "row2" >
-				<table class="table" id="table2" style="width:55%; float:right">
+			<div class="row" id= "row2" style="width:55%; float:left;" >
+				<table class="table" id="table2" >
 						<thead class= "thead-light">
 							<tr>
 								<th scope="col">Image</th>
@@ -103,17 +135,17 @@
 						</tfoot>
 					</table>
             </div>
-            
-            <div class="login-form" style="float: right;">
-                    <form >
-                       <div class="form-group">
-                          <label for="username_field"><b>Student ID</b></label>
-                          <input type="text" class="form-control" placeholder="Enter Student ID" name="username_field" required auto>
-                       </div>
-                       <button class="btn btn-lg btn-info btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Share</button>
-                    </form>
+            <div class="row" style="width: 45%; float: right;">
+                <div class="login-form" >
+                        <form action="{{ url_for('shareToolList', student_id = student_id, toollist_id = toollist_id)}}", method = 'post'>
+                        <div class="form-group">
+                            <label for="studentid_field"><b>Student ID</b></label>
+                            <input type="text" class="form-control" placeholder="Enter Student ID" name="studentid_field" required auto>
+                        </div>
+                        <button class="btn btn-lg btn-info btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Share</button>
+                        </form>
+                </div>
             </div>
-			
 		</div>
 		<script type=text/javascript>
 			function getUpdate() {
