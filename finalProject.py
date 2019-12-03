@@ -327,6 +327,29 @@ def allHistory():
         return send_from_directory('./static/excel','all.xls', as_attachment=True)
     else: return redirect(url_for('logout'))
 
+@app.route('/admin/history/custom')
+@login_required
+def customHistory():
+    if(current_user.is_authenticated and current_user.id == 1):
+        tool_lists = editor.list_all_approved_lists()
+        tool_lists = sorted(tool_lists, key=get_approved_datetime, reverse=False)
+        wb = Workbook()
+        sheet = wb.active
+        for tool_list in tool_lists:
+            if tool_list.approved_datetime[3:5] != new_date_time()[3:5]: continue
+            sheet.append(['Approved datetime', 'Returned datetime', 'รหัสนักศึกษา', 'ชื่อ', 'นามสกุล', 'ประเภท', 'ชั้นปี', 'เบอร์โทร'])
+            sheet.append([tool_list.approved_datetime, tool_list.returned_datetime, tool_list.owner.student_university_ID, tool_list.owner.name, tool_list.owner.surname, tool_list.owner.student_type, tool_list.owner.student_year, tool_list.owner.phone_number])
+            sheet.append(["ยืม", "ชื่ออุปกรณ์", "ประเภท", "จำนวน"])
+            for order in tool_list.orders:
+                sheet.append(["", order.tool.name, order.tool.tool_type, order.amount])
+            if tool_list.returned_status == 1:
+                sheet.append(["คืน", "ชื่ออุปกรณ์", "ประเภท", "จำนวน"])
+                for order in tool_list.orders:
+                    sheet.append(["", order.tool.name, order.tool.tool_type, order.amount])
+        wb.save("./static/excel/all.xls")
+        return send_from_directory('./static/excel','this_month.xls', as_attachment=True)
+    else: return redirect(url_for('logout'))
+
 @app.route('/admin/history/approved')#ยังไม่ได้คืน
 @login_required
 def approvedHistory():
