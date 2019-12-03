@@ -386,7 +386,6 @@ def suddenApproveList(student_id, toollist_id):
 def approveList(student_id, toollist_id):
     if(current_user.is_authenticated and current_user.id == 1):
         student = editor.get_student_by_id(str(student_id))
-        status = content()
         alltool = editor.list_all_tool()
         toollist = editor.get_tool_list_by_id(toollist_id)
         toollist.update_datetime()
@@ -396,7 +395,7 @@ def approveList(student_id, toollist_id):
             basket.append(order.tool.id)
             if order.amount > order.tool.in_stock: have_stock = False #บอกวา่ของที่กดไว้ เกินจำนวนที่ยืมได้
         print(basket)
-        return render_template('approve_list.html', student = student , status=status , alltool=alltool , toollist=toollist, toollist_id = toollist_id, basket = basket, have_stock = have_stock)
+        return render_template('approve_list.html', student = student , alltool=alltool , toollist=toollist, toollist_id = toollist_id, basket = basket, have_stock = have_stock)
     else: return redirect(url_for('logout'))
 
 @app.route('/admin/<int:student_id>/<int:toollist_id>/approve/<int:order_id>/<int:action>')
@@ -409,7 +408,7 @@ def editAndApproveList(student_id, toollist_id,order_id, action):
                 if action == 0: order.decrease() #minus
                 elif action == 1: order.increase() #add
                 elif action == 2: order.destroy() #destroy
-        return render_template('approve_list.html', student=editor.get_student_by_id(student_id),toollist=editor.get_tool_list_by_id(toollist_id))
+        return redirect(url_for('approveList', student_id=student_id, toollist_id=toollist_id))
     else: return redirect(url_for('logout'))
 
 @app.route('/admin/<int:student_id>/<int:toollist_id>/edit/<int:tool_id>/add_tool')
