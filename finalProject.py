@@ -63,6 +63,7 @@ def login():
                 return render_template('login.html', status=status,wrong=1)
         else:
             user = load_user(student_id)
+            if user == False: return render_template('login.html', status=status,wrong=1)
             if editor.get_student_by_id(student_id).verify_password(password):
                 login_user(user)
                 print("Login")
