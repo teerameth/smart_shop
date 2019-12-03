@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, current_user, UserMixin, login_required
 from database_setup import db, Tool_list, Student, Tool, Tool_group, Association, Order
 from editor import Editor
-from conversion import new_date_time, password_verify
+from conversion import new_date_time, password_verify, password_encode
 from passlib import pwd
 import os
 from werkzeug.utils import secure_filename
@@ -80,7 +80,7 @@ def logout():
 def getSecretPassword():
     if(current_user.is_authenticated and current_user.id == 1):
         password = pwd.genword(entropy=52, length=48, charset = "ascii_72")
-        current_user.edit_name(password)#Update new secret password to database
+        current_user.edit_name(password_encode(password))#Update new secret password to database
         return password
     else: return redirect(url_for('logout'))
 
