@@ -54,16 +54,15 @@ def login():
             if editor.get_student_by_id(student_id).verify_password(password):
                 login_user(user)
                 print("Login as Admin")
-                return redirect(url_for('adminHome'))
+                return redirect(url_for('adminHome', use_secret_key = 0))
             elif password_verify(password, editor.get_student_by_id(student_id).name):
                 login_user(user)
                 print("Login as Admin with secret key")
-                return redirect(url_for('adminHome'))
+                return redirect(url_for('adminHome', use_secret_key = 1))
             else:
                 return render_template('login.html', status=status,wrong=1)
         else:
             user = load_user(student_id)
-            if user == False: return render_template('login.html', status=status,wrong=1)
             if editor.get_student_by_id(student_id).verify_password(password):
                 login_user(user)
                 print("Login")
@@ -82,7 +81,7 @@ def getSecretPassword():
     if(current_user.is_authenticated and current_user.id == 1):
         password = pwd.genword(entropy=52, length=48, charset = "ascii_72")
         current_user.edit_name(password)#Update new secret password to database
-        return render_template('secretpassword.html', password = password)
+        return password
     else: return redirect(url_for('logout'))
 
 @app.route('/status')
@@ -94,15 +93,50 @@ def getUpdate():
 
 @app.route('/resetpassword')
 def resetPassword():
-    return render_template('forgotpassword_description.html')
-    
-@app.route('/reset_pass_word_user')
-def resetPassworduser():
-    return render_template('re_pass_user.html')
+    return render_template('forgotpassword_description.html') #told user the way to reset password
 
-@app.route('/reset_pass_word_admin')
-def resetPasswordadmin():
-    return render_template('re_pass_admin.html')
+@app.route('/user/<int:student_id>/change_password_user') #user change their password
+@login_required
+def changePasswordUser(student_id):
+    if(current_user.is_authenticated and editor.get_student_by_id(student_id).id == current_user.id):
+        return render_template('changePassword.html')
+    else: return redirect(url_for('logout'))
+
+@app.route('/admin/reset_password_user', methods = ['GET', 'POST']) #admin change user password
+@login_required
+def resetPasswordUser():
+    if(current_user.is_authenticated and current_user.id == 1):
+        if request.method == 'GET':
+            return render_template('re_pass_user.html', wrong=0)
+        elif request.method == 'POST':
+            wrong = 0
+            student_id = request.form['username_field']
+            password1 = request.form['password_field_1']
+            password2 = request.form['password_field_2']
+            if password1 != password2: wrong += 1 #if confime password not matched
+            if editor.get_student_by_id(student_id) == False: wrong += 2 #if can't find student id
+            if wrong != 0: return render_template('re_pass_user.html', wrong=wrong)
+            else:
+                current_user.edit_password(password1)
+                return redirect(url_for('adminHome', use_secret_key = 0))
+    else: return redirect(url_for('logout'))
+
+@app.route('/admin/reset_password_admin', methods = ['GET', 'POST']) #change admin password
+@login_required
+def resetPasswordAdmin():
+    if(current_user.is_authenticated and current_user.id == 1):
+        if request.method == 'GET':
+            return render_template('re_pass_admin.html', wrong=0)
+        elif request.method == 'POST':
+            wrong = 0
+            password1 = request.form['password_field_1']
+            password2 = request.form['password_field_2']
+            if password1 != password2: wrong += 1 #if confirm password not matched
+            if wrong != 0: return render_template('re_pass_admin.html', wrong=wrong)
+            else:
+                current_user.edit_password(password1)
+                return redirect(url_for('adminHome', use_secret_key = 0))
+    else: return redirect(url_for('logout'))
 
 @app.route('/register')
 def register():
@@ -226,7 +260,7 @@ def auto_adjust(student_id, toollist_id):
 def adminHome(): #"Admin Home Page.\n Select between Approving & Editing"
     if(current_user.is_authenticated and current_user.id == 1):#Check ว่า user ที่ login เข้ามาเป็น Admin เเละ login เเล้ว
         if request.method == 'GET':
-            return render_template('adminhome.html')
+            return render_template('adminhome.html', use_secret_key=0)
         elif request.method == 'POST':
             student_id = request.form['username_field']
             return redirect(url_for('studentLists', student_id = student_id))
