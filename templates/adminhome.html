@@ -5,55 +5,96 @@
         <meta charset="utf-8">
         <title>SMART FIBO</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=ROhHDyvB3m8Lp4kQzlAOk_C61E88iP8aHPcirinUL25L9UKN8VjIZpj8KYWSGWH4EEvMwCOeCGoVRDeIyB_xb1KlWfMr-vpnxwLUcDpMdeTNwpMUVbaA_ZEPGF-UzzJR-Y0IFQaDwQHUzXA1iOh7U90RLHYzwnzaVBbP9xEE_WtctEgSIpbVQc9yAfTwkk_BE_hXpfDvLmdXSKWgLDyq-y6kR59K2sJvlxZAKLMeEx2RoTbaYMimRTA-BnlyMWURvHojEc0YuxswUO0Xs1FsbaF16o-BdjcWFpJhMYM0lDg8YUPtQvYl3ILBalDCg3jI8Vmv3ViBks6NTSVbirdKFtMf7TflDEpriPQ1R3qFgzvFYqn18l1H4RgsFZz2tejBdfWCxx6G4ZaGNl-mpEUgr_CRraLKuQ2XbL57vEPnrZ9mapKG6ZpdhJxu9u1KpAB5bZxBnnOeAC2hhQrPN_ZRN-S_iuPn6Yk0oRbXvYNwLn-0HxYVhFIcDy-C6V81Z12Nh9ta3alL3e72TN2xUwNPv8XV5-4gDyKuHcpDDQeMg8EYn8r9BzvVqS25o2lzxkTo4063Q1bj1zlL1d5a17K_Riu3kC1OsP85E9p8rYAoYNU" charset="UTF-8"></script><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <link href="https://fonts.googleapis.com/css?family=Kanit&display=swap" rel="stylesheet">
 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-        
+        <style>
+
+        body {        
+            font-family: 'Kanit', sans-serif;
+          }
+        .login-main-text-left{
+            margin-top: 17%;
+            padding: 60px;
+            color: #fff;
+            }
+        .sidenav1{
+            width: 40%;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: #007bff;
+            overflow-x: hidden;
+            padding-top: 0px;
+            }
+        .topbutton{
+            margin-top:5px;
+            padding-left:40%;
+        }
+        .login-main-text{
+            margin-top: 5%;
+            margin-left: 53%;
+            }
+        .logout{
+            padding:2% 6% 2% 6%;
+        }
+        .stock{
+            padding:2% 1% 2% 1%;
+        }
+        .main {
+            margin-left: 60%;
+            text-align: center;
+            padding: 0px 10px;
+            }
+        .col-md-6{
+            position: center;
+            padding: 0%;
+            }
+        </style>
     </head>
+
+
+
+
+
     <body>
-        <div class="container">
-            <div class="sidenav">
-                    <div class="login-main-text">
-                        <a class="btn btn-info btn-xs" href= '/admin/stock'> Managing Stock</a>
-                        <a class="btn btn-info btn-xs" href= '/admin/stock'> Reset User Password</a>
-                        <a class="btn btn-info btn-xs" href= '/admin/stock'> Reset Admin Password</a>
-                        <a class="btn btn-info btn-xs" href= '/admin/stock'> Get Secret Password </a>
-                       <h2>Smart Shop<br> Login Page</h2>
-                       <div class="row" >
-                            <p>Login from here to access.</p>
-                            <a class="btn btn-danger btn-xs" href="/" >Logout</a>
-                        </div>
-                       {% if status == '1' %}
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-                                สถานะพี่เหน่ง <span class="badge badge-success">ON</span>
-                            </button>
-                        {% endif %}
-                        {% if status == '0' %}
-                            <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">
-                                สถานะพี่เหน่ง <span class="badge badge-danger">OFF</span>
-                            </button>
-                        {% endif %}
-                    </div>
-                 </div>
-                 <div class="main">
-                    <div class="col-md-6 col-sm-12">
-                       <div class="login-form">
-                          <form action="{{ url_for('adminHome')}}", method = 'post'>
+        <div class="sidenav1">
+            <div class="login-main-text-left">
+                <h2>คำอธิบาย<br>วิธีใช้เว็บ</h2>
+            </div>
+        </div>
+
+        <div class="sidenav">
+            <div class="topbutton">
+                <a class="btn btn-danger btn-xs logout" href="/" >Logout</a>
+                <a class="btn btn-info btn-xs" href= '/admin/stock'> Reset User Password</a>
+                <a class="btn btn-info btn-xs" href= '/admin/stock'> Reset Admin Password</a>
+                <a class="btn btn-info btn-xs" href= '/admin/stock'> Get Secret Password </a>
+                <a class="btn btn-info btn-xs stock" style="float: right;" href= '/admin/stock'> Managing Stock</a>
+            </div>
+
+            <div class="login-main-text">
+                <h1 class="display-1">Smart Shop</h1>
+                <h1 class="display-1" style="padding-left: 3%;">Login Page</h1>
+            </div>
+
+            <div class="main">
+                <div class="col-md-6 col-sm-12">
+                    <div class="login-form">
+                        <form action="{{ url_for('adminHome')}}", method = 'post'>
                              <div class="form-group">
                                 <label for="username_field"><b>Student ID</b></label>
                                 <input type="text" class="form-control" placeholder="Enter Student ID" name="username_field" required>
                              </div>
-                             
-                             
-                             <button type="submit" class="btn btn-success", value = 'login'>Enter</button>
-                             
+                            <button type="submit" class="btn btn-success", value = 'login'>Enter</button>  
                           </form>
                        </div>
                     </div>
                  </div>
-            </div>
     </body>
     
 
