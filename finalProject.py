@@ -505,21 +505,8 @@ def toolStatus(tool_id):
 @login_required
 def createTool():
     if(current_user.is_authenticated and current_user.id == 1):
-        if request.method == 'POST':
-            # check if the post request has the file part
-            if 'file' not in request.files:
-                flash('No file part')
-                return redirect(request.url)
-            file = request.files['file']
-            # if user does not select file, browser also
-            # submit an empty part without filename
-            if file.filename == '':
-                flash('No selected file')
-                return redirect(request.url)
-            if file and allowed_file(file.filename):
-                filename = secure_filename('xx.jpg')
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                #return redirect(url_for('uploaded_file',filename=filename))
+        tool = editor.create_new_tool("New Tool", "", "", 0, 0, "")
+        return redirect(url_for('editTool', tool_id=tool.id))
     else: return redirect(url_for('logout'))
 
     
