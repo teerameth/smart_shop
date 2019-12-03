@@ -73,7 +73,7 @@
                 <a class="btn btn-danger btn-xs logout" href="/" >Logout</a>
                 <a class="btn btn-info btn-xs" href= '/admin/stock'> Reset User Password</a>
                 <a class="btn btn-info btn-xs" href= '/admin/stock'> Reset Admin Password</a>
-                <a class="btn btn-info btn-xs" href= '/admin/stock'> Get Secret Password </a>
+                <a class="btn btn-info btn-xs" href= '/admin/secretpassword', target="_blank"> Get Secret Password </a>
                 <a class="btn btn-info btn-xs stock" style="float: right;" href= '/admin/stock'> Managing Stock</a>
             </div>
 
@@ -89,6 +89,9 @@
                              <div class="form-group">
                                 <label for="username_field"><b>Student ID</b></label>
                                 <input type="text" class="form-control" placeholder="Enter Student ID" name="username_field" required>
+                                {% if wrong == 1 %}
+                                    <p style="color: red;">ID not found</p>
+                                {% endif %}
                              </div>
                             <button type="submit" class="btn btn-success", value = 'login'>Enter</button>  
                           </form>
