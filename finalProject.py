@@ -9,6 +9,8 @@ from conversion import new_date_time, password_verify
 from passlib import pwd
 import os
 from werkzeug.utils import secure_filename
+from openpyxl import Workbook
+
 
 UPLOAD_FOLDER = '/tmp'  
 UPLOAD_FOLDER = './static/picture' 
@@ -61,6 +63,7 @@ def login():
                 return render_template('login.html', status=status,wrong=1)
         else:
             user = load_user(student_id)
+            if user == False: return render_template('login.html', status=status,wrong=1)
             if editor.get_student_by_id(student_id).verify_password(password):
                 login_user(user)
                 print("Login")
@@ -234,22 +237,72 @@ def adminHome(): #"Admin Home Page.\n Select between Approving & Editing"
 def history():
     if(current_user.is_authenticated and current_user.id == 1):
         pass #code here
-        return "All History will be shown here by datetime or enter student's ID"
+        return render_template('history.html')
     else: return redirect(url_for('logout'))
 
-@app.route('/admin/history/approved')
+def get_approved_datetime(tool_list):
+    return tool_list.approved_datetime
+def get_returned_datetime(tool_list):
+    return tool_list.returned_datetime
+
+@app.route('/admin/history/all')
+@login_required
+def allHistory():
+    if(current_user.is_authenticated and current_user.id == 1):
+        tool_lists = editor.list_all_approved_lists()
+        tool_lists = sorted(tool_lists, key=get_approved_datetime, reverse=False)
+        wb = Workbook()
+        sheet = wb.active
+        for tool_list in tool_lists:
+            sheet.append(['Approved datetime', 'Returned datetime', 'รหัสนักศึกษา', 'ชื่อ', 'นามสกุล', 'ประเภท', 'ชั้นปี', 'เบอร์โทร'])
+            sheet.append([tool_list.approved_datetime, tool_list.returned_datetime, tool_list.owner.student_university_ID, tool_list.owner.name, tool_list.owner.surname, tool_list.owner.student_type, tool_list.owner.student_year, tool_list.owner.phone_number])
+            sheet.append(["ยืม", "ชื่ออุปกรณ์", "ประเภท", "จำนวน"])
+            for order in tool_list.orders:
+                sheet.append(["", order.tool.name, order.tool.tool_type, order.amount])
+            if tool_list.returned_status == 1:
+                sheet.append(["คืน", "ชื่ออุปกรณ์", "ประเภท", "จำนวน"])
+                for order in tool_list.orders:
+                    sheet.append(["", order.tool.name, order.tool.tool_type, order.amount])
+        wb.save("all.xls")
+        return "All Approved lists history will be shown here by datetime"
+    else: return redirect(url_for('logout'))
+
+@app.route('/admin/history/approved')#ยังไม่ได้คืน
 @login_required
 def approvedHistory():
     if(current_user.is_authenticated and current_user.id == 1):
-        pass #code here
-        return "All Approved lists history will be shown here by datetime"
+        tool_lists = editor.list_all_approved_but_not_returned_lists()
+        tool_lists = sorted(tool_lists, key=get_approved_datetime, reverse=False)
+        wb = Workbook()
+        sheet = wb.active
+        for tool_list in tool_lists:
+            sheet.append(['Approved datetime', 'รหัสนักศึกษา', 'ชื่อ', 'นามสกุล', 'ประเภท', 'ชั้นปี', 'เบอร์โทร'])
+            sheet.append([tool_list.approved_datetime, tool_list.owner.student_university_ID, tool_list.owner.name, tool_list.owner.surname, tool_list.owner.student_type, tool_list.owner.student_year, tool_list.owner.phone_number])
+            sheet.append(["ยืม", "ชื่ออุปกรณ์", "ประเภท", "จำนวน"])
+            for order in tool_list.orders:
+                sheet.append(["", order.tool.name, order.tool.tool_type, order.amount])
+        wb.save("approved.xls")
+        return "<a href=\"approved.xls\">Download</a>"
     else: return redirect(url_for('logout'))
 
 @app.route('/admin/history/returned')
 @login_required
 def returnedHistory():
     if(current_user.is_authenticated and current_user.id == 1):
-        pass #code here
+        tool_lists = editor.list_all_approved_lists()
+        tool_lists = sorted(tool_lists, key=get_approved_datetime, reverse=False)
+        wb = Workbook()
+        sheet = wb.active
+        for tool_list in tool_lists:
+            sheet.append(['Approved datetime', 'Returned datetime', 'รหัสนักศึกษา', 'ชื่อ', 'นามสกุล', 'ประเภท', 'ชั้นปี', 'เบอร์โทร'])
+            sheet.append([tool_list.approved_datetime, tool_list.returned_datetime, tool_list.owner.student_university_ID, tool_list.owner.name, tool_list.owner.surname, tool_list.owner.student_type, tool_list.owner.student_year, tool_list.owner.phone_number])
+            sheet.append(["ยืม", "ชื่ออุปกรณ์", "ประเภท", "จำนวน"])
+            for order in tool_list.orders:
+                sheet.append(["", order.tool.name, order.tool.tool_type, order.amount])
+            sheet.append(["คืน", "ชื่ออุปกรณ์", "ประเภท", "จำนวน"])
+            for order in tool_list.orders:
+                sheet.append(["", order.tool.name, order.tool.tool_type, order.amount])
+        wb.save("returned.xls")
         return "All returned lists history will be shown here by datetime"
     else: return redirect(url_for('logout'))
 

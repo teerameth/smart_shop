@@ -77,6 +77,26 @@
             </font></div>
             </td>
         </tr>
+        {% for i in table  %}
+        <tr>
+            <td width="100"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
+                {{i[0]}}
+            </font></div></td>
+            <td width="200"><font face= "Angsana New", size="4"><div align="left" margin-top="5cm">
+                &nbsp;{{i[1]}}
+            </font></div></td>
+            <td width="100" valign="top"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm" valign="top">
+                {{i[2]}}
+            </font></div>
+            <td width="50" valign="top"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm" valign="top">
+                {{i[3]}}
+            </font></div>
+            <td width="100" valign="top"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm" valign="top">
+                {{i[4]}}
+            </font></div>
+            </td>
+        </tr>
+        {% endfor %}
     </table>
 
 </body>
