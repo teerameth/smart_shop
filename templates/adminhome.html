@@ -102,16 +102,17 @@
                         <div class="dropdown-content">
                         <a class="btn btn-xs" href= '/admin/reset_password_user' style="margin: 0; border-radius:0px;" > Edit User Password</a>
                         <a class="btn btn-xs" href= '/admin/reset_password_admin' style="border-radius:0px;"> Edit Admin Password</a>
-                        <a class="btn btn-xs" href= '/admin/secretpassword' style="border-radius:0px;"> Get Secret Password </a>
+                        <a class="btn btn-xs" href= '/admin/secretpassword' style="border-radius:0px;" target="_blank"> Get Secret Password </a>
                         <a class="btn btn-xs stock" href= '/admin/stock' style="border-radius:0px;"> Managing Stock</a>
                         <div class="dropdown dropleft">
                                 <button type="button" class="btn btn-xs dropdown-toggle" data-toggle="dropdown"style="border-radius:0px;">
                                 Export History
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a class="btn btn-xs" href= '/admin/history/all' style="border-radius:0px;"> All</a>
-                                    <a class="btn btn-xs" href= '/admin/history/approved' style="border-radius:0px;"> Approved</a>
-                                    <a class="btn btn-xs" href= '/admin/history/returned' style="border-radius:0px;"> Returned</a>
+                                    <a class="btn btn-xs logout" style="width:100%; border-radius:0px;" href="/admin/history/all" >All</a>
+                                    <a class="btn btn-xs logout" style="width:100%; border-radius:0px;" href="/admin/history/approved" >Approved</a>
+                                    <a class="btn btn-xs logout" style="width:100%; border-radius:0px;" href="/admin/history/returned" >Returned</a>
+                                    <a class="btn btn-xs logout" style="width:100%; border-radius:0px;" href="/admin/history/custom" >1 month</a>
                                 </div>
                               </div>
                         <a class="btn btn-danger btn-xs logout" style="width:100%; border-radius:0px;" href="/" >Logout</a>
