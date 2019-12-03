@@ -96,11 +96,21 @@ def getUpdate():
 def resetPassword():
     return render_template('forgotpassword_description.html') #told user the way to reset password
 
-@app.route('/user/<int:student_id>/change_password_user') #user change their password
+@app.route('/user/<int:student_id>/change_password_user', methods = ['GET', 'POST']) #user change their password
 @login_required
 def changePasswordUser(student_id):
     if(current_user.is_authenticated and editor.get_student_by_id(student_id).id == current_user.id):
-        return render_template('changePassword.html')
+        if request.method == 'GET':
+            return render_template('changePassword.html', wrong=0, student_id = student_id)
+        elif request.method == 'POST':
+            wrong = 0
+            password1 = request.form['password_field_1']
+            password2 = request.form['password_field_2']
+            if password1 != password2: wrong = 1 #if confime password not matched
+            if wrong != 0: return render_template('changePassword.html', wrong=wrong, student_id = student_id)
+            else:
+                current_user.edit_password(password1)
+                return redirect(url_for('allToolList', student_id = student_id))
     else: return redirect(url_for('logout'))
 
 @app.route('/admin/reset_password_user', methods = ['GET', 'POST']) #admin change user password
