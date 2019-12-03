@@ -1,5 +1,6 @@
 <html>
 	<head>
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 		<style>
 			.zoom{
@@ -12,14 +13,8 @@
   				transform: scale(1.5); 
 			}
 		</style>
-	</head>	
+	</head>
 	<body>
-            <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 			<a class="navbar-brand" href="#">Smart shop</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,16 +27,12 @@
 				  <a class="nav-link" href="/user/{{student.student_university_ID}}" >Home <span class="sr-only">(current)</span></a>
 				</li>
 				<li class="nav-item">
-					{% if status == '1' %}
-						<button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-							สถานะพี่เหน่ง <span class="badge badge-success">ON</span>
-						</button>
-					{% endif %}
-					{% if status == '0' %}
-						<button class="btn btn-outline-danger my-2 my-sm-0" type="submit">
-							สถานะพี่เหน่ง <span class="badge badge-danger">OFF</span>
-						</button>
-					{% endif %}
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="on">
+						สถานะพี่เหน่ง <span class="badge badge-success">ON</span>
+					</button>
+					<button class="btn btn-outline-danger my-2 my-sm-0" type="submit" id="off">
+						สถานะพี่เหน่ง <span class="badge badge-danger">OFF</span>
+					</button>
 				</li>
 				
 				</ul>
@@ -53,18 +44,18 @@
 			</div>
 		  </nav>
 			
-		<br>
+		<h2>Edit Tool</h2>
 		
 		<div class="container">
 			<div class="row" >
-				<h3>Tool</h3>
+				<h3>Tool Cart</h3>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-danger btn-xs" href="/user/{{student.student_university_ID}}" style="float:right">Exit</a>
 				{% if have_stock == True %}
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-success btn-xs" href="/user/{{student.student_university_ID}}/{{toollist.id}}/confirm" >Submit</a>
 				{% endif %}
 				{% if have_stock == False %}
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-success btn-xs" >Submit</a>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <h6 style="color: red;">not enough item in stock</h6>
+					<font color="red">not enough item in stock</font>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-success btn-xs" href="/user/{{student.student_university_ID}}/{{toollist.id}}/auto_adjust" >ปรับจำนวนของอัตโนมัติ</a>
 				{% endif %}
 			</div><br>
@@ -455,7 +446,31 @@
 							{% endfor %}
 							
 						</tbody>
+						<tfoot id= "total">
+	
+						</tfoot>
 					</table>
-				</div>
+			</div>
+			
+			<a class="btn btn-danger btn-xs" href="/user/{{student.student_university_ID}}" >Exit</a>
+		</div>
+		<script type=text/javascript>
+			function getUpdate() {
+				$.getJSON("/status",
+						function (data) {
+							var status = data.status;
+							if(status == '1'){
+								$('#on').show()
+								$('#off').hide()
+							}
+							else{
+								$('#on').hide()
+								$('#off').show()
+							}
+						}
+				);
+			}
+			setInterval('getUpdate()', 100);
+		</script>
 	    </body>
 </html>

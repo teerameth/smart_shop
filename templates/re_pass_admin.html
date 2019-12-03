@@ -196,17 +196,13 @@
             <div class="sidenav">
                     <div class="login-main-text">
                        <h2>Smart Shop<br> Change password Page</h2>
-                       <p>Enter new password for student account.</p>
+                       <p>Enter new password for admin account.</p>
                     </div>
                  </div>
                  <div class="main">
                     <div class="col-md-6 col-sm-12">
                        <div class="login-form">
-                          <form action="{{ url_for('resetPasswordUser')}}", method = 'post'>
-                             <div class="form-group">
-                                <label for="username_field"><b>Student ID</b></label>
-                                <input type="text" class="form-control" placeholder="Enter Student ID" name="username_field" required auto>
-                             </div>
+                          <form action="{{ url_for('resetPasswordAdmin')}}", method = 'post'>
                              <div class="form-group">
                                 <label for="password_field"><b>New Password</b></label>
                                 <input type="password" class="form-control" placeholder="Enter Password" name="password_field_1" required auto>
@@ -215,10 +211,8 @@
                                     <label for="password_field"><b>Confirm New Password</b></label>
                                     <input type="password" class="form-control" placeholder="Enter Password" name="password_field_2" required auto>
                             </div>
-                            {% if wrong==1 or wrong==3 %}
+                            {% if wrong==1 %}
                                 <p style="color: red;">Password not match</p>
-                            {% elif wrong==2 or wrong==3 %}
-                                <p style="color: red;">Student ID not found</p>
                             {% endif %}
                              <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Change Password</button>
                           </form>
