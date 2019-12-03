@@ -380,6 +380,19 @@ def approveList(student_id, toollist_id):
         return render_template('approve_list.html', student=editor.get_student_by_id(student_id),toollist=editor.get_tool_list_by_id(toollist_id))
     else: return redirect(url_for('logout'))
 
+@app.route('/admin/<int:student_id>/<int:toollist_id>/approve/<int:order_id>/<int:action>')
+@login_required
+def editAndApproveList(student_id, toollist_id,order_id, action):
+    if(current_user.is_authenticated and current_user.id == 1):
+        toollist = editor.get_tool_list_by_id(toollist_id)
+        for order in toollist.orders:
+            if order.id == order_id:
+                if action == 0: order.decrease() #minus
+                elif action == 1: order.increase() #add
+                elif action == 2: order.destroy() #destroy
+        return render_template('approve_list.html', student=editor.get_student_by_id(student_id),toollist=editor.get_tool_list_by_id(toollist_id))
+    else: return redirect(url_for('logout'))
+
 @app.route('/admin/<int:student_id>/<int:toollist_id>/return')
 @login_required
 def returnList(student_id, toollist_id):
