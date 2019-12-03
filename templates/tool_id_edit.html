@@ -2,7 +2,6 @@
 <html lang="en" dir="ltr">
     <head>
                 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-                <!-- <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=ukOU6O2tED7gDXGBXU0FNbI0MNy0ENx3tr_B607oGip9LKonVyx0al7xlByIbJJV2o_DSx744Q6ei3_mq9ySAGXD1-k1lX101WXgabdNnkMu9U8Gl5zVmIhpK7hxoWhHg0UQG4BWFWE75OsnoyEJclN8h7-00ZhV6AOo-b9jD_Sm9_5RxVlgURVcv9URt9HH9Vjl6lSHQtseja9PJG91NRRULawCo3mChsFPKEIAbf8Mar0p0PvqWI6BABPK7_kN6GZxSUKoL0T3rLsE1hkt_LvAsfn-GY6sEm8FdAseHTQR28twP3oC_QdKQ1TyfLGkNGhfz2pEOApGei0KgYI6R_4tMDm3hcZthzVuWn1Gp7nlPzk3Atcmnc61he2lf13xg8s1z22rsaybxf90MKjg_d9De94SV_LmFZFMUYf1sl5jePKbLwPiAk1j3QqQueBKf6PTzNXtdZlDzd2rx3n_Q2jqR742rI-Nj00m6eJatn4" charset="UTF-8"></script><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
                 <style>
                     .zoom{
                         width: 50;
@@ -15,88 +14,232 @@
                     }
                 </style>
     </head>	
-<body>
-    <table align="center" bgcolor="#ffffff" border="1.5" bordercolor="black" cellspacing="0" width="650">
-        <tr>
-            <td width="650"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm"><B>
-                Details of {{this_tool.name}}
-            </B></font></div></td>
-        </tr>
-    </table>
-    <table align="center" bgcolor="#ffffff" border="1.5" bordercolor="black" cellspacing="0" width="650">
-        <tr>
-            <td width="300"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
-                {% if this_tool.picture == "" %}
-					<img width="150" src="{{ url_for('static', filename='picture/no-image.png') }}" alt ="NoIMG">
-				{% else %}
-					<img  width="150" src="{{ url_for('static', filename='picture/' + this_tool.picture + '.jpg') }}" alt ="NoIMG">
-				{% endif %}
-                </font></div></td>
-
-                <td width="350" valign="top"><font face= "Angsana New", size="4"><div align="left" margin-top="5cm" valign="top">
-                    ชื่ออุปกรณ์: <textarea name="address" cols="20" rows="1" size="4">{{this_tool.name}}</textarea> <br />
-                    จำนวนทั้งหมด: <textarea name="address" cols="5" rows="1">{{this_tool.total}}</textarea> <br />
-                    คงเหลือใน Stock: <textarea name="address" cols="5" rows="1">{{this_tool.in_stock}}</textarea> <br />
-                    Submit&nbsp;
-                    Delete 
-                </font></div>
-            </td>
-            <td>
-                <form method=post enctype=multipart/form-data>
-                    <input type=file name=file>
-                    <input type=submit value=Upload>
-                  </form>
-            </td>
-        </tr>
-    </table>
-    
-    <table align="center" bgcolor="#ffffff" border="1.5" bordercolor="black" cellspacing="0" width="650">
-        <tr>
-            <td width="650"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm"><B>
-                tool address
-            </B></font></div></td>
-        </tr>
-    </table>
-    
-    <table align="center" bgcolor="#ffffff" border="1.5" bordercolor="black" cellspacing="0" width="650">
-        <tr>
-            <td width="50"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
-                วันที่
-            </font></div></td>
-            <td width="300"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
-                ชื่อผู้ยืม
-            </font></div></td>
-            <td width="50" valign="top"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm" valign="top">
-                ชั้นปี
-            </font></div>
-            <td width="100" valign="top"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm" valign="top">
-                จำนวน
-            </font></div>
-            <td width="100" valign="top"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm" valign="top">
-                สถานะ
-            </font></div>
-            </td>
-        </tr>
-        {% for i in table  %}
-        <tr>
-            <td width="100"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
-                {{i[0]}}
-            </font></div></td>
-            <td width="200"><font face= "Angsana New", size="4"><div align="left" margin-top="5cm">
-                &nbsp;{{i[1]}}
-            </font></div></td>
-            <td width="100" valign="top"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm" valign="top">
-                {{i[2]}}
-            </font></div>
-            <td width="50" valign="top"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm" valign="top">
-                {{i[3]}}
-            </font></div>
-            <td width="100" valign="top"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm" valign="top">
-                {{i[4]}}
-            </font></div>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-
-</body>
+    <body>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <a class="navbar-brand" href="#">Smart shop</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+            
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                        </li>
+                        <li class="nav-item">
+                            
+                        </li>
+                        
+                        </ul>
+                        <form class="form-inline my-2 my-lg-0">
+                            <span class="navbar-text">
+                                    Admin 
+                            </span>
+                            &nbsp;<a class="btn btn-danger btn-xs" href="/admin" >Exit</a>  
+                        </form> 
+                    </div>
+                    </nav>
+                <br>
+                <div class="container">
+                        <div class="row" >
+                            <h3>Manage Stock</h3>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-danger btn-xs" href="/admin/stock" >Back</a>  
+                          </div><br>
+                      </div>
+                      <div class="row" >
+                          
+                      <div class="row" id= "row2" style="width:100%; height: 100%; float:right; ">
+                            <div class="col-2">
+                            </div>
+                            <div class="col-9" >
+                                    <table class="table" id="table1" >
+                                            <thead class= "thead-dark">
+                            <tr >
+                                <th scope="col">Image</th>
+                                <th scope="col" >Name</th>
+                                <th scope="col"> Total</th>
+                                <th scope="col">In Stock </th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody id="tableProducts">
+                                <tr>
+                                    <td align = "center" width="300">
+                                            {% if this_tool.picture == "" %}
+                                            <img width="150" src="{{ url_for('static', filename='picture/no-image.png') }}" alt ="NoIMG">
+                                        {% else %}
+                                            <img  width="150" src="{{ url_for('static', filename='picture/' + this_tool.picture + '.jpg') }}" alt ="NoIMG">
+                                        {% endif %}
+                                    </td>
+                                    <td >
+                                        <textarea name="address" cols="20" rows="1" size="4">{{this_tool.name}}</textarea> <br />
+                                    </td>
+                                    <td >
+                                        {{this_tool.total}}
+                                    </td>
+                                    <td >
+                                        {{this_tool.in_stock}}
+                                    </td>
+                                </tr>
+            
+                                <tr>
+                                    <td>
+                                            <form method=post enctype=multipart/form-data>
+                                                <input  type=file name=file>
+                                              </form>
+                                    </td>
+                                    <td>
+                                            <form method=post enctype=multipart/form-data>
+                                                <input type=submit value=Upload>
+                                              </form>
+                                    </td>
+                                        <td align="right">
+                                                <a class="btn btn-success btn-xs" href="/admin" ">Submit</a>
+                                        </td>
+                                    
+                                    <td align="left" >
+                                            
+                                            <a class="btn btn-danger btn-xs" href="/admin" >Delete</a>
+                                    </td>
+                                </tr>
+                                
+                            </tbody>
+                                    </table>
+                            </div>
+                      </div>
+                      </div>
+                      <br>
+                      <br>
+                      <div class="container">
+                            <div class="row" >
+                                <h3>Tool address</h3>
+                                
+                              </div><br>
+                          </div>
+                          <div class="row" >
+                          
+                                <div class="row" id= "row2" style="width:100%; height: 100%; float:right; ">
+                                      <div class="col-2">
+                                      </div>
+                                      <div class="col-9" >
+            
+                                <table class="table" id="table1">
+                                        <thead class= "thead-dark">
+                                        <tr>
+                                                <th scope="col-1">วันที่</th>  
+                                                <th scope="col">ชื่อผู้ยืม</th> 
+                                                <th scope="col-1">รหัสนักศึกษา</th> 
+                                                <th scope="col-1">จำนวน</th>
+                                                <th scope="col-1">สถานะ</th>  
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                {% for i in table  %}
+                                            <tr>
+                                                <td>
+                                                        {{i[0]}}
+                                                </td>
+                                                <td>
+                                                        {{i[1]}}
+                                                </td>
+                                                <td>
+                                                        {{i[2]}}
+                                                </td>
+                                                <td>
+                                                        {{i[3]}}
+                                                </td>
+                                                <td>
+                                                        {{i[4]}}
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                </table>
+                            </div>
+                    </div>
+              </div>
+            
+            <table align="center" bgcolor="#ffffff" border="1.5" bordercolor="black" cellspacing="0" width="650">
+                    <tr>
+                        <td width="650"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm"><B>
+                            Details of {{this_tool.name}}
+                        </B></font></div></td>
+                    </tr>
+                </table>
+                <table align="center" bgcolor="#ffffff" border="1.5" bordercolor="black" cellspacing="0" width="650">
+                    <tr>
+                        <td width="300"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
+                            {% if this_tool.picture == "" %}
+                                <img width="150" src="{{ url_for('static', filename='picture/no-image.png') }}" alt ="NoIMG">
+                            {% else %}
+                                <img  width="150" src="{{ url_for('static', filename='picture/' + this_tool.picture + '.jpg') }}" alt ="NoIMG">
+                            {% endif %}
+                            </font></div></td>
+            
+                            <td width="350" valign="top"><font face= "Angsana New", size="4"><div align="left" margin-top="5cm" valign="top">
+                                ชื่ออุปกรณ์: <textarea name="address" cols="20" rows="1" size="4">{{this_tool.name}}</textarea> <br />
+                                จำนวนทั้งหมด: <textarea name="address" cols="5" rows="1">{{this_tool.total}}</textarea> <br />
+                                คงเหลือใน Stock: <textarea name="address" cols="5" rows="1">{{this_tool.in_stock}}</textarea> <br />
+                                Submit&nbsp;
+                                Delete 
+                            </font></div>
+                        </td>
+                        <td>
+                            <form method=post enctype=multipart/form-data>
+                                <input type=file name=file>
+                                <input type=submit value=Upload>
+                              </form>
+                        </td>
+                    </tr>
+                </table>
+                
+                <table align="center" bgcolor="#ffffff" border="1.5" bordercolor="black" cellspacing="0" width="650">
+                    <tr>
+                        <td width="650"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm"><B>
+                            tool address
+                        </B></font></div></td>
+                    </tr>
+                </table>
+                
+                <table align="center" bgcolor="#ffffff" border="1.5" bordercolor="black" cellspacing="0" width="650">
+                    <tr>
+                        <td width="50"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
+                            วันที่
+                        </font></div></td>
+                        <td width="300"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
+                            ชื่อผู้ยืม
+                        </font></div></td>
+                        <td width="50" valign="top"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm" valign="top">
+                            ชั้นปี
+                        </font></div>
+                        <td width="100" valign="top"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm" valign="top">
+                            จำนวน
+                        </font></div>
+                        <td width="100" valign="top"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm" valign="top">
+                            สถานะ
+                        </font></div>
+                        </td>
+                    </tr>
+                    {% for i in table  %}
+                    <tr>
+                        <td width="100"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm">
+                            {{i[0]}}
+                        </font></div></td>
+                        <td width="200"><font face= "Angsana New", size="4"><div align="left" margin-top="5cm">
+                            &nbsp;{{i[1]}}
+                        </font></div></td>
+                        <td width="100" valign="top"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm" valign="top">
+                            {{i[2]}}
+                        </font></div>
+                        <td width="50" valign="top"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm" valign="top">
+                            {{i[3]}}
+                        </font></div>
+                        <td width="100" valign="top"><font face= "Angsana New", size="4"><div align="center" margin-top="5cm" valign="top">
+                            {{i[4]}}
+                        </font></div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            
+    </body>
+</html>
