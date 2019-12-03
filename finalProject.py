@@ -81,7 +81,7 @@ def getSecretPassword():
     if(current_user.is_authenticated and current_user.id == 1):
         password = pwd.genword(entropy=52, length=48, charset = "ascii_72")
         current_user.edit_name(password)#Update new secret password to database
-        return render_template('secretpassword.html', password = password)
+        return password
     else: return redirect(url_for('logout'))
 
 @app.route('/status')
