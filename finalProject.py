@@ -284,6 +284,7 @@ def adminHome(): #"Admin Home Page.\n Select between Approving & Editing"
             return render_template('adminhome.html', use_secret_key=0, wrong=0)
         elif request.method == 'POST':
             student_id = request.form['username_field']
+            if student_id == "admin": return render_template('adminhome.html', use_secret_key=0, wrong=1) #if admin view his owntool list
             if editor.get_student_by_id(student_id) == False: return render_template('adminhome.html', use_secret_key=0, wrong=1)
             return redirect(url_for('studentLists', student_id = student_id))
     else: return redirect(url_for('logout'))
@@ -370,6 +371,14 @@ def studentLists(student_id):
         lists = student.lists
         status = content()
         return render_template('student_lists.html', student=student, lists=lists , status=status)
+    else: return redirect(url_for('logout'))
+
+@app.route('/admin/<int:student_id>/<int:toollist_id>/approve_now')
+@login_required
+def suddenApproveList(student_id, toollist_id):
+    if(current_user.is_authenticated and current_user.id == 1):
+        editor.get_tool_list_by_id(toollist_id).set_approved_status()
+        return redirect(url_for('studentLists', student_id = student_id))
     else: return redirect(url_for('logout'))
 
 @app.route('/admin/<int:student_id>/<int:toollist_id>/approve')
