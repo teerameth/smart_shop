@@ -1,8 +1,14 @@
 <html>
 	<head>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=fpP4414uJ5LgY_zvYNHO4WcmlngCohzEE04H5NaIhY01U-ZRO4gCO3VsAVBd_pX_ct7MohWGGhrAdwR4cZVYjJmTCSNJcIEPgA1RjeOiPOJ8MnOxitaN1sGulGV2DOSLM6jrTj-Lgxzo_OQ1FgKgbHkmMCyWpPI1DbiexARFgoVfy0BTkyau8dBxehM3d_uIv6l9nVanmsrPg-Y6czRPOCGQpSYS0w_rlCAeW_D8ulYA9-Dy2iKzEiRqU_wNQ_NVpBlQlRh6M4naIlMDSkc5GmfC9x5uwz9KhoEQ4-vaAWP-3I0SUMXqf3CFMLEIHmRjG9ZLbNvzqMqksao1b8DFnmsmPvNCvlD_pK8r2trMoDm5v3_gUkQLvV0bE-IisKbiCC3nedFJ7dif9vKMKrC_Rs1Ef9UfWoX5pxhvCF_YRpGmxznPhpccZzKXs3dChoopf-mdCooUsira85FPaoTx4A" charset="UTF-8"></script><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
 	</head>	
 	<body>
 			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -20,8 +26,8 @@
 							<button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="on">
 								สถานะพี่เหน่ง <span class="badge badge-success">ON</span>
 							</button>
-							<button class="btn btn-secondary my-2 my-sm-0" type="submit" id="off">
-								สถานะพี่เหน่ง <span class="badge badge-secondary">OFF</span>
+							<button class="btn btn-outline-danger my-2 my-sm-0" type="submit" id="off">
+								สถานะพี่เหน่ง <span class="badge badge-danger">OFF</span>
 							</button>
 						</li>
 						
@@ -80,15 +86,16 @@
 											</thead>
 											<tbody>
 													{% for list in lists %}
-													{% if list.approved_status == 0 and list.returned_status == 0 and list.stored == 0 %}
+													{% if list.approved_status == 0 and list.returned_status == 0 %}
 													<tr>		
 														<td>
 															{{list.last_edited_datetime}}
 														</td>
 														<td></td>
-														<td align = "right">
-																<a href="/user/{{student.student_university_ID}}/{{list.id}}/edit" class="btn btn-warning btn-xs btn-sm" >Edit</a>
-																<a href="/user/{{student.student_university_ID}}/{{list.id}}/delete" class="btn btn-danger btn-xs btn-sm" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่?')">Delete</a>
+														<td align = "center">
+															<a href="/user/{{student.student_university_ID}}/{{list.id}}/edit" class="btn btn-warning btn-xs btn-sm" >Edit</a>
+															<a href="/user/{{student.student_university_ID}}/{{list.id}}/delete" class="btn btn-danger btn-xs btn-sm" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่?')">Delete</a>
+															<a href="/user/{{student.student_university_ID}}/{{list.id}}/share" class="btn btn-info btn-xs btn-sm" target="_blank" ><img src="{{ url_for('static', filename='picture/share1.png') }}"width="21" height="21" alt ="NoIMG"></a>
 														</td>
 													</tr>
 													{% for order in list.orders %}
@@ -103,9 +110,6 @@
 											</tbody>
 										</table>
 									</div>
-
-
-									
 							<div class="tab-pane fade " id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 								<table class="table" cellspacing="0">
 
@@ -118,7 +122,7 @@
 									</thead>
 									<tbody>
 										{% for list in lists %}
-										{% if list.approved_status == 1 and list.returned_status == 0 and list.stored == 0 %}
+										{% if list.approved_status == 1 and list.returned_status == 0 %}
 										<tr>		
 											<td>
 													{{list.approved_datetime}}
@@ -151,7 +155,7 @@
 									</thead>
 									<tbody>
 											{% for list in lists %}
-										{% if list.approved_status == 1 and list.returned_status == 1 and list.stored == 0 %}
+										{% if list.approved_status == 1 and list.returned_status == 1 %}
 										<tr>		
 											<td>
 													{{list.returned_datetime}}
