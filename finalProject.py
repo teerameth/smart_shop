@@ -371,7 +371,7 @@ def studentLists(student_id):
 @login_required
 def approveList(student_id, toollist_id):
     if(current_user.is_authenticated and current_user.id == 1):
-        editor.get_tool_list_by_id(toollist_id).set_approved_status()
+        # editor.get_tool_list_by_id(toollist_id).set_approved_status()
         return render_template('approve_list.html', student=editor.get_student_by_id(student_id),toollist=editor.get_tool_list_by_id(toollist_id))
     else: return redirect(url_for('logout'))
 

@@ -49,7 +49,7 @@
 		<div class="container">
 			<div class="row" >
 				<h3>Tool Cart</h3>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-danger btn-xs" href="/user/{{student.student_university_ID}}" style="float:right">Exit</a>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-danger btn-xs" href="/admin/{{student.student_university_ID}}" style="float:right">Exit</a>
 				{% if have_stock == True %}
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-success btn-xs" href="/user/{{student.student_university_ID}}/{{toollist.id}}/confirm" >Submit</a>
 				{% endif %}
@@ -136,8 +136,6 @@
 						</tfoot>
 					</table>
 			</div>
-			
-			<a class="btn btn-danger btn-xs" href="/user/{{student.student_university_ID}}" >Exit</a>
 		</div>
 		<script type=text/javascript>
 			function getUpdate() {
