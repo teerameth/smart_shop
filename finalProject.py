@@ -502,6 +502,7 @@ def editTool(tool_id):
             if file and allowed_file(file.filename):
                 filename = secure_filename(str(tool_id)+'.jpg')
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                this_tool.edit_picture(str(tool_id))
         return render_template('tool_id_edit.html', this_tool = this_tool)
     else: return redirect(url_for('logout'))
 
