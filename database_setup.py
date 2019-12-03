@@ -68,7 +68,7 @@ class Student(db.Model, UserMixin):
         lastest = find_lastest(datetimes)
         return self.lists[lastest]
     def create_new_list(self): #Create new tool_list and auto fill datetime and return that tool_list
-        new_list = Tool_list(owner = self, created_datetime = new_date_time(), stored = 0)
+        new_list = Tool_list(owner = self, created_datetime = new_date_time(), stored = 0, )
         db.session.add(new_list)
         db.session.commit()
         return new_list
