@@ -412,6 +412,29 @@ def editAndApproveList(student_id, toollist_id,order_id, action):
         return render_template('approve_list.html', student=editor.get_student_by_id(student_id),toollist=editor.get_tool_list_by_id(toollist_id))
     else: return redirect(url_for('logout'))
 
+@app.route('/admin/<int:student_id>/<int:toollist_id>/edit/<int:tool_id>/add_tool')
+@login_required
+def adminAddToolInList(student_id, toollist_id,tool_id):
+    if(current_user.is_authenticated and current_user.id == 1):
+        toollist = editor.get_tool_list_by_id(toollist_id)
+        this_tool = editor.get_tool_by_id(tool_id)
+        basket = []
+        for order in toollist.orders:
+            basket.append(order.tool.id)
+        if this_tool.id not in basket:
+            toollist.add_new_tool(this_tool,1)
+        return redirect(url_for('approveList', student_id = student_id, toollist_id = toollist_id))
+    else: return redirect(url_for('logout'))
+
+@app.route('/admin/<int:student_id>/<int:toollist_id>/auto_adjust')
+@login_required
+def admin_auto_adjust(student_id, toollist_id):
+    if(current_user.is_authenticated and current_user.id == 1):
+        toollist = editor.get_tool_list_by_id(toollist_id)
+        for order in toollist.orders: order.fit()
+        return redirect(url_for('approveList', student_id = student_id, toollist_id = toollist_id))
+    else: return redirect(url_for('logout'))
+
 @app.route('/admin/<int:student_id>/<int:toollist_id>/return')
 @login_required
 def returnList(student_id, toollist_id):
