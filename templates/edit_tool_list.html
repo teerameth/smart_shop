@@ -7,9 +7,9 @@
 				transition: transfrom .3s;	
 			}
 			.zoom:hover{
-				-ms-transform: scale(2); /* IE 9 */
-  				-webkit-transform: scale(2); /* Safari 3-8 */
-  				transform: scale(2); 
+				-ms-transform: scale(1.5); /* IE 9 */
+  				-webkit-transform: scale(1.5); /* Safari 3-8 */
+  				transform: scale(1.5); 
 			}
 		</style>
 	</head>	
@@ -38,8 +38,8 @@
 						</button>
 					{% endif %}
 					{% if status == '0' %}
-						<button class="btn btn-outline-danger my-2 my-sm-0" type="submit">
-							สถานะพี่เหน่ง <span class="badge badge-danger">OFF</span>
+						<button class="btn btn-secondary my-2 my-sm-0" type="submit">
+							สถานะพี่เหน่ง <span class="badge badge-seconday">OFF</span>
 						</button>
 					{% endif %}
 				</li>
@@ -69,13 +69,19 @@
 				{% endif %}
 			</div><br>
 		</div>
-			<div class="row" id= "row2" style="width:58%; height: 100%; float:left; overflow: auto;">
+			<div class="row" id= "row2" style="width:57%; height: 100%; float:left; overflow: auto;">
                     <div class="col-3">
                             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical" style="position: fixed;">
                               <a class="nav-link active" id="v-pills-all-tab" data-toggle="pill" href="#v-pills-all" role="tab" aria-controls="v-pills-all" aria-selected="true">All</a>
                               <a class="nav-link" id="v-pills-t1-tab" data-toggle="pill" href="#v-pills-t1" role="tab" aria-controls="v-pills-t1" aria-selected="false">เครื่องมือตัด/เจาะ</a>
                               <a class="nav-link" id="v-pills-t2-tab" data-toggle="pill" href="#v-pills-t2" role="tab" aria-controls="v-pills-t2" aria-selected="false">เครื่องมือขันยึด</a>
-                              <a class="nav-link" id="v-pills-t3-tab" data-toggle="pill" href="#v-pills-t3" role="tab" aria-controls="v-pills-t3" aria-selected="false">เครื่องมือวัด</a>
+							  <a class="nav-link" id="v-pills-t3-tab" data-toggle="pill" href="#v-pills-t3" role="tab" aria-controls="v-pills-t3" aria-selected="false">เครื่องมือวัด</a>
+							  <a class="nav-link" id="v-pills-t4-tab" data-toggle="pill" href="#v-pills-t4" role="tab" aria-controls="v-pills-t4" aria-selected="false">เครื่องมือจับยึด</a>
+                              <a class="nav-link" id="v-pills-t5-tab" data-toggle="pill" href="#v-pills-t5" role="tab" aria-controls="v-pills-t5" aria-selected="false">เครื่องมือตอก</a>
+                              <a class="nav-link" id="v-pills-t6-tab" data-toggle="pill" href="#v-pills-t6" role="tab" aria-controls="v-pills-t6" aria-selected="false">เครื่องเชื่อม/อุปกรณ์</a>
+                              <a class="nav-link" id="v-pills-t7-tab" data-toggle="pill" href="#v-pills-t7" role="tab" aria-controls="v-pills-t7" aria-selected="false">เครื่องมือกลไฟฟ้า</a>
+                              <a class="nav-link" id="v-pills-t8-tab" data-toggle="pill" href="#v-pills-t8" role="tab" aria-controls="v-pills-t8" aria-selected="false">อุปกรณ์ทำความสะอาด</a>
+                              <a class="nav-link" id="v-pills-t9-tab" data-toggle="pill" href="#v-pills-t9" role="tab" aria-controls="v-pills-t9" aria-selected="false">อุปกรณ์ป้องกัน(safety)</a>
                             </div>
                           </div>
                           <div class="col-9">
@@ -87,8 +93,7 @@
                                         <tr>
                                             <th scope="col">Image</th>
                                             <th scope="col" style="width: 7rem;">Name</th>
-                                            <th scope="col">Total</th>
-                                            <th scope="col">In Stock</th>
+                                            <th scope="col">In Stock/Total</th>
                                             <th scope="col">Add</th>
                                         </tr>
                                     </thead>
@@ -102,8 +107,7 @@
                                                 <td><img class="zoom" src="{{ url_for('static', filename='picture/' + tool.picture + '.jpg') }}" alt ="NoIMG"></td>
                                                 {% endif %}
                                                 <td style="width: 10rem">{{tool.name}}</td>
-                                                <td>{{tool.total}}</td>
-                                                <td>{{tool.in_stock}}</td>
+                                                <td>{{tool.in_stock}}/{{tool.total}}</td>
                                                 <td>
                                                     <a href="/user/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
                                                 </td>
@@ -120,8 +124,7 @@
                                                 <tr>
                                                     <th scope="col">Image</th>
                                                     <th scope="col" style="width: 7rem;">Name</th>
-                                                    <th scope="col">Total</th>
-                                                    <th scope="col">In Stock</th>
+                                                    <th scope="col">In Stock/Total</th>
                                                     <th scope="col">Add</th>
                                                 </tr>
                                             </thead>
@@ -136,8 +139,7 @@
                                                                 <td><img class="zoom" src="{{ url_for('static', filename='picture/' + tool.picture + '.jpg') }}" alt ="NoIMG"></td>
                                                                 {% endif %}
                                                                 <td style="width: 10rem">{{tool.name}}</td>
-                                                                <td>{{tool.total}}</td>
-                                                                <td>{{tool.in_stock}}</td>
+                                                                <td>{{tool.in_stock}}/{{tool.total}}</td>
                                                                 <td>
                                                                     <a href="/user/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
                                                                 </td>
@@ -150,12 +152,269 @@
                               </div>
 
                               <div class="tab-pane fade" id="v-pills-t2" role="tabpanel" aria-labelledby="v-pills-messages-t2">
-                                  งง
+								<table class="table" id="table1">
+									<thead class= "thead-dark">
+										<tr>
+											<th scope="col">Image</th>
+											<th scope="col" style="width: 7rem;">Name</th>
+											<th scope="col">In Stock/Total</th>
+											<th scope="col">Add</th>
+										</tr>
+									</thead>
+									<tbody id="tableProducts">
+										{% for tool in alltool %}
+											{% if tool.tool_type == "เครื่องมือขันยึด" %}
+												<tr>
+													{% if tool.id not in basket %}
+														{% if tool.picture == "" %}
+														<td><img class="zoom" src="{{ url_for('static', filename='picture/no-image.png') }}" alt ="NoIMG"></td>
+														{% else %}
+														<td><img class="zoom" src="{{ url_for('static', filename='picture/' + tool.picture + '.jpg') }}" alt ="NoIMG"></td>
+														{% endif %}
+														<td style="width: 10rem">{{tool.name}}</td>
+														<td>{{tool.in_stock}}/{{tool.total}}</td>
+														<td>
+															<a href="/user/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
+														</td>
+													{% endif %}
+												</tr>
+											{% endif %}
+										{% endfor %}
+									</tbody>
+								</table>
                               </div>
 
                               <div class="tab-pane fade" id="v-pills-t3" role="tabpanel" aria-labelledby="v-pills-settings-t3">
-                                  เยอะจาง
-                              </div>
+								<table class="table" id="table1">
+									<thead class= "thead-dark">
+										<tr>
+											<th scope="col">Image</th>
+											<th scope="col" style="width: 7rem;">Name</th>
+											<th scope="col">In Stock/Total</th>
+											<th scope="col">Add</th>
+										</tr>
+									</thead>
+									<tbody id="tableProducts">
+										{% for tool in alltool %}
+											{% if tool.tool_type == "เครื่องมือวัด" %}
+												<tr>
+													{% if tool.id not in basket %}
+														{% if tool.picture == "" %}
+														<td><img class="zoom" src="{{ url_for('static', filename='picture/no-image.png') }}" alt ="NoIMG"></td>
+														{% else %}
+														<td><img class="zoom" src="{{ url_for('static', filename='picture/' + tool.picture + '.jpg') }}" alt ="NoIMG"></td>
+														{% endif %}
+														<td style="width: 10rem">{{tool.name}}</td>
+														<td>{{tool.in_stock}}/{{tool.total}}</td>
+														<td>
+															<a href="/user/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
+														</td>
+													{% endif %}
+												</tr>
+											{% endif %}
+										{% endfor %}
+									</tbody>
+								</table>
+							  </div>
+							  
+							  <div class="tab-pane fade" id="v-pills-t4" role="tabpanel" aria-labelledby="v-pills-settings-t4">
+								<table class="table" id="table1">
+									<thead class= "thead-dark">
+										<tr>
+											<th scope="col">Image</th>
+											<th scope="col" style="width: 7rem;">Name</th>
+											<th scope="col">In Stock/Total</th>
+											<th scope="col">Add</th>
+										</tr>
+									</thead>
+									<tbody id="tableProducts">
+										{% for tool in alltool %}
+											{% if tool.tool_type == "เครื่องมือจับยึด" %}
+												<tr>
+													{% if tool.id not in basket %}
+														{% if tool.picture == "" %}
+														<td><img class="zoom" src="{{ url_for('static', filename='picture/no-image.png') }}" alt ="NoIMG"></td>
+														{% else %}
+														<td><img class="zoom" src="{{ url_for('static', filename='picture/' + tool.picture + '.jpg') }}" alt ="NoIMG"></td>
+														{% endif %}
+														<td style="width: 10rem">{{tool.name}}</td>
+														<td>{{tool.in_stock}}/{{tool.total}}</td>
+														<td>
+															<a href="/user/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
+														</td>
+													{% endif %}
+												</tr>
+											{% endif %}
+										{% endfor %}
+									</tbody>
+								</table>
+							  </div>
+
+							  <div class="tab-pane fade" id="v-pills-t5" role="tabpanel" aria-labelledby="v-pills-settings-t5">
+								<table class="table" id="table1">
+									<thead class= "thead-dark">
+										<tr>
+											<th scope="col">Image</th>
+											<th scope="col" style="width: 7rem;">Name</th>
+											<th scope="col">In Stock/Total</th>
+											<th scope="col">Add</th>
+										</tr>
+									</thead>
+									<tbody id="tableProducts">
+										{% for tool in alltool %}
+											{% if tool.tool_type == "เครื่องมือตอก" %}
+												<tr>
+													{% if tool.id not in basket %}
+														{% if tool.picture == "" %}
+														<td><img class="zoom" src="{{ url_for('static', filename='picture/no-image.png') }}" alt ="NoIMG"></td>
+														{% else %}
+														<td><img class="zoom" src="{{ url_for('static', filename='picture/' + tool.picture + '.jpg') }}" alt ="NoIMG"></td>
+														{% endif %}
+														<td style="width: 10rem">{{tool.name}}</td>
+														<td>{{tool.in_stock}}/{{tool.total}}</td>
+														<td>
+															<a href="/user/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
+														</td>
+													{% endif %}
+												</tr>
+											{% endif %}
+										{% endfor %}
+									</tbody>
+								</table>
+							  </div>
+
+							  <div class="tab-pane fade" id="v-pills-t6" role="tabpanel" aria-labelledby="v-pills-settings-t6">
+								<table class="table" id="table1">
+									<thead class= "thead-dark">
+										<tr>
+											<th scope="col">Image</th>
+											<th scope="col" style="width: 7rem;">Name</th>
+											<th scope="col">In Stock/Total</th>
+											<th scope="col">Add</th>
+										</tr>
+									</thead>
+									<tbody id="tableProducts">
+										{% for tool in alltool %}
+											{% if tool.tool_type == "เครื่องเชื่อม/อุปกรณ์" %}
+												<tr>
+													{% if tool.id not in basket %}
+														{% if tool.picture == "" %}
+														<td><img class="zoom" src="{{ url_for('static', filename='picture/no-image.png') }}" alt ="NoIMG"></td>
+														{% else %}
+														<td><img class="zoom" src="{{ url_for('static', filename='picture/' + tool.picture + '.jpg') }}" alt ="NoIMG"></td>
+														{% endif %}
+														<td style="width: 10rem">{{tool.name}}</td>
+														<td>{{tool.in_stock}}/{{tool.total}}</td>
+														<td>
+															<a href="/user/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
+														</td>
+													{% endif %}
+												</tr>
+											{% endif %}
+										{% endfor %}
+									</tbody>
+								</table>
+							  </div>
+
+							  <div class="tab-pane fade" id="v-pills-t7" role="tabpanel" aria-labelledby="v-pills-settings-t7">
+								<table class="table" id="table1">
+									<thead class= "thead-dark">
+										<tr>
+											<th scope="col">Image</th>
+											<th scope="col" style="width: 7rem;">Name</th>
+											<th scope="col">In Stock/Total</th>
+											<th scope="col">Add</th>
+										</tr>
+									</thead>
+									<tbody id="tableProducts">
+										{% for tool in alltool %}
+											{% if tool.tool_type == "เครื่องมือกลไฟฟ้า" %}
+												<tr>
+													{% if tool.id not in basket %}
+														{% if tool.picture == "" %}
+														<td><img class="zoom" src="{{ url_for('static', filename='picture/no-image.png') }}" alt ="NoIMG"></td>
+														{% else %}
+														<td><img class="zoom" src="{{ url_for('static', filename='picture/' + tool.picture + '.jpg') }}" alt ="NoIMG"></td>
+														{% endif %}
+														<td style="width: 10rem">{{tool.name}}</td>
+														<td>{{tool.in_stock}}/{{tool.total}}</td>
+														<td>
+															<a href="/user/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
+														</td>
+													{% endif %}
+												</tr>
+											{% endif %}
+										{% endfor %}
+									</tbody>
+								</table>
+							  </div>
+
+							  <div class="tab-pane fade" id="v-pills-t8" role="tabpanel" aria-labelledby="v-pills-settings-t8">
+								<table class="table" id="table1">
+									<thead class= "thead-dark">
+										<tr>
+											<th scope="col">Image</th>
+											<th scope="col" style="width: 7rem;">Name</th>
+											<th scope="col">In Stock/Total</th>
+											<th scope="col">Add</th>
+										</tr>
+									</thead>
+									<tbody id="tableProducts">
+										{% for tool in alltool %}
+											{% if tool.tool_type == "อุปกรณ์ทำความสะอาด" %}
+												<tr>
+													{% if tool.id not in basket %}
+														{% if tool.picture == "" %}
+														<td><img class="zoom" src="{{ url_for('static', filename='picture/no-image.png') }}" alt ="NoIMG"></td>
+														{% else %}
+														<td><img class="zoom" src="{{ url_for('static', filename='picture/' + tool.picture + '.jpg') }}" alt ="NoIMG"></td>
+														{% endif %}
+														<td style="width: 10rem">{{tool.name}}</td>
+														<td>{{tool.in_stock}}/{{tool.total}}</td>
+														<td>
+															<a href="/user/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
+														</td>
+													{% endif %}
+												</tr>
+											{% endif %}
+										{% endfor %}
+									</tbody>
+								</table>
+							  </div>
+
+							  <div class="tab-pane fade" id="v-pills-t9" role="tabpanel" aria-labelledby="v-pills-settings-t9">
+								<table class="table" id="table1">
+									<thead class= "thead-dark">
+										<tr>
+											<th scope="col">Image</th>
+											<th scope="col" style="width: 7rem;">Name</th>
+											<th scope="col">In Stock/Total</th>
+											<th scope="col">Add</th>
+										</tr>
+									</thead>
+									<tbody id="tableProducts">
+										{% for tool in alltool %}
+											{% if tool.tool_type == "อุปกรณ์ป้องกัน (safety)" %}
+												<tr>
+													{% if tool.id not in basket %}
+														{% if tool.picture == "" %}
+														<td><img class="zoom" src="{{ url_for('static', filename='picture/no-image.png') }}" alt ="NoIMG"></td>
+														{% else %}
+														<td><img class="zoom" src="{{ url_for('static', filename='picture/' + tool.picture + '.jpg') }}" alt ="NoIMG"></td>
+														{% endif %}
+														<td style="width: 10rem">{{tool.name}}</td>
+														<td>{{tool.in_stock}}/{{tool.total}}</td>
+														<td>
+															<a href="/user/{{student.student_university_ID}}/{{toollist_id}}/{{tool.id}}/add_tool" class="btn btn-warning btn-xs btn-sm" >Add</a>
+														</td>
+													{% endif %}
+												</tr>
+											{% endif %}
+										{% endfor %}
+									</tbody>
+								</table>
+							  </div>
+
                             </div>
                           </div>
             </div>
@@ -165,7 +424,7 @@
 						<thead class= "thead-light">
 							<tr>
 								<th scope="col">Image</th>
-								<th scope="col" style="width: 10rem">Name</th>
+								<th scope="col" style="width: 7rem">Name</th>
 								<th scope="col">Amount</th>
 								<th scope="col">Delete</th>
 							</tr>
