@@ -260,9 +260,10 @@ def auto_adjust(student_id, toollist_id):
 def adminHome(): #"Admin Home Page.\n Select between Approving & Editing"
     if(current_user.is_authenticated and current_user.id == 1):#Check ว่า user ที่ login เข้ามาเป็น Admin เเละ login เเล้ว
         if request.method == 'GET':
-            return render_template('adminhome.html', use_secret_key=0)
+            return render_template('adminhome.html', use_secret_key=0, wrong=0)
         elif request.method == 'POST':
             student_id = request.form['username_field']
+            if editor.get_student_by_id(student_id) == False: return render_template('adminhome.html', use_secret_key=0, wrong=1)
             return redirect(url_for('studentLists', student_id = student_id))
     else: return redirect(url_for('logout'))
 
