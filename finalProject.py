@@ -170,9 +170,12 @@ def allToolList(student_id):
 @login_required
 def shareToolList(student_id, toollist_id):
     if(current_user.is_authenticated and editor.get_student_by_id(student_id).id == current_user.id):
-        pass #code here
-        return  "{0} ใส่รหัสนักศึกษาเพื่อ Share tool list {1}".format(student_id, toollist_id)
+        student = editor.get_student_by_id(str(student_id))
+        status = content()
+        toollist = editor.get_tool_list_by_id(toollist_id)
+        return render_template('shareList.html', student = student , status=status, toollist=toollist, toollist_id = toollist_id)
     else: return redirect(url_for('logout'))
+
 
 @app.route('/user/<int:student_id>/new')
 @login_required
