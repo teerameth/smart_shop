@@ -50,6 +50,7 @@ def login():
         password = request.form['password_field']
         if student_id == "admin":
             user = load_user("admin")
+            print(user.id)
             if editor.get_student_by_id(student_id).verify_password(password):
                 login_user(user)
                 print("Login as Admin")
@@ -62,7 +63,6 @@ def login():
                 return render_template('login.html', status=status,wrong=1)
         else:
             user = load_user(student_id)
-            if user == False: return render_template('login.html', status=status,wrong=1)
             if editor.get_student_by_id(student_id).verify_password(password):
                 login_user(user)
                 print("Login")
@@ -76,13 +76,12 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-@app.route('/admin/secretpassword', methods = ['GET', 'POST'])
-@login_required
+@app.route('/admin/secretpassword')
 def getSecretPassword():
     if(current_user.is_authenticated and current_user.id == 1):
         password = pwd.genword(entropy=52, length=48, charset = "ascii_72")
         current_user.edit_name(password)#Update new secret password to database
-        return str(password)
+        return render_template('secretpassword.html', password = password)
     else: return redirect(url_for('logout'))
 
 @app.route('/status')
@@ -261,11 +260,9 @@ def auto_adjust(student_id, toollist_id):
 def adminHome(): #"Admin Home Page.\n Select between Approving & Editing"
     if(current_user.is_authenticated and current_user.id == 1):#Check ว่า user ที่ login เข้ามาเป็น Admin เเละ login เเล้ว
         if request.method == 'GET':
-            return render_template('adminhome.html', wrong=0)
+            return render_template('adminhome.html')
         elif request.method == 'POST':
             student_id = request.form['username_field']
-            if editor.get_student_by_id(student_id) == False:
-                return render_template('adminhome.html', wrong=1)
             return redirect(url_for('studentLists', student_id = student_id))
     else: return redirect(url_for('logout'))
 
