@@ -84,7 +84,7 @@
 												</thead>
 												<tbody>
 														{% for list in lists %}
-														{% if list.approved_status == 0 and list.returned_status == 0 %}
+														{% if list.approved_status == 0 and list.returned_status == 0 and list.stored == 0%}
 														<tr>		
 															<td>
 																{{list.last_edited_datetime}}
@@ -120,7 +120,7 @@
 										</thead>
 										<tbody>
 											{% for list in lists %}
-											{% if list.approved_status == 1 and list.returned_status == 0 %}
+											{% if list.approved_status == 1 and list.returned_status == 0 and list.stored == 0%}
 											<tr>		
 												<td>
 														{{list.approved_datetime}}
@@ -153,7 +153,7 @@
 										</thead>
 										<tbody>
 												{% for list in lists %}
-											{% if list.approved_status == 1 and list.returned_status == 1 %}
+											{% if list.approved_status == 1 and list.returned_status == 1 and list.stored == 0%}
 											<tr>		
 												<td>
 														{{list.returned_datetime}}
