@@ -537,25 +537,34 @@ def createTool():
 def editTool(tool_id):
     if(current_user.is_authenticated and current_user.id == 1):
         this_tool = editor.get_tool_by_id(tool_id)
+        approved_lists = editor.list_all_approved_lists()
+        table = [] #index: 0=datetime, 1=name&surname, 2=year, 3=number, 4=status
+        for approved_list in approved_lists:
+            buffer = []
+            for order in approved_list.orders:
+                if order.tool.id == tool_id:
+                    buffer.append(approved_list.approved_datetime)
+                    buffer.append(approved_list.owner.name + " " + approved_list.owner.surname)
+                    buffer.append(approved_list.owner.student_university_ID)
+                    buffer.append(order.amount)
+                    if approved_list.returned_status == 1:
+                        buffer.append("คืนแล้ว")
+                    else:
+                        buffer.append("ยังไม่คืน")
+                    table.append(buffer)
+                    continue
         if request.method == 'GET':
-            approved_lists = editor.list_all_approved_lists()
-            table = [] #index: 0=datetime, 1=name&surname, 2=year, 3=number, 4=status
-            for approved_list in approved_lists:
-                buffer = []
-                for order in approved_list.orders:
-                    if order.tool.id == tool_id:
-                        buffer.append(approved_list.approved_datetime)
-                        buffer.append(approved_list.owner.name + " " + approved_list.owner.surname)
-                        buffer.append(approved_list.owner.student_university_ID)
-                        buffer.append(order.amount)
-                        if approved_list.returned_status == 1:
-                            buffer.append("คืนแล้ว")
-                        else:
-                            buffer.append("ยังไม่คืน")
-                        table.append(buffer)
-                        continue
             return render_template('tool_id_edit.html', this_tool = this_tool, table = table)
         if request.method == 'POST':
+            if 'toolname' in request.form:
+                if 'tooltotal' in request.form:
+                    if 'toolstock' in request.form:
+                        tool_name = request.form['toolname']
+                        tool_total = request.form['tooltotal']
+                        tool_stock = request.form['toolstock']
+                        this_tool.edit_name(tool_name)
+                        this_tool.edit_total(int(tool_total))
+                        this_tool.edit_stock(int(tool_stock))
             # check if the post request has the file part
             if 'file' not in request.files:
                 flash('No file part')
@@ -570,7 +579,7 @@ def editTool(tool_id):
                 filename = secure_filename(str(tool_id)+'.jpg')
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                 this_tool.edit_picture(str(tool_id))
-        return render_template('tool_id_edit.html', this_tool = this_tool)
+        return render_template('tool_id_edit.html', this_tool = this_tool, table = table)
     else: return redirect(url_for('logout'))
 
 @app.route('/admin/stock/<int:tool_id>/edit/group')
