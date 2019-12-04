@@ -38,6 +38,13 @@ def content():
 	text.close()
 	return status
 
+def get_created_datetime(tool_list):
+    return tool_list.created_datetime
+def get_approved_datetime(tool_list):
+    return tool_list.approved_datetime
+def get_returned_datetime(tool_list):
+    return tool_list.returned_datetime
+
 @app.route('/', methods = ['GET', 'POST'])
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
@@ -161,6 +168,7 @@ def allToolList(student_id):
     if(current_user.is_authenticated and editor.get_student_by_id(student_id).id == current_user.id):
         student = editor.get_student_by_id(str(student_id))
         lists = student.lists
+        lists = sorted(lists, key=get_created_datetime, reverse=True)
         status = content()
         if request.method == 'GET':
             return render_template('mainmenu.html', student=student, lists=lists , status=status)
@@ -297,11 +305,6 @@ def history():
         return render_template('history.html')
     else: return redirect(url_for('logout'))
 
-def get_approved_datetime(tool_list):
-    return tool_list.approved_datetime
-def get_returned_datetime(tool_list):
-    return tool_list.returned_datetime
-
 @app.route('/admin/history/all')
 @login_required
 def allHistory():
@@ -322,6 +325,29 @@ def allHistory():
                     sheet.append(["", order.tool.name, order.tool.tool_type, order.amount])
         wb.save("./static/excel/all.xls")
         return send_from_directory('./static/excel','all.xls', as_attachment=True)
+    else: return redirect(url_for('logout'))
+
+@app.route('/admin/history/custom')
+@login_required
+def customHistory():
+    if(current_user.is_authenticated and current_user.id == 1):
+        tool_lists = editor.list_all_approved_lists()
+        tool_lists = sorted(tool_lists, key=get_approved_datetime, reverse=False)
+        wb = Workbook()
+        sheet = wb.active
+        for tool_list in tool_lists:
+            if tool_list.approved_datetime[3:5] != new_date_time()[3:5]: continue
+            sheet.append(['Approved datetime', 'Returned datetime', 'รหัสนักศึกษา', 'ชื่อ', 'นามสกุล', 'ประเภท', 'ชั้นปี', 'เบอร์โทร'])
+            sheet.append([tool_list.approved_datetime, tool_list.returned_datetime, tool_list.owner.student_university_ID, tool_list.owner.name, tool_list.owner.surname, tool_list.owner.student_type, tool_list.owner.student_year, tool_list.owner.phone_number])
+            sheet.append(["ยืม", "ชื่ออุปกรณ์", "ประเภท", "จำนวน"])
+            for order in tool_list.orders:
+                sheet.append(["", order.tool.name, order.tool.tool_type, order.amount])
+            if tool_list.returned_status == 1:
+                sheet.append(["คืน", "ชื่ออุปกรณ์", "ประเภท", "จำนวน"])
+                for order in tool_list.orders:
+                    sheet.append(["", order.tool.name, order.tool.tool_type, order.amount])
+        wb.save("./static/excel/all.xls")
+        return send_from_directory('./static/excel','this_month.xls', as_attachment=True)
     else: return redirect(url_for('logout'))
 
 @app.route('/admin/history/approved')#ยังไม่ได้คืน
@@ -386,7 +412,6 @@ def suddenApproveList(student_id, toollist_id):
 def approveList(student_id, toollist_id):
     if(current_user.is_authenticated and current_user.id == 1):
         student = editor.get_student_by_id(str(student_id))
-        status = content()
         alltool = editor.list_all_tool()
         toollist = editor.get_tool_list_by_id(toollist_id)
         toollist.update_datetime()
@@ -396,7 +421,7 @@ def approveList(student_id, toollist_id):
             basket.append(order.tool.id)
             if order.amount > order.tool.in_stock: have_stock = False #บอกวา่ของที่กดไว้ เกินจำนวนที่ยืมได้
         print(basket)
-        return render_template('approve_list.html', student = student , status=status , alltool=alltool , toollist=toollist, toollist_id = toollist_id, basket = basket, have_stock = have_stock)
+        return render_template('approve_list.html', student = student , alltool=alltool , toollist=toollist, toollist_id = toollist_id, basket = basket, have_stock = have_stock)
     else: return redirect(url_for('logout'))
 
 @app.route('/admin/<int:student_id>/<int:toollist_id>/approve/<int:order_id>/<int:action>')
@@ -409,10 +434,10 @@ def editAndApproveList(student_id, toollist_id,order_id, action):
                 if action == 0: order.decrease() #minus
                 elif action == 1: order.increase() #add
                 elif action == 2: order.destroy() #destroy
-        return render_template('approve_list.html', student=editor.get_student_by_id(student_id),toollist=editor.get_tool_list_by_id(toollist_id))
+        return redirect(url_for('approveList', student_id=student_id, toollist_id=toollist_id))
     else: return redirect(url_for('logout'))
 
-@app.route('/admin/<int:student_id>/<int:toollist_id>/edit/<int:tool_id>/add_tool')
+@app.route('/admin/<int:student_id>/<int:toollist_id>/<int:tool_id>/add_tool')
 @login_required
 def adminAddToolInList(student_id, toollist_id,tool_id):
     if(current_user.is_authenticated and current_user.id == 1):
@@ -502,21 +527,8 @@ def toolStatus(tool_id):
 @login_required
 def createTool():
     if(current_user.is_authenticated and current_user.id == 1):
-        if request.method == 'POST':
-            # check if the post request has the file part
-            if 'file' not in request.files:
-                flash('No file part')
-                return redirect(request.url)
-            file = request.files['file']
-            # if user does not select file, browser also
-            # submit an empty part without filename
-            if file.filename == '':
-                flash('No selected file')
-                return redirect(request.url)
-            if file and allowed_file(file.filename):
-                filename = secure_filename('xx.jpg')
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                #return redirect(url_for('uploaded_file',filename=filename))
+        tool = editor.create_new_tool("New Tool", "", "", 0, 0, "")
+        return redirect(url_for('editTool', tool_id=tool.id))
     else: return redirect(url_for('logout'))
 
     
