@@ -28,7 +28,7 @@ flask --app finalProject run --host=0.0.0.0
 sudo python3 finalProject.py
 ```
 
-
+## Admin
 
 ![](docs/images/admin_login.png)
 
@@ -45,6 +45,8 @@ sudo python3 finalProject.py
 ![](docs/images/admin_add_item.png)
 
 ![](docs/images/admin_export_history.png)
+
+## Student
 
 ![](docs/images/student_login.png)
 
