@@ -12,21 +12,37 @@ flask --app finalProject run --host=0.0.0.0
 ```
 
 
-![](docs/images/Screenshot 2024-03-08 145742.png)
-![](docs/images/Screenshot 2024-03-08 145752.png)
-![](docs/images/Screenshot 2024-03-08 145811.png)
-![](docs/images/Screenshot 2024-03-08 145830.png)
-![](docs/images/Screenshot 2024-03-08 145843.png)
-![](docs/images/Screenshot 2024-03-08 145852.png)
-![](docs/images/Screenshot 2024-03-08 145856.png)
-![](docs/images/Screenshot 2024-03-08 145921.png)
-![](docs/images/Screenshot 2024-03-08 145943.png)
-![](docs/images/Screenshot 2024-03-08 145947.png)
-![](docs/images/Screenshot 2024-03-08 145950.png)
-![](docs/images/Screenshot 2024-03-08 145952.png)
-![](docs/images/Screenshot 2024-03-08 150000.png)
-![](docs/images/Screenshot 2024-03-08 150108.png)
-![](docs/images/Screenshot 2024-03-08 150114.png)
+
+![](docs/images/admin_login.png)
+
+![](docs/images/admin_inspect_request.png)
+
+![](docs/images/admin_inspect_lent.png)
+
+![](docs/images/admin_inspect_return.png)
+
+![](docs/images/admin_menu_bar.png)
+
+![](docs/images/admin_manage_stock.png)
+
+![](docs/images/admin_add_item.png)
+
+![](docs/images/admin_export_history.png)
+
+![](docs/images/student_login.png)
+
+![](docs/images/student_inspect_request.png)
+
+![](docs/images/student_inspect_lent.png)
+
+![](docs/images/student_inspect_return.png)
+
+![](docs/images/student_share.png)
+
+![](docs/images/student_create_request.png)
+
+![](docs/images/student_submit_recommendation.png)
+
 
 
 
